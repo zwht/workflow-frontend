@@ -111,9 +111,10 @@ export class UserLoginComponent implements OnDestroy {
       .post('/cfmy/user/login', {
         // type: this.type,
         loginName: this.userName.value,
-        password: this.password.value,
+        password: btoa(encodeURIComponent(this.password.value)),
       })
       .subscribe((res: any) => {
+        debugger;
         if (res.msg !== 'ok') {
           this.error = res.msg;
           return;
