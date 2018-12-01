@@ -36,8 +36,8 @@ export class StartupService {
     ).pipe(
       // 接收其他拦截器后产生的异常消息
       catchError(([appData]) => {
-          resolve(null);
-          return [appData];
+        resolve(null);
+        return [appData];
       })
     ).subscribe(([appData]) => {
 
@@ -54,12 +54,12 @@ export class StartupService {
       // 设置页面标题的后缀
       this.titleService.suffix = res.app.name;
     },
-    () => { },
-    () => {
-      resolve(null);
-    });
+      () => { },
+      () => {
+        resolve(null);
+      });
   }
-  
+
   private viaMock(resolve: any, reject: any) {
     // const tokenData = this.tokenService.get();
     // if (!tokenData.token) {
@@ -96,9 +96,9 @@ export class StartupService {
             icon: { type: 'icon', value: 'appstore' }
           },
           {
-            text: '快捷菜单',
-            icon: { type: 'icon', value: 'rocket' },
-            shortcutRoot: true
+            text: '用户管理',
+            link: '/user/index',
+            icon: { type: 'icon', value: 'appstore' }
           }
         ]
       }
