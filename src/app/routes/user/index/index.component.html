@@ -1,10 +1,13 @@
-<page-header>
-  <ng-template #action>
-    <button (click)="add()" nz-button nzType="primary">新建</button>
-  </ng-template>
-</page-header>
-<nz-card>
-  <sf mode="search" [schema]="searchSchema" (formSubmit)="search($event)" (formReset)="search($event)"></sf>
-  <st #st [data]="url" [req]="req" [res]="res" [columns]="columns"
-  ></st>
-</nz-card>
+<div class="user_index_cpt">
+  <div class="alain-default__content-title">
+    <h1>
+      {{activatedRoute.routeConfig.data.title}}
+      <button class="add_btn" (click)="add()" nz-button nzType="primary">新建</button>
+      <small>Welcome !</small>
+    </h1>
+  </div>
+  <nz-card>
+    <sf mode="search" [schema]="searchSchema" (formSubmit)="search($event)" (formReset)="search($event)"></sf>
+    <st #st [data]="url" [req]="req" [res]="res" ps=10 [columns]="columns"></st>
+  </nz-card>
+</div>

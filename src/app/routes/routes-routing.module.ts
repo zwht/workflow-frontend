@@ -28,7 +28,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard', reuse: true } },
       // 业务子模块
-      { path: 'user', loadChildren: './user/user.module#UserModule',  data: { title: '用户管理', titleI18n: 'user', reuse: true } }
+      {
+        path: 'user', loadChildren: './user/user.module#UserModule',
+        data: { title: '用户管理', reuse: true, shortcutRoot: true }
+      }
     ]
   },
   // 全屏布局

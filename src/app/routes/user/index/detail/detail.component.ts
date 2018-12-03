@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 
@@ -7,9 +7,9 @@ import { _HttpClient } from '@delon/theme';
   templateUrl: './detail.component.html',
 })
 export class UserIndexDetailComponent implements OnInit {
+  // @Input()
   record: any = {};
   i: any;
-
   constructor(
     private modal: NzModalRef,
     public msgSrv: NzMessageService,
@@ -17,7 +17,8 @@ export class UserIndexDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.http.get(`/user/${this.record.id}`).subscribe(res => this.i = res);
+    this.i = this.record;
+    // this.http.get(`/cfmy/user/getById?id=${this.record.id}`).subscribe(res => this.i = res);
   }
 
   close() {

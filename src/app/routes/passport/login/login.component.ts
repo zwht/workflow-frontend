@@ -121,7 +121,7 @@ export class UserLoginComponent implements OnDestroy {
         // 清空路由复用信息
         this.reuseTabService.clear();
         // 设置用户Token信息
-        this.tokenService.set(res.data);
+        this.tokenService.set(res.response);
         this.router.navigate(['/']);
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
         // this.startupSrv.load().then(() => this.router.navigate(['/']));

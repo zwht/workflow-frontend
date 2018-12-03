@@ -81,31 +81,38 @@ export class StartupService {
     // 应用信息：包括站点名、描述、年份
     this.settingService.setApp(app);
     // 用户信息：包括姓名、头像、邮箱地址
-    this.settingService.setUser(user);
+    // this.settingService.setUser(user);
     // ACL：设置权限为全量
     this.aclService.setFull(true);
     // 初始化菜单
     this.menuService.add([
       {
-        text: '主导航',
-        group: true,
+        text: '导航组1',
+        group: false,
+        hideInBreadcrumb: true,
         children: [
           {
             text: '仪表盘',
             link: '/dashboard',
-            icon: { type: 'icon', value: 'appstore' }
+            hideInBreadcrumb: true,
+            icon: 'anticon anticon-appstore',
           },
           {
             text: '用户管理',
-            link: '/user/index',
-            icon: { type: 'icon', value: 'appstore' }
-          }
+            icon: 'anticon anticon-appstore',
+            children: [
+              {
+                text: '用户列表',
+                link: '/user/index',
+                icon: 'anticon anticon-appstore'
+              }
+            ]
+          },
         ]
       }
     ]);
     // 设置页面标题的后缀
     this.titleService.suffix = app.name;
-
     resolve({});
   }
 
