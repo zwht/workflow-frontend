@@ -2,7 +2,7 @@ import { Injectable, Injector, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { zip } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { MenuService, SettingsService, TitleService, ALAIN_I18N_TOKEN } from '@delon/theme';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { ACLService } from '@delon/acl';
@@ -31,8 +31,29 @@ export class StartupService {
   }
 
   private viaHttp(resolve: any, reject: any) {
+    // this.httpClient.get('/assets/tmp/app-data.json', {
+    //   responseType: 'json',
+    //   headers: {
+    //     'Content-Type': 'application/javascript; charset=UTF-8'
+    //   }
+    // })
+    //   .pipe(
+    //     tap(data => {
+    //       debugger
+    //     },
+    //       error => {
+    //         debugger
+    //       }
+    //     )
+    //   ).subscribe(data => {
+    //     debugger;
+    //   }, err => {
+    //     debugger;
+    //   });
     zip(
-      this.httpClient.get('assets/tmp/app-data.json')
+      this.httpClient.get('/assets/tmp/app-data.json', {
+        responseType: 'arraybuffer',
+      })
     ).pipe(
       // 接收其他拦截器后产生的异常消息
       catchError(([appData]) => {
@@ -40,7 +61,7 @@ export class StartupService {
         return [appData];
       })
     ).subscribe(([appData]) => {
-
+      debugger
       // application data
       const res: any = appData;
       // 应用信息：包括站点名、描述、年份
