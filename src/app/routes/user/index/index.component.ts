@@ -3,7 +3,7 @@ import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent, STRes, STReq, STPage, STData } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { UserIndexDetailComponent } from './detail/detail.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-index',
@@ -64,8 +64,9 @@ export class UserIndexComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     private modal: ModalHelper,
+    private router: Router,
     public activatedRoute: ActivatedRoute,
-   ) { }
+  ) { }
 
   ngOnInit() {
   }
@@ -76,9 +77,7 @@ export class UserIndexComponent implements OnInit {
     this.st.req.body = Object.assign({}, this.req.body, e);
     this.st.load(1);
   }
-  add() {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+  add(item) {
+    this.router.navigateByUrl('/user/edit', { queryParams: { item: item || {} } });
   }
 }
