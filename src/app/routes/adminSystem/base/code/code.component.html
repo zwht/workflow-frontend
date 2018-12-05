@@ -9,6 +9,7 @@
   </page-header>
   <nz-card>
     <sf mode="search" [schema]="searchSchema" (formSubmit)="search($event)" (formReset)="search($event)"></sf>
-    <st #st [data]="url" [req]="req" [res]="res" ps=10 [columns]="columns"></st>
+    <st #st [data]="url" [req]="req" [res]="res" [ps]="pageSize" 
+    [columns]="columns" [page]="page" (change)="stChange($event)"></st>
   </nz-card>
 </div>

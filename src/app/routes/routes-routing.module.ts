@@ -7,7 +7,7 @@ import { LayoutDefaultComponent } from '../layout/default/default.component';
 import { LayoutFullScreenComponent } from '../layout/fullscreen/fullscreen.component';
 import { LayoutPassportComponent } from '../layout/passport/passport.component';
 // dashboard pages
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './adminSystem/dashboard/dashboard.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterComponent } from './passport/register/register.component';
@@ -25,13 +25,23 @@ const routes: Routes = [
     component: LayoutDefaultComponent,
     canActivate: [SimpleGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard', reuse: true } },
+      { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full' },
       // 业务子模块
       {
-        path: 'user', loadChildren: './user/user.module#UserModule',
-        data: { title: '用户管理', reuse: true, shortcutRoot: true }
-      }
+        path: 'admin',
+        data: { title: 'admin系统', reuse: true, shortcutRoot: true },
+        children: [
+          { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard', reuse: true } },
+          {
+            path: 'user', loadChildren: './adminSystem/user/user.module#UserModule',
+            data: { title: '用户管理', reuse: true, shortcutRoot: true }
+          },
+          {
+            path: 'base', loadChildren: './adminSystem/base/base.module#BaseModule',
+            data: { title: '基础数据模块', reuse: true, shortcutRoot: true }
+          }
+        ]
+      },
     ]
   },
   // 全屏布局

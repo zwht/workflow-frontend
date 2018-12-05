@@ -114,7 +114,7 @@ export class StartupService {
         children: [
           {
             text: '仪表盘',
-            link: '/dashboard',
+            link: '/admin/dashboard',
             hideInBreadcrumb: true,
             icon: 'anticon anticon-appstore',
           },
@@ -124,7 +124,18 @@ export class StartupService {
             children: [
               {
                 text: '用户列表',
-                link: '/user/index',
+                link: '/admin/user/index',
+                icon: 'anticon anticon-appstore'
+              }
+            ]
+          },
+          {
+            text: '基础数据模块',
+            icon: 'anticon anticon-appstore',
+            children: [
+              {
+                text: '码表列表',
+                link: '/admin/base/code',
                 icon: 'anticon anticon-appstore'
               }
             ]

@@ -108,7 +108,7 @@ export class UserLoginComponent implements OnDestroy {
     // 默认配置中对所有HTTP请求都会强制 [校验](https://ng-alain.com/auth/getting-started) 用户 Token
     // 然一般来说登录请求不需要校验，因此可以在请求URL加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
     this.http
-      .post('/cfmy/user/login', {
+      .post('/cfmy/public/user/login', {
         // type: this.type,
         loginName: this.userName.value,
         password: btoa(encodeURIComponent(this.password.value)),
@@ -124,7 +124,7 @@ export class UserLoginComponent implements OnDestroy {
         this.tokenService.set(res.response);
         res.response.avatar = './assets/tmp/img/avatar.jpg';
         this.settingsService.setUser(res.response);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/admin/dashboard']);
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
         // this.startupSrv.load().then(() => this.router.navigate(['/']));
       });

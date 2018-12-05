@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 import { RouteRoutingModule } from './routes-routing.module';
 // dashboard pages
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './adminSystem/dashboard/dashboard.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterComponent } from './passport/register/register.component';
