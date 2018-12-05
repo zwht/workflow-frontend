@@ -77,6 +77,6 @@ export class CodeComponent implements OnInit {
 
   }
   add(item?) {
-    this.router.navigateByUrl('/admin/base/code/edit', { queryParams: { item: item || {} } });
+    this.router.navigate(['/admin/base/code/edit'], { queryParams: { id: item ? item.id || '' : '' } });
   }
 }
