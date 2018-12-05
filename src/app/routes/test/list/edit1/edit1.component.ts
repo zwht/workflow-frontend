@@ -10,7 +10,7 @@ import { SFSchema, SFUISchema } from '@delon/form';
   templateUrl: './edit1.component.html',
 })
 export class TestListEdit1Component implements OnInit {
-  
+  record:any;
   id = this.route.snapshot.params.id;
   i: any;
   schema: SFSchema = {
@@ -55,7 +55,6 @@ export class TestListEdit1Component implements OnInit {
   save(value: any) {
     this.http.post(`/user/${this.record.id}`, value).subscribe(res => {
       this.msgSrv.success('保存成功');
-      this.modal.close(true);
     });
   }
 }

@@ -4,7 +4,8 @@ import { Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema } from '@delon/form';
-import { ResponseVo } from '../../../../../shared/vo/utils/ResponseVo';
+import { ResponseVo } from '@vo/utils/ResponseVo';
+
 @Component({
   selector: 'app-user-index-edit',
   templateUrl: './edit.component.html',
@@ -39,7 +40,6 @@ export class CodeEditComponent implements OnInit {
       grid: { span: 8 },
     },
   };
-
   constructor(
     private route: ActivatedRoute,
     public location: Location,
@@ -55,7 +55,7 @@ export class CodeEditComponent implements OnInit {
           this.i = res.response;
         });
     } else {
-      this.i = new ResponseVo();
+      this.i = {};
     }
   }
   save(value: any) {

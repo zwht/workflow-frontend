@@ -1,4 +1,4 @@
-export class ResponseVo {
+export interface ResponseVo {
   msg: String;
   status: number;
   response: Object;

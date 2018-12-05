@@ -6,6 +6,24 @@
       "node"
     ],
     "paths": {
+      "@restFullServer": [
+        "app/shared/restFullServer"
+      ],
+      "@restFullServer/*": [
+        "app/shared/restFullServer/*"
+      ],
+      "@class": [
+        "app/class"
+      ],
+      "@class/*": [
+        "app/class/*"
+      ],
+      "@vo": [
+        "app/vo"
+      ],
+      "@vo/*": [
+        "app/vo/*"
+      ],
       "@shared": [
         "app/shared"
       ],
