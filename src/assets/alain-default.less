@@ -22189,9 +22189,41 @@ g2-tag-cloud {
 
 /* You can add global styles to this file, and also import other style files */
 
+.ul,.li{ list-style-type: none; margin: 0; padding: 0 }
+.float-box{clear: both;>div,>li{ float: left;}&:after { content: " "; height: 0; width: 0; visibility: hidden;display: block; clear: both }}
+.clear {clear: both;&:after{ content: " "; height: 0; width: 0; visibility: hidden;display: block; clear: both }}
+.overflow { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.middle{ display: table;>div{ display: table-cell; vertical-align: middle;}}
+.flex-middle{display: flex; align-items:center;/*垂直居中*/ justify-content: center;/*水平居中*/}
+.no-select{-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;}
+.disabled {pointer-events: none; opacity: 0.3; cursor: not-allowed; }
+.overflowAuto{overflow-y: auto;
+  &::-webkit-scrollbar {/*滚动条整体样式*/
+    width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+  }
+  &::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+    border-radius: 10px;
+    background-color: #333;
+  }
+  &::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    background: #f1f1f1;
+  }
+}
+
 // 可以通过 https://ng-alain.github.io/ng-alain/ 获取主题参数代码
 // The theme paraments can be generated at https://ng-alain.github.io/ng-alain/
-@primary-color: #13C2C2;
-@alain-default-header-bg: #13C2C2;
-@alain-default-aside-nav-text-hover-color: #13C2C2;
-@alain-default-aside-nav-selected-text-color: #13C2C2;
+@primary-color: #1890ff;
+@alain-default-header-bg: #1890ff;
+@alain-default-aside-nav-text-hover-color: #1890ff;
+@alain-default-aside-nav-selected-text-color: #1890ff;
+// @primary-color: #F5222D;
+// @alain-default-header-bg: #F5222D;
+// @alain-default-aside-nav-text-hover-color: #F5222D;
+// @alain-default-aside-nav-selected-text-color: #F5222D;
+// @alain-default-content-bg: #000000;
+// @primary-color: #52C41A;
+// @alain-default-header-bg: #52C41A;
+// @alain-default-aside-nav-text-hover-color: #52C41A;
+// @alain-default-aside-nav-selected-text-color: #52C41A;
+// @alain-default-content-bg: #000000;

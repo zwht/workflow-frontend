@@ -12,7 +12,7 @@
       
     </div>
     <ul class="ant-row">
-      <li appZwMouseSet (zwHover)="zwHover($event,item)" (click)="copyIcon(item)" *ngFor="let item of iconList" class="ant-col-3">
+      <li appZwMouseSet (zwHover)="zwHover($event,item)" (click)="copyIcon(item)" *ngFor="let item of iconList" class="ant-col-3 flex-middle">
         <div [ngClass]="{'active': item.active}">
           <i nz-icon [type]="item.name" [theme]="item.theme"></i>
           <span>{{item.name}}</span>
