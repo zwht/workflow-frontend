@@ -120,23 +120,25 @@ export class StartupService {
           },
           {
             text: '用户管理',
-            icon: 'anticon anticon-appstore',
+            icon: 'anticon anticon-team',
             children: [
               {
                 text: '用户列表',
                 link: '/admin/user/index',
-                icon: 'anticon anticon-appstore'
               }
             ]
           },
           {
             text: '基础数据模块',
-            icon: 'anticon anticon-appstore',
+            icon: 'anticon anticon-build',
             children: [
               {
                 text: '码表列表',
                 link: '/admin/base/code',
-                icon: 'anticon anticon-appstore'
+              },
+              {
+                text: 'icon图标',
+                link: '/admin/base/icon',
               }
             ]
           },

@@ -1,0 +1,24 @@
+<div class="icon_cpt">
+  <page-header [title]="" [breadcrumb]="breadcrumb" [action]="action">
+    <ng-template #breadcrumb></ng-template>
+  </page-header>
+  <nz-card>
+    <div class="demo">
+      <p>新加icon放到这里，然后运行命令：ng g ng-alain:plugin icon
+        <br/>
+        能成功显示后删掉icon标签</p>
+      <i nz-icon type="user" theme="outline"></i>
+
+      
+    </div>
+    <ul class="ant-row">
+      <li appZwMouseSet (zwHover)="zwHover($event,item)" (click)="copyIcon(item)" *ngFor="let item of iconList" class="ant-col-3">
+        <div [ngClass]="{'active': item.active}">
+          <i nz-icon [type]="item.name" [theme]="item.theme"></i>
+          <span>{{item.name}}</span>
+          <b>已拷贝</b>
+        </div>
+      </li>
+    </ul>
+  </nz-card>
+</div>

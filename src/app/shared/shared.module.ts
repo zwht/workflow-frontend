@@ -11,6 +11,9 @@ import { DelonFormModule } from '@delon/form';
 // #region third libs
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
+
+// directives
+import { ZwMouseSetDirective } from './directives/zw-mouse-set.directive';
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule
@@ -19,7 +22,7 @@ const THIRDMODULES = [
 
 // #region your componets & directives
 const COMPONENTS = [];
-const DIRECTIVES = [];
+const DIRECTIVES = [ZwMouseSetDirective];
 // #endregion
 
 @NgModule({

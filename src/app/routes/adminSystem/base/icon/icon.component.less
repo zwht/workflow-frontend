@@ -1,0 +1,27 @@
+.icon_cpt{ 
+  .demo{ text-align: center; color: #099; border-bottom: 1px solid #ededed;
+    padding-bottom: 15px;
+    i{ color: #c00; font-size: 16px;}
+  }
+  ul{ padding-top: 15px;}
+  ul,li{ list-style-type: none; font-size: 16px; text-align: center;}
+  li{ float: left; width: 10%; height:100px; padding: 10px 0; border-radius: 10px;
+    display: flex; align-items:center;/*垂直居中*/ justify-content: center;/*水平居中*/
+    position: relative; color: #777; overflow: hidden;
+    span,i{ transition:opacity 1s;}
+    b{transition:top .4s;}
+    span{ display: block; margin-top: 5px; font-size: 12px;}
+    i{font-size: 22px; transition:font-size 0.4s;}
+    b{display: block; position: absolute; top:100px; left:0;
+      width: 100%; text-align: center; color: #fff; font-size: 14px;
+    }
+    &:hover{ background: #1890ff; color: #fff; cursor: pointer; 
+      i{ font-size: 30px;}
+    }
+    .active{
+      span,i{ opacity: 0.2;}
+      i{font-size: 22px;}
+      b{top:40px;}
+    }
+  }
+}

@@ -3,6 +3,8 @@ import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent, STRes, STReq, STPage, STData } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ResponseVo } from '@vo/utils/ResponseVo';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-user-code',
@@ -36,6 +38,10 @@ export class CodeComponent implements OnInit {
       name: {
         type: 'string',
         title: '名字'
+      },
+      type: {
+        type: 'string',
+        title: '类型'
       }
     }
   };
@@ -53,6 +59,15 @@ export class CodeComponent implements OnInit {
             this.add(item);
           }
         },
+        {
+          text: '删除', type: 'del', click: (item: any) => {
+            this.http.get(`/cfmy/code/del?id=${item.id}`)
+              .subscribe((data: ResponseVo) => {
+                this.msgSrv.success('删除成功');
+                this.st.reload();
+              });
+          }
+        },
       ]
     }
   ];
@@ -61,6 +76,7 @@ export class CodeComponent implements OnInit {
     private http: _HttpClient,
     private modal: ModalHelper,
     private router: Router,
+    private msgSrv: NzMessageService,
     public activatedRoute: ActivatedRoute,
   ) { }
 
