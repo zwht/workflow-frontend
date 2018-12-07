@@ -1,5 +1,9 @@
 import { Directive, ElementRef, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
-
+/**
+ * 解决原生mouserover，mouserout事件多次执行问题，
+ * 如dom内部有子元素的情况就会出现这样的问题，
+ * 然后添加了zwHover()事件
+ */
 @Directive({
   selector: '[appZwMouseSet]'
 })
