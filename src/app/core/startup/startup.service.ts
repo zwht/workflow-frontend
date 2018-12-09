@@ -30,6 +30,7 @@ export class StartupService {
   }
 
   private viaHttp(resolve: any, reject: any) {
+    debugger;
     zip(
       this.httpClient.get('/assets/tmp/app-data.json', {
         responseType: 'json',
@@ -130,6 +131,7 @@ export class StartupService {
     // https://github.com/angular/angular/issues/15088
     return new Promise((resolve, reject) => {
       // http
+      debugger
       this.viaHttp(resolve, reject);
       // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
       // this.viaMock(resolve, reject);
