@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema } from '@delon/form';
-import { ResponseVo } from '@vo/utils/ResponseVo';
+import { ResponseVo } from '@interface/utils/ResponseVo';
 
 @Component({
   selector: 'app-user-index-edit',

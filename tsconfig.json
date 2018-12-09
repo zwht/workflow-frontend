@@ -19,6 +19,12 @@
       "dom"
     ],
     "paths": {
+      "@interface": [
+        "app/interface"
+      ],
+      "@interface/*": [
+        "app/interface/*"
+      ],
       "@restFullServer": [
         "app/shared/restFullServer"
       ],

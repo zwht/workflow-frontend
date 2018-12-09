@@ -4,6 +4,7 @@
 
 export const environment = {
   SERVER_URL: `./`,
+  PR_URl: '/cfmy/',
   production: false,
   useHash: true,
   hmr: true,

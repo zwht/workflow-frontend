@@ -14,6 +14,9 @@ import { CountdownModule } from 'ngx-countdown';
 
 // directives
 import { ZwMouseSetDirective } from './directives/zw-mouse-set.directive';
+
+// service
+import { SessionService } from './services/session.service';
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule
@@ -21,7 +24,7 @@ const THIRDMODULES = [
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [];
+const COMPONENTS = [SessionService];
 const DIRECTIVES = [ZwMouseSetDirective];
 // #endregion
 

@@ -7,6 +7,7 @@
 
 export const environment = {
   SERVER_URL: `http://localhost:8888`,
+  PR_URl: '/cfmy/',
   production: false,
   useHash: true,
   hmr: false,

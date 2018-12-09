@@ -3,7 +3,7 @@ import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent, STRes, STReq, STPage, STData } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResponseVo } from '@vo/utils/ResponseVo';
+import { ResponseVo } from '@interface/utils/ResponseVo';
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
