@@ -47,7 +47,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         // 则以下代码片断可直接适用
         if (event instanceof HttpResponse) {
           const body: any = event.body;
-          if (event.url.indexOf(environment.PR_URl) !== -1 && body && body.status !== 200 && body.url.indexOf('/assets/') === -1) {
+          if ( event.url.indexOf('/assets/') === -1 && body && body.status !== 200) {
             this.msg.error(body.msg);
             if (body.status === 401) {
               this.goTo('/passport/login');
@@ -97,7 +97,7 @@ export class DefaultInterceptor implements HttpInterceptor {
   > {
     // 统一加上服务端前缀
     let url = req.url;
-    if (!url.startsWith('https://') && !url.startsWith('http://') && url.indexOf(environment.PR_URl) !== -1) {
+    if (!url.startsWith('https://') && !url.startsWith('http://')) {
       url = environment.SERVER_URL + url;
     }
     const newReq = req.clone({
