@@ -3,14 +3,9 @@
     "name": "木门管理系统",
     "description": "川峰木门"
   },
-  "user": {
-    "name": "zw",
-    "avatar": "./assets/tmp/img/avatar.jpg",
-    "email": "1512763623@qq.com"
-  },
   "menu": [
     {
-      "text": "导航组1",
+      "text": "系统01",
       "group": false,
       "hideInBreadcrumb": true,
       "children": [
@@ -23,6 +18,10 @@
         {
           "text": "用户管理",
           "icon": "anticon anticon-team",
+          "permission":{
+            "roles":[0],
+            "ability":[]
+          },
           "children": [
             {
               "text": "用户列表",

@@ -12,6 +12,7 @@ import {
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { StartupService } from '@core/startup/startup.service';
+import { ACLService } from '@delon/acl';
 
 @Component({
   selector: 'passport-login',
@@ -31,6 +32,7 @@ export class UserLoginComponent implements OnDestroy {
     private router: Router,
     private settingsService: SettingsService,
     private socialService: SocialService,
+    private aclService: ACLService,
     @Optional()
     @Inject(ReuseTabService)
     private reuseTabService: ReuseTabService,
@@ -122,11 +124,11 @@ export class UserLoginComponent implements OnDestroy {
         this.reuseTabService.clear();
         // 设置用户Token信息
         this.tokenService.set(res.response);
-        res.response.avatar = './assets/tmp/img/avatar.jpg';
         this.settingsService.setUser(res.response);
-        this.router.navigate(['/admin/dashboard']);
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
-        // this.startupSrv.load().then(() => this.router.navigate(['/']));
+        this.startupSrv.load().then(() => {
+          this.router.navigate(['/admin/dashboard']);
+        });
       });
   }
 

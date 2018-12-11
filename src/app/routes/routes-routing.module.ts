@@ -18,6 +18,7 @@ import { UserLockComponent } from './passport/lock/lock.component';
 import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
+import { ACLGuard } from '@delon/acl';
 
 const routes: Routes = [
   {
@@ -34,7 +35,8 @@ const routes: Routes = [
           { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard', reuse: true } },
           {
             path: 'user', loadChildren: './adminSystem/user/user.module#UserModule',
-            data: { title: '用户管理', reuse: true, shortcutRoot: true }
+            canActivate: [ ACLGuard ],
+            data: { title: '用户管理', guard: '0', reuse: true, shortcutRoot: true }
           },
           {
             path: 'base', loadChildren: './adminSystem/base/base.module#BaseModule',
