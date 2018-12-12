@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
+import { ReuseTabService } from '@delon/abc';
 
 @Component({
-  selector: 'app-user-index-edit',
+  selector: 'app-code-edit',
   templateUrl: './edit.component.html',
 })
 export class CodeEditComponent implements OnInit {
@@ -42,7 +43,8 @@ export class CodeEditComponent implements OnInit {
   };
   constructor(
     private route: ActivatedRoute,
-    public location: Location,
+    private router: Router,
+    private reuseTabService: ReuseTabService,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
   ) { }
@@ -62,12 +64,24 @@ export class CodeEditComponent implements OnInit {
     if (this.id) {
       this.http.post(`/cfmy/code/update`, value).subscribe(res => {
         this.msgSrv.success('修改成功');
+        this.back();
       });
     } else {
       this.http.post(`/cfmy/code/add`, value).subscribe(res => {
         this.msgSrv.success('添加成功');
-        (location as any).back();
+        this.back();
       });
+    }
+  }
+  back() {
+    const parentUrl = '/admin/base/code';
+    if (this.reuseTabService.exists(parentUrl)) {
+      this.reuseTabService.replace(parentUrl);
+    } else {
+      this.router.navigateByUrl(parentUrl);
+      setTimeout(() => {
+        this.reuseTabService.close('/admin/base/code/edit');
+      }, 100);
     }
   }
 }

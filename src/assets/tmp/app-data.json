@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "木门管理系统",
-    "description": "川峰木门"
+    "name": "通用基础系统",
+    "description": "通用基础系统"
   },
   "menu": [
     {
@@ -35,7 +35,11 @@
           "children": [
             {
               "text": "码表列表",
-              "link": "/admin/base/code"
+              "link": "/admin/base/code",
+              "permission":{
+                "roles":[0],
+                "ability":[]
+              }
             },
             {
               "text": "icon图标",

@@ -4,6 +4,8 @@ import { STColumn, STComponent, STRes, STReq, STPage, STData } from '@delon/abc'
 import { SFSchema } from '@delon/form';
 import { UserIndexDetailComponent } from './detail/detail.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ResponseVo } from '@interface/utils/ResponseVo';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-user-index',
@@ -62,6 +64,15 @@ export class UserIndexComponent implements OnInit {
             this.add(item);
           }
         },
+        {
+          text: '删除', type: 'del', click: (item: any) => {
+            this.http.get(`/cfmy/user/del?id=${item.id}`)
+              .subscribe((data: ResponseVo) => {
+                this.msgSrv.success('删除成功');
+                this.st.reload();
+              });
+          }
+        },
       ]
     }
   ];
@@ -70,6 +81,7 @@ export class UserIndexComponent implements OnInit {
     private http: _HttpClient,
     private modal: ModalHelper,
     private router: Router,
+    private msgSrv: NzMessageService,
     public activatedRoute: ActivatedRoute,
   ) { }
 
