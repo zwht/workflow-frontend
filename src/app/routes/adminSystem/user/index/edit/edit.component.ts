@@ -50,7 +50,7 @@ export class UserIndexEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.id) {
       this.title = '编辑码';
-      this.http.get(`/cfmy/code/getById?id=${this.id}`)
+      this.http.get(`/cfmy/user/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
         });
@@ -60,12 +60,12 @@ export class UserIndexEditComponent implements OnInit {
   }
   save(value: any) {
     if (this.id) {
-      this.http.post(`/cfmy/code/update`, value).subscribe(res => {
+      this.http.post(`/cfmy/user/update`, value).subscribe(res => {
         this.msgSrv.success('修改成功');
         this.location.back();
       });
     } else {
-      this.http.post(`/cfmy/code/add`, value).subscribe(res => {
+      this.http.post(`/cfmy/user/add`, value).subscribe(res => {
         this.msgSrv.success('添加成功');
         this.location.back();
       });
