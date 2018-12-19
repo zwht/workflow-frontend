@@ -56,8 +56,8 @@ export class StartupService {
         this.aclService.setFull(false);
 
         if (this.settingService.user) {
-          this.roles = this.settingService.user.roles.split(',');
-          this.ability = this.settingService.user.ability.split(',');
+          this.roles = this.settingService.user.roles ? this.settingService.user.roles.split(',') : [];
+          this.ability = this.settingService.user.ability ? this.settingService.user.ability.split(',') : [];
           // 设置用户角色及权限能力
           this.aclService.set({
             role: this.roles,
