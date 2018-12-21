@@ -40,7 +40,7 @@ export class CodeComponent implements OnInit {
         type: 'string',
         title: '码名'
       },
-      type: {
+      groupId: {
         type: 'string',
         title: '码组',
         ui: {
@@ -72,8 +72,8 @@ export class CodeComponent implements OnInit {
   columns: STColumn[] = [
     { title: '编号', index: 'no' },
     { title: '码名(name)', index: 'name' },
-    { title: '类型(type)', index: 'groupId' },
     { title: '值(value)', index: 'value' },
+    { title: '类型(groupName)', index: 'groupName' },
     {
       title: '操作',
       buttons: [

@@ -17,11 +17,11 @@ export class CodeEditComponent implements OnInit {
   i: any;
   schema: SFSchema = {
     properties: {
-      type: { type: 'string', title: '类型' },
+      groupId: { type: 'string', title: '类型' },
       name: { type: 'string', title: '码名', maxLength: 30 },
       value: { type: 'number', title: '码值', maximum: 9999, minimum: 1000},
     },
-    required: ['type', 'name', 'value'],
+    required: ['groupId', 'name', 'value'],
   };
   codeGroupList = [];
   ui: SFUISchema = {
@@ -30,7 +30,7 @@ export class CodeEditComponent implements OnInit {
       width: 500,
       grid: { span: 24 },
     },
-    $type: {
+    $groupId: {
       widget: 'select',
       asyncData: (name: string) => {
         return this.http.post('/cfmy/codeGroup/list',
@@ -59,7 +59,7 @@ export class CodeEditComponent implements OnInit {
             }
             const value = Object.assign(this.sf.value, {
               value: item.value + v,
-              type: item.id,
+              groupId: item.id,
             });
             this.i = value;
           }
