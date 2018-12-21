@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../doorPiecework/src/main/webapp/frontend",
+            "outputPath": "../../java/boot-model/cfmy-controller/src/main/resources/templates",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

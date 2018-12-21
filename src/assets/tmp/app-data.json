@@ -42,6 +42,14 @@
               }
             },
             {
+              "text": "码表组列表",
+              "link": "/admin/base/codeGroup",
+              "permission":{
+                "roles":[0],
+                "ability":[]
+              }
+            },
+            {
               "text": "icon图标",
               "link": "/admin/base/icon"
             }

@@ -3,10 +3,12 @@ import { SharedModule } from '@shared/shared.module';
 import { BaseRoutingModule } from './base-routing.module';
 import { CodeComponent } from './code/code.component';
 import { CodeEditComponent } from './code/edit/edit.component';
+import { CodeGroupComponent } from './codeGroup/code.component';
+import { CodeGroupEditComponent } from './codeGroup/edit/edit.component';
 import { IconComponent } from './icon/icon.component';
 
-const COMPONENTS = [CodeComponent,
-  CodeEditComponent, IconComponent];
+const COMPONENTS = [CodeComponent, CodeEditComponent,
+  CodeGroupComponent, CodeGroupEditComponent, IconComponent];
 const COMPONENTS_NOROUNT = [];
 
 @NgModule({

@@ -1,44 +1,76 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema, SFComponent } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { ReuseTabService } from '@delon/abc';
-
+import { delay, map } from 'rxjs/operators';
 @Component({
   selector: 'app-code-edit',
   templateUrl: './edit.component.html',
 })
 export class CodeEditComponent implements OnInit {
+  @ViewChild('sf') sf: SFComponent;
   title = '添加码';
   id = this.route.snapshot.queryParams.id;
   i: any;
   schema: SFSchema = {
     properties: {
-      type: { type: 'string', title: '类型', maxLength: 10 },
-      name: { type: 'string', title: '码名', maxLength: 10 },
-      value: { type: 'number', title: '码值', maximum: 10000 },
+      type: { type: 'string', title: '类型' },
+      name: { type: 'string', title: '码名', maxLength: 30 },
+      value: { type: 'number', title: '码值', maximum: 9999, minimum: 1000},
     },
     required: ['type', 'name', 'value'],
   };
+  codeGroupList = [];
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
-      grid: { span: 8 },
+      width: 500,
+      grid: { span: 24 },
     },
     $type: {
-      widget: 'string',
-      grid: { span: 8 },
-    },
-    $name: {
-      widget: 'string',
-      grid: { span: 8 },
+      widget: 'select',
+      asyncData: (name: string) => {
+        return this.http.post('/cfmy/codeGroup/list',
+          { name },
+          { pageNum: 1, pageSize: 1000 })
+          .pipe(
+            // delay(1200),
+            map((item: ResponseVo) => {
+              this.codeGroupList = item.response.data;
+              if (!item.response.data.length) return [];
+              return item.response.data.map(obj => {
+                return {
+                  label: obj.name + '(' + obj.value + ')',
+                  value: obj.id,
+                };
+              });
+            })
+          );
+      },
+      change: (d) => {
+        this.codeGroupList.forEach(item => {
+          if (d === item.id) {
+            let v: any = this.sf.value.value ? this.sf.value.value + '' : 0;
+            if (v && v.length > 2) {
+              v = v.slice(2, v.length);
+            }
+            const value = Object.assign(this.sf.value, {
+              value: item.value + v,
+              type: item.id,
+            });
+            this.i = value;
+          }
+        });
+      }
     },
     $value: {
       widget: 'number',
-      grid: { span: 8 },
+    },
+    $name: {
+      widget: 'string',
     },
   };
   constructor(
