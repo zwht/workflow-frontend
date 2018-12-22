@@ -11,7 +11,8 @@ import { ReuseTabService } from '@delon/abc';
   templateUrl: './edit.component.html',
 })
 export class CodeGroupEditComponent implements OnInit {
-  title = '添加码组';
+  title = '添加';
+  cpName = '码表组';
   id = this.route.snapshot.queryParams.id;
   i: any;
   schema: SFSchema = {
@@ -45,7 +46,7 @@ export class CodeGroupEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.id) {
-      this.title = '编辑码组';
+      this.title = '编辑';
       this.http.get(`/cfmy/codeGroup/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;

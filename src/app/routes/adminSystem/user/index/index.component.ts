@@ -95,6 +95,6 @@ export class UserIndexComponent implements OnInit {
     this.st.load(1);
   }
   add(item?) {
-    this.router.navigateByUrl('/admin/user/edit', { queryParams: { item: item || {} } });
+    this.router.navigate(['/admin/user/edit'], { queryParams: { id: item ? item.id || '' : '' } });
   }
 }

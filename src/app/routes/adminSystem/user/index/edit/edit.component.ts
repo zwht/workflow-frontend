@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema, FormProperty, PropertyGroup } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 
 @Component({
@@ -11,33 +11,50 @@ import { ResponseVo } from '@interface/utils/ResponseVo';
   templateUrl: './edit.component.html',
 })
 export class UserIndexEditComponent implements OnInit {
-  title = '添加用户';
+  title = '添加';
+  cpName = '用户';
   id = this.route.snapshot.queryParams.id;
   i: any;
-  schema: SFSchema = {
+  schema: SFSchema = !this.id ? {
     properties: {
-      type: { type: 'string', title: '类型', maxLength: 10 },
-      name: { type: 'string', title: '码名', maxLength: 10 },
-      value: { type: 'number', title: '码值', maximum: 10000 },
+      loginName: { type: 'string', title: '登录名', maxLength: 10 },
+      name: { type: 'string', title: '真实名', maxLength: 10 },
+      password: { type: 'string', title: '密码', maximum: 30 },
+      password1: { type: 'string', title: '再次输入密码', maximum: 30 },
     },
-    required: ['type', 'name', 'value'],
-  };
+    required: ['loginName', 'name', 'password', 'password1'],
+  } : {
+      properties: {
+        loginName: { type: 'string', title: '登录名', maxLength: 10 },
+        name: { type: 'string', title: '真实名', maxLength: 10 },
+      },
+      required: ['loginName', 'name'],
+    };
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
-      grid: { span: 8 },
+      width: 300,
     },
     $type: {
       widget: 'string',
-      grid: { span: 8 },
     },
     $name: {
       widget: 'string',
-      grid: { span: 8 },
     },
-    $value: {
-      widget: 'number',
-      grid: { span: 8 },
+    $password: {
+      widget: 'string',
+      type: 'password',
+    },
+    $password1: {
+      widget: 'string',
+      type: 'password',
+      validator: (value: any, formProperty: FormProperty, form: PropertyGroup) => {
+        if (form.value && form.value.password != null && value != null) {
+          return form.value.password === value ? [] : [{ keyword: 'format', message: '两次密码不相同！' }];
+        } else {
+          return [];
+        }
+      }
     },
   };
   constructor(
@@ -49,7 +66,7 @@ export class UserIndexEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.id) {
-      this.title = '编辑码';
+      this.title = '编辑';
       this.http.get(`/cfmy/user/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
@@ -65,6 +82,7 @@ export class UserIndexEditComponent implements OnInit {
         this.location.back();
       });
     } else {
+      value.password = btoa(encodeURIComponent(value.password));
       this.http.post(`/cfmy/user/add`, value).subscribe(res => {
         this.msgSrv.success('添加成功');
         this.location.back();

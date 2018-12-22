@@ -12,7 +12,8 @@ import { delay, map } from 'rxjs/operators';
 })
 export class CodeEditComponent implements OnInit {
   @ViewChild('sf') sf: SFComponent;
-  title = '添加码';
+  title = '添加';
+  cpName = '码表';
   id = this.route.snapshot.queryParams.id;
   i: any;
   schema: SFSchema = {
@@ -83,7 +84,7 @@ export class CodeEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.id) {
-      this.title = '编辑码';
+      this.title = '编辑';
       this.http.get(`/cfmy/code/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;

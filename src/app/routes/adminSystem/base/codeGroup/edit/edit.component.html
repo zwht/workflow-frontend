@@ -1,9 +1,9 @@
 <div class="user_edit_cpt">
-  <page-header [title]="title" [breadcrumb]="breadcrumb">
+  <page-header [breadcrumb]="breadcrumb">
     <ng-template #breadcrumb>
       <nz-breadcrumb>
-        <nz-breadcrumb-item><a href="/#/admin/base/codeGroup">码表组列表</a></nz-breadcrumb-item>
-        <nz-breadcrumb-item>{{title}}</nz-breadcrumb-item>
+        <nz-breadcrumb-item><a href="/#/admin/base/codeGroup">{{cpName}}列表</a></nz-breadcrumb-item>
+        <nz-breadcrumb-item>{{title+cpName}}</nz-breadcrumb-item>
       </nz-breadcrumb>
     </ng-template>
   </page-header>
