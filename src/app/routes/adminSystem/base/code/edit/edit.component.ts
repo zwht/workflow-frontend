@@ -20,7 +20,7 @@ export class CodeEditComponent implements OnInit {
     properties: {
       groupId: { type: 'string', title: '类型' },
       name: { type: 'string', title: '码名', maxLength: 30 },
-      value: { type: 'number', title: '码值', maximum: 9999, minimum: 1000},
+      value: { type: 'number', title: '码值', maximum: 9999, minimum: 100},
     },
     required: ['groupId', 'name', 'value'],
   };
