@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -6,6 +6,7 @@ import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema, FormProperty, PropertyGroup } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { delay, map } from 'rxjs/operators';
+import { TokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 @Component({
   selector: 'app-user-index-edit',
   templateUrl: './edit.component.html',
@@ -27,10 +28,13 @@ export class UserIndexEditComponent implements OnInit {
   schema: SFSchema = !this.id ? {
     properties: {
       ...this.commonSchema,
+      corporationId: {
+        type: 'string', title: '公司',
+      },
       password: { type: 'string', title: '密码', maximum: 30 },
       password1: { type: 'string', title: '再次输入密码', maximum: 30 },
     },
-    required: ['loginName', 'name', 'password', 'password1', 'roles', 'phone'],
+    required: ['loginName', 'corporationId', 'name', 'password', 'password1', 'roles', 'phone'],
   } : {
       properties: {
         ...this.commonSchema
@@ -93,7 +97,11 @@ export class UserIndexEditComponent implements OnInit {
     public location: Location,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
-  ) { }
+    @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+  ) {
+    let user = this.tokenService.get();
+    debugger
+   }
 
   ngOnInit(): void {
     if (this.id) {
