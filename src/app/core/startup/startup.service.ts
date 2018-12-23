@@ -56,12 +56,8 @@ export class StartupService {
         this.aclService.setFull(false);
 
         if (this.settingService.user) {
-          this.roles = this.settingService.user.roles ? this.settingService.user.roles.split(',').map(o => {
-            return parseInt(o, 10);
-          }) : [];
-          this.ability = this.settingService.user.ability ? this.settingService.user.ability.split(',').map(o => {
-            return parseInt(o, 10);
-          }) : [];
+          this.roles = this.settingService.user.roles ? this.settingService.user.roles.split(',') : [];
+          this.ability = this.settingService.user.ability ? this.settingService.user.ability.split(',') : [];
           // 设置用户角色及权限能力
           this.aclService.set({
             role: this.roles,
@@ -89,7 +85,7 @@ export class StartupService {
         key = false;
         if (item.permission.roles && item.permission.roles.length) {
           const roles = item.permission.roles.map(i => {
-            return i;
+            return i + '';
           }).concat(this.roles);
           if ((new Set(roles)).size !== roles.length) {
             key = true;
@@ -97,7 +93,7 @@ export class StartupService {
         }
         if (item.permission.ability && item.permission.ability.length) {
           const ability = item.permission.ability.map(i => {
-            return i;
+            return i + '';
           }).concat(this.ability);
           if ((new Set(ability)).size !== ability.length) {
             key = true;

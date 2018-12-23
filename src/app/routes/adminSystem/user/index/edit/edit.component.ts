@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema, FormProperty, PropertyGroup } from '@delon/form';
+import { SFSchema, SFUISchema, FormProperty, PropertyGroup, SFComponent } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { delay, map } from 'rxjs/operators';
 import { TokenService, DA_SERVICE_TOKEN } from '@delon/auth';
@@ -12,86 +12,16 @@ import { TokenService, DA_SERVICE_TOKEN } from '@delon/auth';
   templateUrl: './edit.component.html',
 })
 export class UserIndexEditComponent implements OnInit {
+  @ViewChild('sf') sf: SFComponent;
   title = '添加';
   cpName = '用户';
   id = this.route.snapshot.queryParams.id;
   i: any;
   commonSchema: SFSchema['properties'] = {
-    loginName: { type: 'string', title: '登录名', maxLength: 10 },
-    name: { type: 'string', title: '真实名', maxLength: 10 },
-    phone: { type: 'string', title: '手机号', maxLength: 11, minLength: 11 },
-    roles: {
-      type: 'string', title: '用户角色',
-      default: 150
-    },
+
   };
-  schema: SFSchema = !this.id ? {
-    properties: {
-      ...this.commonSchema,
-      corporationId: {
-        type: 'string', title: '公司',
-      },
-      password: { type: 'string', title: '密码', maximum: 30 },
-      password1: { type: 'string', title: '再次输入密码', maximum: 30 },
-    },
-    required: ['loginName', 'corporationId', 'name', 'password', 'password1', 'roles', 'phone'],
-  } : {
-      properties: {
-        ...this.commonSchema
-      },
-      required: ['loginName', 'name', 'roles', 'phone'],
-    };
-  ui: SFUISchema = {
-    '*': {
-      spanLabelFixed: 100,
-      width: 500,
-    },
-    $type: {
-      widget: 'string',
-    },
-    $name: {
-      widget: 'string',
-    },
-    $phone: {
-      widget: 'string',
-    },
-    $roles: {
-      widget: 'select',
-      mode: 'tags',
-      asyncData: (name: string) => {
-        return this.http.post('/cfmy/public/code/list',
-          { valueStart: 101, valueEnd: 999 },
-          { pageNum: 1, pageSize: 1000 })
-          .pipe(
-            // delay(1200),
-            map((item: ResponseVo) => {
-              if (!item.response.data.length) return [];
-              return item.response.data.map(obj => {
-                return {
-                  label: obj.name,
-                  value: obj.value,
-                };
-              });
-            })
-          );
-      },
-    },
-    $password: {
-      widget: 'string',
-      type: 'password',
-    },
-    $password1: {
-      widget: 'string',
-      type: 'password',
-      validator: (value: any, formProperty: FormProperty, form: PropertyGroup) => {
-        if (form.value && form.value.password != null && value != null) {
-          return form.value.password === value ? [] : [{ keyword: 'format', message: '两次密码不相同！' }];
-        } else {
-          return [];
-        }
-      }
-    },
-  };
+  schema: SFSchema = {};
+  ui: SFUISchema = {};
   constructor(
     private route: ActivatedRoute,
     public location: Location,
@@ -99,9 +29,108 @@ export class UserIndexEditComponent implements OnInit {
     public http: _HttpClient,
     @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
   ) {
-    let user = this.tokenService.get();
-    debugger
-   }
+    const co: SFSchema['properties'] = {
+      loginName: { type: 'string', title: '登录名', maxLength: 10 },
+      name: { type: 'string', title: '真实名', maxLength: 10 },
+      phone: { type: 'string', title: '手机号', maxLength: 11, minLength: 11 },
+      roles: { type: 'string', title: '用户角色', default: 150 }
+    };
+    let roleK = 101;
+    if (this.tokenService.get().roles.indexOf('888888') !== -1) {
+      this.commonSchema = {
+        corporationId: { type: 'string', title: '公司' },
+        ...co
+      };
+      roleK = 100;
+    } else {
+      this.commonSchema = co;
+    }
+    this.ui = {
+      '*': {
+        spanLabelFixed: 100,
+        width: 500,
+      },
+      $type: {
+        widget: 'string',
+      },
+      $name: {
+        widget: 'string',
+      },
+      $phone: {
+        widget: 'string',
+      },
+      $password: {
+        widget: 'string',
+        type: 'password',
+      },
+      $password1: {
+        widget: 'string',
+        type: 'password',
+        validator: (value: any, formProperty: FormProperty, form: PropertyGroup) => {
+          if (form.value && form.value.password != null && value != null) {
+            return form.value.password === value ? [] : [{ keyword: 'format', message: '两次密码不相同！' }];
+          } else {
+            return [];
+          }
+        }
+      },
+      $roles: {
+        widget: 'select',
+        mode: 'tags',
+        asyncData: (name: string) => {
+          return this.http.post('/cfmy/public/code/list',
+            { valueStart: roleK, valueEnd: 999 },
+            { pageNum: 1, pageSize: 1000 })
+            .pipe(
+              // delay(1200),
+              map((item: ResponseVo) => {
+                if (!item.response.data.length) return [];
+                return item.response.data.map(obj => {
+                  return {
+                    label: obj.name,
+                    value: obj.value,
+                  };
+                });
+              })
+            );
+        },
+      },
+      $corporationId: {
+        widget: 'select',
+        asyncData: (name: string) => {
+          return this.http.post('/cfmy/corporation/list',
+            { valueStart: 101, valueEnd: 999 },
+            { pageNum: 1, pageSize: 1000 })
+            .pipe(
+              // delay(1200),
+              map((item: ResponseVo) => {
+                if (!item.response.data.length) return [];
+                return item.response.data.map(obj => {
+                  return {
+                    label: obj.name,
+                    value: obj.id,
+                  };
+                });
+              })
+            );
+        },
+      }
+    };
+
+    this.schema = !this.id ? {
+      properties: {
+        ...this.commonSchema,
+        password: { type: 'string', title: '密码', maximum: 30 },
+        password1: { type: 'string', title: '再次输入密码', maximum: 30 },
+      },
+      required: ['loginName', 'corporationId', 'name', 'password', 'password1', 'roles', 'phone'],
+    } : {
+        properties: {
+          ...this.commonSchema
+        },
+        required: ['loginName', 'corporationId', 'name', 'roles', 'phone'],
+      };
+  }
 
   ngOnInit(): void {
     if (this.id) {

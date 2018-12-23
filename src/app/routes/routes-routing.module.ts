@@ -35,7 +35,7 @@ const routes: Routes = [
           { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard', reuse: true } },
           {
             path: 'user', loadChildren: './adminSystem/user/user.module#UserModule',
-            canActivate: [ ACLGuard ], data: { guard: [888888, 100], title: '用户管理', reuse: true, shortcutRoot: true }
+            canActivate: [ ACLGuard ], data: { guard: ['888888', '100'], title: '用户管理', reuse: true, shortcutRoot: true }
           },
           {
             path: 'base', loadChildren: './adminSystem/base/base.module#BaseModule',
