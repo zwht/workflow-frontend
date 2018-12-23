@@ -2,19 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent, STRes, STReq, STPage, STData } from '@delon/abc';
 import { SFSchema } from '@delon/form';
-import { UserIndexDetailComponent } from './detail/detail.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { NzMessageService } from 'ng-zorro-antd';
-
+import { delay, map } from 'rxjs/operators';
+import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
 @Component({
-  selector: 'app-user-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.less'],
+  selector: 'app-corporation',
+  templateUrl: './corporation.component.html',
 })
-export class UserIndexComponent implements OnInit {
+export class CorporationComponent implements OnInit {
   title;
-  url = `/cfmy/user/list`;
+  url = `/cfmy/corporation/list`;
   pageSize = 10;
   req: STReq = {
     params: {},
@@ -32,34 +31,26 @@ export class UserIndexComponent implements OnInit {
     }
   };
   page: STPage = {
+    showSize: true,
   };
   searchSchema: SFSchema = {
     properties: {
       name: {
         type: 'string',
-        title: '名字'
-      },
-      loginName: {
-        type: 'string',
-        title: '登录名'
+        title: '公司名'
       }
     }
   };
+
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
     { title: '编号', index: 'no' },
-    { title: '登录名', index: 'loginName' },
-    { title: '名字', index: 'name' },
-    { title: '角色', index: 'roles' },
-    { title: 'phone', index: 'phone' },
+    { title: '公司名', index: 'name' },
+    { title: '权限', index: 'ability' },
+    { title: '状态', index: 'state' },
     {
       title: '操作',
       buttons: [
-        {
-          text: '查看', type: 'static', params: (record: STData) => {
-            return { record };
-          }, component: UserIndexDetailComponent, click: 'reload'
-        },
         {
           text: '编辑', click: (item: any) => {
             this.add(item);
@@ -67,7 +58,7 @@ export class UserIndexComponent implements OnInit {
         },
         {
           text: '删除', type: 'del', click: (item: any) => {
-            this.http.get(`/cfmy/user/del?id=${item.id}`)
+            this.http.get(`/cfmy/corporation/del?id=${item.id}`)
               .subscribe((data: ResponseVo) => {
                 this.msgSrv.success('删除成功');
                 this.st.reload();
@@ -95,7 +86,10 @@ export class UserIndexComponent implements OnInit {
     this.st.req.body = Object.assign({}, this.req.body, e);
     this.st.load(1);
   }
+  stChange(item) {
+
+  }
   add(item?) {
-    this.router.navigate(['/admin/user/edit'], { queryParams: { id: item ? item.id || '' : '' } });
+    this.router.navigate(['/admin/base/corporation/edit'], { queryParams: { id: item ? item.id || '' : '' } });
   }
 }

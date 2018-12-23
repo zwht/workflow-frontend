@@ -56,7 +56,7 @@ export class UserIndexEditComponent implements OnInit {
       mode: 'tags',
       asyncData: (name: string) => {
         return this.http.post('/cfmy/public/code/list',
-          { name },
+          { valueStart: 101, valueEnd: 999 },
           { pageNum: 1, pageSize: 1000 })
           .pipe(
             // delay(1200),
@@ -110,7 +110,7 @@ export class UserIndexEditComponent implements OnInit {
     }
   }
   save(value: any) {
-    if (value.roles && value.roles.length) {
+    if (value.roles && typeof value.roles !== 'string' && value.roles.length) {
       value.roles = value.roles.join(',');
     }
     if (this.id) {
