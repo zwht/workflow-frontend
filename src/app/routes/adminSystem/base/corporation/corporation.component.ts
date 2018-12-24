@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { STColumn, STComponent, STRes, STReq, STPage, STData } from '@delon/abc';
+import { STColumn, STComponent, STRes, STReq, STPage } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { NzMessageService } from 'ng-zorro-antd';
-import { delay, map } from 'rxjs/operators';
-import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
+import { CodeDataService } from '@shared/services/code-data.service';
 @Component({
   selector: 'app-corporation',
   templateUrl: './corporation.component.html',
@@ -26,6 +25,9 @@ export class CorporationComponent implements OnInit {
     process: (data: any) => {
       data.forEach((item, i) => {
         item.no = (this.st.pi - 1) * this.st.ps + i + 1;
+        item.ability = item.ability.split(',').map(o => {
+          return this.codeDataService.getName(o);
+        }).join('，');
       });
       return data;
     }
@@ -75,6 +77,7 @@ export class CorporationComponent implements OnInit {
     private router: Router,
     private msgSrv: NzMessageService,
     public activatedRoute: ActivatedRoute,
+    private codeDataService: CodeDataService
   ) { }
 
   ngOnInit() {

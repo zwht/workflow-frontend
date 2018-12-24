@@ -6,6 +6,7 @@ import { UserIndexDetailComponent } from './detail/detail.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { NzMessageService } from 'ng-zorro-antd';
+import { CodeDataService } from '@shared/services/code-data.service';
 
 @Component({
   selector: 'app-user-index',
@@ -27,6 +28,9 @@ export class UserIndexComponent implements OnInit {
     process: (data: any) => {
       data.forEach((item, i) => {
         item.no = (this.st.pi - 1) * this.st.ps + i + 1;
+        item.roles = item.roles.split(',').map(o => {
+          return this.codeDataService.getName(o);
+        }).join('，');
       });
       return data;
     }
@@ -84,6 +88,7 @@ export class UserIndexComponent implements OnInit {
     private router: Router,
     private msgSrv: NzMessageService,
     public activatedRoute: ActivatedRoute,
+    private codeDataService: CodeDataService
   ) { }
 
   ngOnInit() {

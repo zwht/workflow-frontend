@@ -14,6 +14,7 @@ import { CountdownModule } from 'ngx-countdown';
 
 // directives
 import { ZwMouseSetDirective } from './directives/zw-mouse-set.directive';
+import { CodeNamePipe } from './pipe/code-name.pipe';
 
 const THIRDMODULES = [
   NgZorroAntdModule,
@@ -24,6 +25,7 @@ const THIRDMODULES = [
 // #region your componets & directives
 const COMPONENTS = [];
 const DIRECTIVES = [ZwMouseSetDirective];
+const PIPES = [CodeNamePipe];
 
 // #endregion
 @NgModule({
@@ -42,7 +44,8 @@ const DIRECTIVES = [ZwMouseSetDirective];
   declarations: [
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
+    ...PIPES
   ],
   exports: [
     CommonModule,
@@ -55,9 +58,10 @@ const DIRECTIVES = [ZwMouseSetDirective];
     DelonFormModule,
     // third libs
     ...THIRDMODULES,
-    // your components
+    // your components,directives,pipes
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
+    ...PIPES
   ]
 })
 export class SharedModule { }
