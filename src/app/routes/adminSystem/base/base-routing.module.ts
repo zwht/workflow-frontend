@@ -8,8 +8,18 @@ import { IconComponent } from './icon/icon.component';
 import { ACLGuard } from '@delon/acl';
 import { CorporationComponent } from './corporation/corporation.component';
 import { CorporationEditComponent } from './corporation/edit/edit.component';
+import { FileComponent } from './file/file.component';
+import { FileEditComponent } from './file/edit/edit.component';
 
 const routes: Routes = [
+  {
+    path: 'file', component: FileComponent,
+    canActivate: [ACLGuard], data: { guard: ['888888'], title: '文件列表', reuse: true }
+  },
+  {
+    path: 'file/edit', component: FileEditComponent,
+    canActivate: [ACLGuard], data: { guard: ['888888'], title: '编辑文件', reuse: true }
+  },
   {
     path: 'corporation', component: CorporationComponent,
     canActivate: [ACLGuard], data: { guard: ['888888'], title: '公司列表', reuse: true }

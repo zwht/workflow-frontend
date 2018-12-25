@@ -96,9 +96,9 @@ export class DefaultInterceptor implements HttpInterceptor {
   | HttpUserEvent<any>
   > {
     // 统一加上服务端前缀
-    let url = req.url;
+    const url = req.url;
     if (!url.startsWith('/assets/') && !url.startsWith('https://') && !url.startsWith('http://')) {
-      url = environment.SERVER_URL + url;
+      // url = environment.SERVER_URL + url;
     }
     const newReq = req.clone({
       url: url,

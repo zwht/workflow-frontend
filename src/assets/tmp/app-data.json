@@ -34,6 +34,14 @@
           "icon": "anticon anticon-build",
           "children": [
             {
+              "text": "文件列表",
+              "link": "/admin/base/file",
+              "permission":{
+                "roles":["888888"],
+                "ability":[]
+              }
+            },
+            {
               "text": "公司列表",
               "link": "/admin/base/corporation",
               "permission":{

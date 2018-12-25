@@ -1,0 +1,10 @@
+<div class="modal-header">
+  <div class="modal-title">查看 {{ i.id }} 信息</div>
+</div>
+<nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
+<div sv-container *ngIf="i">
+  <img style="max-width:100%" [src]="i.url"/>
+</div>
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close()">关闭</button>
+</div>
