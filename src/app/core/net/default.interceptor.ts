@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   HttpInterceptor,
@@ -15,14 +15,16 @@ import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
-
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 /**
  * 默认HTTP拦截器，其注册细节见 `app.module.ts`
  */
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
-  constructor(private injector: Injector) { }
+  constructor(private injector: Injector,
+    private http: _HttpClient,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+  ) { }
 
   get msg(): NzMessageService {
     return this.injector.get(NzMessageService);
@@ -47,7 +49,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         // 则以下代码片断可直接适用
         if (event instanceof HttpResponse) {
           const body: any = event.body;
-          if ( event.url.indexOf('/assets/') === -1 && body && body.status !== 200) {
+          if (event.url.indexOf('/assets/') === -1 && body && body.status !== 200) {
             this.msg.error(body.msg);
             if (body.status === 401) {
               this.goTo('/passport/login');
@@ -89,11 +91,11 @@ export class DefaultInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<
-  | HttpSentEvent
-  | HttpHeaderResponse
-  | HttpProgressEvent
-  | HttpResponse<any>
-  | HttpUserEvent<any>
+    | HttpSentEvent
+    | HttpHeaderResponse
+    | HttpProgressEvent
+    | HttpResponse<any>
+    | HttpUserEvent<any>
   > {
     // 统一加上服务端前缀
     const url = req.url;
@@ -103,6 +105,27 @@ export class DefaultInterceptor implements HttpInterceptor {
     const newReq = req.clone({
       url: url,
     });
+
+    // token时间不到30分钟时，去获取新token
+    const overTime1 = localStorage.getItem('overTime');
+    if (overTime1) {
+      const overTime = parseInt(overTime1, 10);
+      if (url.indexOf('/cfmy/start/newToken') === -1
+        && url.indexOf('/cfmy/public/') === -1
+        && overTime > new Date().getTime()
+        && (overTime - new Date().getTime()) < 1000 * 60 * 30) {
+        this.http.get('/cfmy/start/newToken', {})
+          .subscribe((res: any) => {
+            if (res.msg) {
+              this.tokenService.set({
+                token: res.response
+              });
+              localStorage.setItem('overTime', (new Date().getTime() + 1000 * 60 * 60 * 2) + '');
+            }
+          });
+      }
+    }
+
     // debugger
     return next.handle(newReq).pipe(
       mergeMap((event: any) => {

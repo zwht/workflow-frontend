@@ -1,8 +1,8 @@
 import { Injectable, Injector, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { zip } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { MenuService, SettingsService, TitleService, ALAIN_I18N_TOKEN } from '@delon/theme';
+import { catchError } from 'rxjs/operators';
+import { MenuService, SettingsService, TitleService } from '@delon/theme';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { ACLService } from '@delon/acl';
 
@@ -10,8 +10,6 @@ import { NzIconService } from 'ng-zorro-antd';
 import { ICONS_AUTO } from '../../../style-icons-auto';
 import { ICONS } from '../../../style-icons';
 import { deepCopy } from '@delon/util';
-import { CodeDataService } from '@shared/services/code-data.service';
-
 /**
  * 用于应用启动时
  * 一般用来获取应用所需要的基础数据等
