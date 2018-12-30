@@ -30,19 +30,19 @@ const routes: Routes = [
   },
   {
     path: 'code', component: CodeComponent,
-    canActivate: [ACLGuard], data: { guard: ['888888'], title: '码表列表', reuse: true }
+    canActivate: [ACLGuard], data: { guard: ['888888', '100'], title: '码表列表', reuse: true }
   },
   {
     path: 'code/edit', component: CodeEditComponent,
-    canActivate: [ACLGuard], data: { guard: ['888888'], title: '编辑码表', reuse: true }
+    canActivate: [ACLGuard], data: { guard: ['888888', '100'], title: '编辑码表', reuse: true }
   },
   {
     path: 'codeGroup', component: CodeGroupComponent,
-    canActivate: [ACLGuard], data: { guard: ['888888'], title: '码表组列表', reuse: true }
+    canActivate: [ACLGuard], data: { guard: ['888888', '100'], title: '码表组列表', reuse: true }
   },
   {
     path: 'codeGroup/edit', component: CodeGroupEditComponent,
-    canActivate: [ACLGuard], data: { guard: ['888888'], title: '编辑码表组', reuse: true }
+    canActivate: [ACLGuard], data: { guard: ['888888', '100'], title: '编辑码表组', reuse: true }
   },
   {
     path: 'icon', component: IconComponent,

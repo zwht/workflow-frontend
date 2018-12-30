@@ -12,11 +12,12 @@ import { FileComponent } from './file/file.component';
 import { FileEditComponent } from './file/edit/edit.component';
 import { FileDetailComponent } from './file/detail/detail.component';
 
-
 const COMPONENTS = [CodeComponent, CodeEditComponent,
   CodeGroupComponent, CodeGroupEditComponent, IconComponent,
   CorporationComponent, CorporationEditComponent,
-  FileComponent, FileEditComponent];
+  FileComponent, FileEditComponent,
+
+];
 const COMPONENTS_NOROUNT = [FileDetailComponent];
 
 @NgModule({

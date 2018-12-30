@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd';
-import { _HttpClient } from '@delon/theme';
+import { _HttpClient, SettingsService } from '@delon/theme';
 import { SFSchema, SFUISchema, FormProperty, PropertyGroup, SFComponent } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { delay, map } from 'rxjs/operators';
@@ -27,7 +27,7 @@ export class UserIndexEditComponent implements OnInit {
     public location: Location,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
-    @Inject(DA_SERVICE_TOKEN) private tokenService: TokenService,
+    private settingsService: SettingsService
   ) {
     const co: SFSchema['properties'] = {
       loginName: { type: 'string', title: '登录名', maxLength: 10 },
@@ -36,7 +36,7 @@ export class UserIndexEditComponent implements OnInit {
       roles: { type: 'string', title: '用户角色', default: 150 }
     };
     let roleK = 101;
-    if (this.tokenService.get().roles.indexOf('888888') !== -1) {
+    if (this.settingsService.user.roles.indexOf('888888') !== -1) {
       this.commonSchema = {
         corporationId: { type: 'string', title: '公司' },
         ...co

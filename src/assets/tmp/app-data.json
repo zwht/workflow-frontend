@@ -16,11 +16,36 @@
           "icon": "anticon anticon-appstore"
         },
         {
+          "text": "基础数据",
+          "icon": "anticon anticon-build",
+          "permission": {
+            "roles": [
+              "100"
+            ],
+            "ability": []
+          },
+          "children": [
+            {
+              "text": "工序列表",
+              "link": "/admin/baseCorporation/gx",
+              "permission": {
+                "roles": [
+                  "100"
+                ],
+                "ability": []
+              }
+            }
+          ]
+        },
+        {
           "text": "用户管理",
           "icon": "anticon anticon-team",
-          "permission":{
-            "roles":["888888" ,100],
-            "ability":[]
+          "permission": {
+            "roles": [
+              "888888",
+              100
+            ],
+            "ability": []
           },
           "children": [
             {
@@ -32,45 +57,63 @@
         {
           "text": "基础数据模块",
           "icon": "anticon anticon-build",
+          "permission": {
+            "roles": [
+              "888888"
+            ],
+            "ability": []
+          },
           "children": [
             {
               "text": "文件列表",
               "link": "/admin/base/file",
-              "permission":{
-                "roles":["888888"],
-                "ability":[]
+              "permission": {
+                "roles": [
+                  "888888"
+                ],
+                "ability": []
               }
             },
             {
               "text": "公司列表",
               "link": "/admin/base/corporation",
-              "permission":{
-                "roles":["888888"],
-                "ability":[]
+              "permission": {
+                "roles": [
+                  "888888"
+                ],
+                "ability": []
               }
             },
             {
               "text": "码表列表",
               "link": "/admin/base/code",
-              "permission":{
-                "roles":["888888"],
-                "ability":[]
+              "permission": {
+                "roles": [
+                  "888888",
+                  "100"
+                ],
+                "ability": []
               }
             },
             {
               "text": "码表组列表",
               "link": "/admin/base/codeGroup",
-              "permission":{
-                "roles":["888888"],
-                "ability":[]
+              "permission": {
+                "roles": [
+                  "888888",
+                  "100"
+                ],
+                "ability": []
               }
             },
             {
               "text": "icon图标",
               "link": "/admin/base/icon",
-              "permission":{
-                "roles":["888888"],
-                "ability":[]
+              "permission": {
+                "roles": [
+                  "888888"
+                ],
+                "ability": []
               }
             }
           ]
