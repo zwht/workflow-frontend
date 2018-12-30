@@ -6,40 +6,38 @@ import { SFSchema, SFUISchema, SFComponent } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { ReuseTabService } from '@delon/abc';
 @Component({
-  selector: 'app-gx-edit',
+  selector: 'app-door-edit',
   templateUrl: './edit.component.html',
+  styleUrls: ['./edit.less'],
 })
-export class GxEditComponent implements OnInit {
+export class DoorEditComponent implements OnInit {
   @ViewChild('sf') sf: SFComponent;
   title = '添加';
-  cpName = '工序';
-  id;
+  cpName = '产品';
+  id = this.route.snapshot.queryParams.id;
   i: any;
   schema: SFSchema = {
     properties: {
-      name: { type: 'string', title: '工序名', maxLength: 30 },
-      price: { type: 'number', title: '默认价格', maximum: 1000, minimum: 0 },
-      indexKey: { type: 'number', title: '流程排序', maximum: 1000, minimum: 0 },
+      name: { type: 'string', title: '门名', maxLength: 30 },
+      number: { type: 'string', title: '编号', maxLength: 20, minimum: 2 },
     },
-    required: ['name', 'price', 'indexKey'],
+    required: ['name', 'number'],
   };
-  gxGroupList = [];
+  doorGroupList = [];
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
       width: 500,
       grid: { span: 24 },
     },
-    $price: {
-      widget: 'number',
-    },
-    $indexKey: {
-      widget: 'number',
+    $number: {
+      widget: 'string',
     },
     $name: {
       widget: 'string',
     },
   };
+  gxList = [];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -49,45 +47,49 @@ export class GxEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getDetail();
-  }
-  _onReuseInit() {
-    this.getDetail();
-  }
-  getDetail() {
-    this.id = this.route.snapshot.queryParams.id;
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`/cfmy/gx/getById?id=${this.id}`)
+      this.http.get(`/cfmy/door/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
         });
     } else {
       this.i = {};
     }
+    this.getGxList();
   }
   save(value: any) {
     if (this.id) {
-      this.http.post(`/cfmy/gx/update`, value).subscribe(res => {
+      this.http.post(`/cfmy/door/update`, value).subscribe(res => {
         this.msgSrv.success('修改成功');
         this.back();
       });
     } else {
-      this.http.post(`/cfmy/gx/add`, value).subscribe(res => {
+      this.http.post(`/cfmy/door/add`, value).subscribe(res => {
         this.msgSrv.success('添加成功');
         this.back();
       });
     }
   }
   back() {
-    const parentUrl = '/admin/baseCorporation/gx';
+    const parentUrl = '/admin/baseCorporation/door';
     if (this.reuseTabService.exists(parentUrl)) {
       this.reuseTabService.replace(parentUrl);
     } else {
       this.router.navigateByUrl(parentUrl);
       setTimeout(() => {
-        this.reuseTabService.close('/admin/baseCorporation/gx/edit');
+        this.reuseTabService.close('/admin/baseCorporation/door/edit');
       }, 100);
     }
+  }
+  getGxList() {
+    this.http.post(`/cfmy/gx/list?pageNum=1&pageSize=1000`, {})
+      .subscribe((res: ResponseVo) => {
+        const hasKey = 12 - res.response.data.length % 12;
+        for (let i = 0; i < hasKey; i++) {
+          res.response.data.push({});
+        }
+        this.gxList = res.response.data;
+      });
   }
 }

@@ -3,9 +3,13 @@ import { SharedModule } from '@shared/shared.module';
 import { BaseCorporationRoutingModule } from './base-corporation-routing.module';
 import { GxListComponent } from './gx/list.component';
 import { GxEditComponent } from './gx/edit/edit.component';
+import { DoorEditComponent } from './door/edit/edit.component';
+import { DoorListComponent } from './door/list.component';
 
 const COMPONENTS = [
   GxListComponent, GxEditComponent,
+  DoorEditComponent, DoorListComponent,
+
 ];
 const COMPONENTS_NOROUNT = [];
 

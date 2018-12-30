@@ -16,9 +16,13 @@ import { CountdownModule } from 'ngx-countdown';
 import { ZwMouseSetDirective } from './directives/zw-mouse-set.directive';
 import { CodeNamePipe } from './pipe/code-name.pipe';
 
+// 打印模块
+import {ENgxPrintModule} from 'e-ngx-print';
+
 const THIRDMODULES = [
   NgZorroAntdModule,
-  CountdownModule
+  CountdownModule,
+  ENgxPrintModule,
 ];
 // #endregion
 

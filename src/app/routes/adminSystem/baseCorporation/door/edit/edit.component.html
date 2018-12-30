@@ -1,20 +1,28 @@
-<div class="user_edit_cpt">
+<div class="door_edit_cpt">
   <page-header [breadcrumb]="breadcrumb">
     <ng-template #breadcrumb>
       <nz-breadcrumb>
-        <nz-breadcrumb-item><a href="/#/admin/base/code">{{cpName}}列表</a></nz-breadcrumb-item>
+        <nz-breadcrumb-item><a href="/#/admin/baseCorporation/gx">{{cpName}}列表</a></nz-breadcrumb-item>
         <nz-breadcrumb-item>{{title+cpName}}</nz-breadcrumb-item>
       </nz-breadcrumb>
     </ng-template>
   </page-header>
   <nz-card>
     <nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
-    <sf *ngIf="i" #sf mode="edit" [schema]="schema" 
-    [ui]="ui" [formData]="i" button="none">
+    <sf *ngIf="i" #sf mode="edit" [schema]="schema" [ui]="ui" [formData]="i" button="none">
       <footer-toolbar errorCollect>
         <button nz-button type="button" (click)="back()" [nzLoading]="http.loading">返回</button>
         <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>
       </footer-toolbar>
     </sf>
+    <div nz-row class="gxBox">
+      <div *ngFor="let item of gxList" nz-col nzSpan="2">
+        <div class="i1">{{item.name}}</div>
+        <div class="i2">
+          <input *ngIf="item.name" [(ngModel)]="item.price" nz-input placeholder="请输入工序单价">
+        </div>
+        <div class="i3"></div>
+      </div>
+    </div>
   </nz-card>
 </div>

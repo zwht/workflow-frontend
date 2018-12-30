@@ -26,6 +26,16 @@
           },
           "children": [
             {
+              "text": "门列表",
+              "link": "/admin/baseCorporation/door",
+              "permission": {
+                "roles": [
+                  "100"
+                ],
+                "ability": []
+              }
+            },
+            {
               "text": "工序列表",
               "link": "/admin/baseCorporation/gx",
               "permission": {

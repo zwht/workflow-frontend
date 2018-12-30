@@ -30,6 +30,7 @@
               "src/styles.less"
             ],
             "scripts": [
+              "node_modules/qrious/dist/qrious.min.js",
               "node_modules/ajv/dist/ajv.bundle.js"
             ]
           },
