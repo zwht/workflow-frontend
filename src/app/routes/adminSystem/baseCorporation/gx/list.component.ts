@@ -41,7 +41,7 @@ export class GxListComponent implements OnInit {
 
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
-    { title: '编号', index: 'indexKey' },
+    { title: '序号', index: 'indexKey' },
     { title: '工序名(name)', index: 'name' },
     { title: '默认价格(price)', index: 'price' },
     {

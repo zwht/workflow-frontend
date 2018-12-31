@@ -2,27 +2,35 @@
   <page-header [breadcrumb]="breadcrumb">
     <ng-template #breadcrumb>
       <nz-breadcrumb>
-        <nz-breadcrumb-item><a href="/#/admin/baseCorporation/gx">{{cpName}}列表</a></nz-breadcrumb-item>
+        <nz-breadcrumb-item><a href="/#/admin/baseCorporation/door">{{cpName}}列表</a></nz-breadcrumb-item>
         <nz-breadcrumb-item>{{title+cpName}}</nz-breadcrumb-item>
       </nz-breadcrumb>
     </ng-template>
   </page-header>
   <nz-card>
     <nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
-    <sf *ngIf="i" #sf mode="edit" [schema]="schema" [ui]="ui" [formData]="i" button="none">
-      <footer-toolbar errorCollect>
-        <button nz-button type="button" (click)="back()" [nzLoading]="http.loading">返回</button>
-        <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>
-      </footer-toolbar>
-    </sf>
-    <app-cropper-img [ngModel]="cropperImg" [boxStyle]="{width:400,height:400}" [showBtn]=false></app-cropper-img>
-    <div nz-row class="gxBox">
-      <div *ngFor="let item of gxList" nz-col nzSpan="2">
-        <div class="i1">{{item.name}}</div>
-        <div class="i2">
-          <input *ngIf="item.name" [(ngModel)]="item.price" nz-input placeholder="请输入工序单价">
+    <div *ngIf="i" nz-row>
+      <div nz-col nzSpan="24">
+        <app-cropper-img [(ngModel)]="cropperImg" [showBtn]=false [boxStyle]="{width:400,height:400, previewWidth:300,previewHeight:300}"></app-cropper-img>
+        <sf #sf mode="edit" [schema]="schema" [ui]="ui" [formData]="i" button="none">
+          <footer-toolbar errorCollect>
+            <button nz-button type="button" (click)="back()" [nzLoading]="http.loading">返回</button>
+            <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid"
+              [nzLoading]="http.loading">保存</button>
+          </footer-toolbar>
+        </sf>
+      </div>
+      <div nz-col nzSpan="24">
+        <div nz-row class="gxBox">
+          <div *ngFor="let item of gxList" nz-col nzSpan="2">
+            <div class="i1">{{item.name}}</div>
+            <div class="i2">
+              <input *ngIf="item.name" [(ngModel)]="item.price"
+              type='number' nz-input placeholder="请输入工序单价">
+            </div>
+            <div class="i3"></div>
+          </div>
         </div>
-        <div class="i3"></div>
       </div>
     </div>
   </nz-card>

@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { _HttpClient, ModalHelper } from '@delon/theme';
+import { _HttpClient } from '@delon/theme';
 import { STColumn, STComponent, STRes, STReq, STPage, STData, STColumnButton } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { NzMessageService } from 'ng-zorro-antd';
-import { delay, map } from 'rxjs/operators';
-import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
 import { CodeDataService } from '@shared/services/code-data.service';
 
 @Component({
@@ -29,7 +27,7 @@ export class DoorListComponent implements OnInit {
     process: (data: any) => {
       data.forEach((item, i) => {
         item.no = (this.st.pi - 1) * this.st.ps + i + 1;
-        // item.stateName = this.codeDataService.getName(item.state);
+        item.img = '/cfmy/public/file/getById?id=' + item.img;
       });
       return data;
     }
@@ -41,25 +39,29 @@ export class DoorListComponent implements OnInit {
     properties: {
       name: {
         type: 'string',
-        title: '工序名'
+        title: '名称'
       }
     }
   };
 
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
-    { title: '编号', index: 'no' },
-    { title: '工序名(name)', index: 'name' },
-    { title: '默认价格(price)', index: 'price' },
+    { title: '序号', index: 'no' },
+    { title: '名称', index: 'name' },
+    { title: '编号', index: 'number' },
     {
-      title: '状态(state)', index: 'state', type: 'tag',
+      title: '图片', index: 'img', type: 'img', width: '150px',
+      className: 'imgTd'
+    },
+    {
+      title: '状态', index: 'state', type: 'tag',
       tag: {
-        1202: {
-          text: this.codeDataService.getName(1202),
+        1402: {
+          text: this.codeDataService.getName(1402),
           color: 'magenta'
         },
-        1201: {
-          text: this.codeDataService.getName(1201),
+        1401: {
+          text: this.codeDataService.getName(1401),
           color: 'green'
         }
       }
@@ -69,10 +71,10 @@ export class DoorListComponent implements OnInit {
       buttons: [
         {
           text: '起用', click: (item: any) => {
-            this.updateState(item.id, 1201);
+            this.updateState(item.id, 1401);
           },
           iif: (item: STData, btn: STColumnButton, column: STColumn) => {
-            if (item.state === 1201) {
+            if (item.state === 1401) {
               return false;
             } else {
               return true;
@@ -81,10 +83,10 @@ export class DoorListComponent implements OnInit {
         },
         {
           text: '禁用', click: (item: any) => {
-            this.updateState(item.id, 1202);
+            this.updateState(item.id, 1402);
           },
           iif: (item: STData, btn: STColumnButton, column: STColumn) => {
-            if (item.state === 1202) {
+            if (item.state === 1402) {
               return false;
             } else {
               return true;
@@ -98,7 +100,7 @@ export class DoorListComponent implements OnInit {
         },
         {
           text: '删除', type: 'del', click: (item: any) => {
-            this.updateState(item.id, 1200);
+            this.updateState(item.id, 1400);
           }
         },
       ]

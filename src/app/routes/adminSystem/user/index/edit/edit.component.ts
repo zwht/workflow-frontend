@@ -33,7 +33,7 @@ export class UserIndexEditComponent implements OnInit {
       loginName: { type: 'string', title: '登录名', maxLength: 10 },
       name: { type: 'string', title: '真实名', maxLength: 10 },
       phone: { type: 'string', title: '手机号', maxLength: 11, minLength: 11 },
-      roles: { type: 'string', title: '用户角色', default: 150 }
+      roles: { type: 'string', title: '用户角色', default: 107 }
     };
     let roleK = 101;
     if (this.settingsService.user.roles.indexOf('888888') !== -1) {

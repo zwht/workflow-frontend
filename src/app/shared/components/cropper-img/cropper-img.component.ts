@@ -37,10 +37,12 @@ export class CropperImgComponent implements ControlValueAccessor, OnInit {
   ) { }
 
   ngOnInit() {
-    this.newBoxStyle = { width: 200, height: 200, bigBoxWidth: 800 };
+    this.newBoxStyle = { width: 200, height: 200, previewWidth: 200, previewHeight: 200, bigBoxWidth: 800 };
     if (this.boxStyle) {
       this.newBoxStyle.width = this.boxStyle.width ? this.boxStyle.width : 200;
       this.newBoxStyle.height = this.boxStyle.height ? this.boxStyle.height : 200;
+      this.newBoxStyle.previewWidth = this.boxStyle.previewWidth ? this.boxStyle.previewWidth : this.newBoxStyle.width;
+      this.newBoxStyle.previewHeight = this.boxStyle.previewHeight ? this.boxStyle.previewHeight : this.newBoxStyle.height;
     }
     this.contentDialogStyle = { width: this.newBoxStyle.width + 'px', height: this.newBoxStyle.height + 'px' };
     this.cropperInit();
