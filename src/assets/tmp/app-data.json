@@ -16,6 +16,28 @@
           "icon": "anticon anticon-appstore"
         },
         {
+          "text": "工单管理",
+          "icon": "anticon anticon-build",
+          "permission": {
+            "roles": [
+              "100"
+            ],
+            "ability": []
+          },
+          "children": [
+            {
+              "text": "我的工单",
+              "link": "/admin/ticket/myTicket",
+              "permission": {
+                "roles": [
+                  "100"
+                ],
+                "ability": []
+              }
+            }
+          ]
+        },
+        {
           "text": "基础数据",
           "icon": "anticon anticon-build",
           "permission": {

@@ -34,6 +34,10 @@ const routes: Routes = [
         children: [
           { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard', reuse: true } },
           {
+            path: 'ticket', loadChildren: './adminSystem/ticket/ticket.module#TicketModule',
+            data: { title: '工单管理', reuse: true, shortcutRoot: true }
+          },
+          {
             path: 'baseCorporation', loadChildren: './adminSystem/baseCorporation/base-corporation.module#BaseCorporationModule',
             data: { title: '基础数据', reuse: true, shortcutRoot: true }
           },

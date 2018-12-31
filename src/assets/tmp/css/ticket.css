@@ -1,0 +1,138 @@
+.printDiv table {
+  border: 1px solid #ededed;
+  width: 100%;
+  border-left: none;
+  border-bottom: none;
+  text-align: center;
+}
+.printDiv table td {
+  border-left: 1px solid #ededed;
+  border-bottom: 1px solid #ededed;
+}
+.printDiv table td input {
+  border: none;
+  padding: 0;
+  width: 100%;
+  border-radius: 0;
+}
+.printDiv table td input:hover {
+  background: #f1f1f1;
+}
+.printDiv table td input:focus {
+  background: #cccab6;
+}
+.printDiv table td el-select {
+  width: 100%;
+}
+.printDiv table .s30 span {
+  display: inline-block;
+  width: 30%;
+}
+.printDiv table .s50 span {
+  display: inline-block;
+  width: 48%;
+}
+.printDiv table .input3 {
+  width: 220px;
+}
+.printDiv table .input3 input {
+  width: 50px;
+  height: 30px;
+  display: inline-block;
+  border-bottom: 1px solid #ededed;
+}
+.printDiv table .input2 {
+  width: 140px;
+}
+.printDiv table .input2 input {
+  width: 50px;
+  height: 30px;
+  display: inline-block;
+  border-bottom: 1px solid #ededed;
+}
+.printDiv table .doorName {
+  width: 200px;
+}
+.printDiv table .doorName el-select {
+  width: 100px !important;
+}
+.printDiv table .doorName span,
+.printDiv table .doorName img,
+.printDiv table .doorName el-select {
+  vertical-align: middle;
+}
+.printDiv table .statistics {
+  text-align: left;
+  height: 40px;
+  padding: 10px 50px;
+}
+.printDiv table .statistics input {
+  width: 44px;
+  height: 30px;
+  display: inline-block;
+  border-bottom: 1px solid #ededed;
+}
+.printDiv table .statistics b {
+  margin-right: 50px;
+}
+.printDiv table .statistics span {
+  color: #c00;
+}
+.printDiv table .operation span {
+  color: #00abff;
+  cursor: pointer;
+  margin: 0 5px;
+}
+.printDiv table .operation span:hover {
+  opacity: 0.8;
+}
+.printDiv table .bzBox {
+  width: 200px;
+}
+.printDiv table input,
+.printDiv table textarea {
+  background: #f9f9f9;
+  height: 30px !important;
+  padding-left: 3px !important;
+  vertical-align: middle;
+}
+.printDiv table .el-select {
+  width: 100% !important;
+}
+.gxTable {
+  border-top: none;
+  position: relative;
+  padding-left: 100px;
+}
+.gxTable .lBox {
+  position: absolute;
+  left: 0;
+  width: 100px;
+  bottom: 0;
+  border: 1px solid #ededed;
+  height: 100%;
+  border-top: none;
+}
+.gxTable .gxBox > div {
+  border-bottom: 1px solid #ededed;
+  border-right: 1px solid #ededed;
+  text-align: center;
+}
+.gxTable .gxBox > div .i1 {
+  height: 28px;
+  line-height: 28px;
+}
+.gxTable .gxBox > div .i2 {
+  border-top: 1px solid #ededed;
+  border-bottom: 1px solid #ededed;
+  height: 28px;
+}
+.gxTable .gxBox > div .i2 input {
+  border: none;
+  text-align: center;
+  height: 26px;
+}
+.gxTable .gxBox > div .i3 {
+  height: 36px;
+}
+
