@@ -1,0 +1,18 @@
+.cropperImg{ display: inline-block;
+  .headerDialog{ color: #000;}
+  .contentDialog{  background: #c00; margin: 0 auto;}
+  .showImg{ display: inline-block; position: relative;
+    min-width: 100px;
+    .flex-middle{ left: 0; top:0; height: 100%; width: 100%; 
+      color: #fff; cursor: pointer; background: rgba(0,0,0,0.3);
+      position: absolute; z-index: 10; display: none;
+    }
+    .ff{ display: flex;}
+    .bg{background: rgba(0,0,0,0.2);}
+    img{ width: 100%; height: 100%; position: absolute;
+       top:0; left: 0;}
+    &:hover{
+      .flex-middle{ display: flex;}
+    }
+  }
+}

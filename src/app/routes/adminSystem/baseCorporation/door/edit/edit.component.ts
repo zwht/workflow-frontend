@@ -5,6 +5,8 @@ import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema, SFComponent } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { ReuseTabService } from '@delon/abc';
+import { ImageCropperComponent, CropperSettings } from 'ngx-img-cropper';
+
 @Component({
   selector: 'app-door-edit',
   templateUrl: './edit.component.html',
@@ -38,13 +40,17 @@ export class DoorEditComponent implements OnInit {
     },
   };
   gxList = [];
+
+  @ViewChild('cropper', undefined)
+  cropper: ImageCropperComponent;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private reuseTabService: ReuseTabService,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     if (this.id) {

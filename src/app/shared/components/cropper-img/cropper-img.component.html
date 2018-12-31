@@ -1,0 +1,16 @@
+<div class="cropperImg">
+  <div class="showImg" *ngIf="!!model||!showBtn"  (click)="showDialog()">
+    <div class="flex-middle" *ngIf="!!model">
+      <div>点击更换图片</div>
+    </div>
+    <div class="flex-middle ff" *ngIf="!model&&!showBtn">
+      <div>点击选择图片</div>
+    </div>
+    <div class="bg" [ngStyle]="{'width': newBoxStyle.width+'px','height':newBoxStyle.height+'px'}"></div>
+    <img [ngStyle]="{'width': newBoxStyle.width+'px','height':newBoxStyle.height+'px'}"  [src]="'/cfmy/public/file/getById?id='+model" alt="">
+  </div>
+  <input appTrim #inputImage  type="file" accept="image/*" style="display: none;"/>
+  <div *ngIf="!model&&showBtn" >
+    <button (click)="showDialog()" nz-button nzType="primary">选择图片</button>
+  </div>
+</div>

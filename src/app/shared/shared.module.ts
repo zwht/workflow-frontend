@@ -17,17 +17,22 @@ import { ZwMouseSetDirective } from './directives/zw-mouse-set.directive';
 import { CodeNamePipe } from './pipe/code-name.pipe';
 
 // 打印模块
-import {ENgxPrintModule} from 'e-ngx-print';
+import { ENgxPrintModule } from 'e-ngx-print';
+import { CropperImgComponent } from './components/cropper-img/cropper-img.component';
+import { CropperImgModalComponent } from './components/cropper-img-modal/cropper-img-modal.component';
+import { ImageCropperModule } from 'ngx-img-cropper';
 
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule,
   ENgxPrintModule,
+  ImageCropperModule,
 ];
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [];
+const COMPONENTS = [CropperImgComponent];
+const ENTERCOMPONENTS = [CropperImgModalComponent];
 const DIRECTIVES = [ZwMouseSetDirective];
 const PIPES = [CodeNamePipe];
 
@@ -48,6 +53,7 @@ const PIPES = [CodeNamePipe];
   declarations: [
     // your components
     ...COMPONENTS,
+    ...ENTERCOMPONENTS,
     ...DIRECTIVES,
     ...PIPES
   ],
@@ -66,6 +72,9 @@ const PIPES = [CodeNamePipe];
     ...COMPONENTS,
     ...DIRECTIVES,
     ...PIPES
+  ],
+  entryComponents: [
+    ...ENTERCOMPONENTS
   ]
 })
 export class SharedModule { }

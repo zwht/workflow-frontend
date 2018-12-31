@@ -15,6 +15,7 @@
         <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>
       </footer-toolbar>
     </sf>
+    <app-cropper-img [ngModel]="cropperImg" [boxStyle]="{width:400,height:400}" [showBtn]=false></app-cropper-img>
     <div nz-row class="gxBox">
       <div *ngFor="let item of gxList" nz-col nzSpan="2">
         <div class="i1">{{item.name}}</div>

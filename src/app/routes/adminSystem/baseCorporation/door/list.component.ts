@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { delay, map } from 'rxjs/operators';
 import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
 import { CodeDataService } from '@shared/services/code-data.service';
+
 @Component({
   selector: 'app-door-list',
   templateUrl: './list.component.html',
@@ -104,19 +105,24 @@ export class DoorListComponent implements OnInit {
     }
   ];
 
+
   constructor(
     private http: _HttpClient,
     private router: Router,
     private msgSrv: NzMessageService,
     public activatedRoute: ActivatedRoute,
     private codeDataService: CodeDataService,
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
   }
   _onReuseInit() {
     this.st.reload();
   }
+
+
   search(e) {
     this.st.req.body = Object.assign({}, this.req.body, e);
     this.st.load(1);
