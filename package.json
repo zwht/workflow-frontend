@@ -20,6 +20,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^6.1.10",
+    "@angular/cdk": "^7.2.0",
     "@angular/common": "^6.1.10",
     "@angular/compiler": "^6.1.10",
     "@angular/core": "^6.1.10",
@@ -44,6 +45,7 @@
     "lint-staged": "^7.1.2",
     "ng-alain": "^2.0.1",
     "ng-zorro-antd": "^1.8.0",
+    "ngx-contextmenu": "^5.1.1",
     "ngx-img-cropper": "^0.11.0",
     "prettier": "^1.12.1",
     "prettier-stylelint": "^0.4.2",

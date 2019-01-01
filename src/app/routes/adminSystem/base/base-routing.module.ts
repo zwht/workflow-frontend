@@ -46,7 +46,7 @@ const routes: Routes = [
   },
   {
     path: 'icon', component: IconComponent,
-    canActivate: [ACLGuard], data: { guard: ['888888'], title: 'icon图标', reuse: true }
+    canActivate: [ACLGuard], data: { guard: ['888888', '100'], title: 'icon图标', reuse: true }
   },
 ];
 

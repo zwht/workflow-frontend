@@ -10,76 +10,98 @@
   <nz-card>
     <nz-spin *ngIf="loading" class="modal-spin"></nz-spin>
     <div class="printDiv" #printDiv>
-      <table cellspacing="0">
+      <table class="ticketTable" cellspacing="0">
         <tr>
-          <td colspan="4">
-            <span>经销商：</span>
+          <td colspan="2">
           </td>
-          <td colspan="4">
-            <span>川峰木门生成流程单</span>
+          <td colspan="3" style="border-left:0;">
+            <span style="font-size:24px;">川峰木门生成流程单</span>
           </td>
-          <td colspan="3">
+          <td colspan="1">
             <span>合计：</span>
             <b>5</b>
             <span>套</span>
           </td>
-          <td colspan="4">
+          <td rowspan="4" colspan="">
             二维码
           </td>
         </tr>
-        <tr>
-          <td colspan="5">
-            <span>经销商：</span>
+        <tr class="tbb">
+          <td>
+            经销商：
           </td>
-          <td colspan="3">
-            <span>品牌名称：</span>
+          <td>
+            <input [(ngModel)]="item.price" nz-input>
           </td>
-          <td colspan="7">
-            <span>订单编号：</span>
+          <td>
+            品牌名称：
           </td>
-        </tr>
-        <tr>
-          <td colspan="5">
-            <span>地址：</span>
+          <td>
+            <input [(ngModel)]="item.price" nz-input>
           </td>
-          <td colspan="3">
-            <span>订货日期：</span>
+          <td>
+            订单编号：
           </td>
-          <td colspan="7">
-            <span>排产日期：</span>
+          <td>
+            <input [(ngModel)]="item.price" nz-input>
           </td>
         </tr>
-        <tr>
-          <td colspan="5">
-            <span>业务经理：</span>
+        <tr class="tbb">
+          <td>
+            收货地址：
           </td>
-          <td colspan="3">
-            <span>制单：</span>
+          <td>
+            <input [(ngModel)]="item.price" nz-input>
           </td>
-          <td colspan="7">
-            <span>交货日期：</span>
+          <td>
+            订货日期：
           </td>
+          <td>
+            <input [(ngModel)]="item.price" nz-input>
+          </td>
+          <td>
+            排产日期：
+          </td>
+          <td>
+            <input [(ngModel)]="item.price" nz-input>
+          </td>
+
         </tr>
+        <tr class="tbb">
+          <td>
+            业务经理：
+          </td>
+          <td>
+            <input [(ngModel)]="item.price" nz-input>
+          </td>
+          <td>
+            制单人员：
+          </td>
+          <td>
+            <input [(ngModel)]="item.price" nz-input>
+          </td>
+          <td>
+            交货日期：
+          </td>
+          <td>
+            <input [(ngModel)]="item.price" nz-input>
+          </td>
+
+        </tr>
+      </table>
+      <table class="ticketTable" cellspacing="0" style="border-top: 0;">
         <tr>
-          <td rowspan="2">颜色</td>
-          <td rowspan="2">材质</td>
+          <td rowspan="2" style="width: 60px;">颜色</td>
+          <td rowspan="2" style="width: 160px;">材质</td>
           <td rowspan="2" style="width: 160px;">型号</td>
-          <td rowspan="2" style="width: 60px;">序号</td>
-          <td>洞口尺寸</td>
-          <td>门扇尺寸</td>
-          <td rowspan="2">立板尺寸</td>
-          <td rowspan="2">顶板尺寸</td>
+          <td rowspan="2" style="width: 40px;">序号</td>
+          <td style="width: 200px;">洞口尺寸</td>
+          <td style="width: 160px;">门扇尺寸</td>
+          <td rowspan="2" style="width: 160px;">立板尺寸</td>
+          <td rowspan="2" style="width: 160px;">顶板尺寸</td>
           <td colspan="4">线条信息</td>
-          <td rowspan="2">数量</td>
-          <td rowspan="2">
-            <div class="bzBox">备注</div>
-          </td>
-          <td rowspan="2" style="width: 150px;">
-            操作
-            <!-- <button (click)="addDoor()" nz-button nzType="primary">
-            <i class="anticon anticon-plus"></i>
-          </button> -->
-          </td>
+          <td rowspan="2" style="width: 40px;">数量</td>
+          <td rowspan="2" style="width: 160px;">备注</td>
         </tr>
         <tr>
           <td class="s30">
@@ -104,164 +126,129 @@
             <span>3000</span>
           </td>
         </tr>
+        <ng-template ngFor let-data [ngForOf]="productList">
+          <tr [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
+            <td [attr.rowspan]="data.show?2:1">
+              <nz-select [(ngModel)]="selectedValue" style="width: 100%" nzShowSearch nzAllowClear nzPlaceHolder="选择颜色">
+                <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+                <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+                <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+              </nz-select>
+            </td>
+            <td [attr.rowspan]="data.show?2:1">
+              <nz-select [(ngModel)]="selectedValue" style="width: 100%" nzShowSearch nzAllowClear nzPlaceHolder="选择材质">
+                <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+                <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+                <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+              </nz-select>
+            </td>
+            <td [attr.rowspan]="data.show?2:1">
+              <nz-select [(ngModel)]="selectedValue" style="width: 100%" nzShowSearch nzAllowClear nzPlaceHolder="选择型号">
+                <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+                <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+                <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+              </nz-select>
+            </td>
+            <td>
+              1
+            </td>
+            <td>
+              <input [(ngModel)]="data.coverSize" class="inputHeight">
+            </td>
+            <td>
+              <input [(ngModel)]="data.doorSize" class="inputHeight">
+            </td>
+            <td>
+              <input [(ngModel)]="data.lbSize" class="inputHeight">
+            </td>
+            <td>
+              <input [(ngModel)]="data.dbSize" class="inputHeight">
+            </td>
+            <td>
+              <input [(ngModel)]="data.dbHeight" class="inputHeight">
+            </td>
+            <td>
+              <input [(ngModel)]="data.dbHeight" class="inputHeight">
+            </td>
+            <td>
+              <input [(ngModel)]="data.dbHeight" class="inputHeight">
+            </td>
+            <td>
+              <input [(ngModel)]="data.dbHeight" class="inputHeight">
+            </td>
+            <td>
+              <input [(ngModel)]="data.sum" class="inputHeight">
+            </td>
+            <td>
+              <textarea [(ngModel)]="data.remark" style="width: 100%; border: none;"></textarea>
+            </td>
+          </tr>
+          <tr class="printHide" [ngClass]="{'productShow2': data.show}" (contextmenu)="onContextMenu($event, data)" *ngIf="data.show">
+            <td>
+              <i class="iconBtn" (click)="contextMenuClick({item:data},'show')" nz-icon type="up-circle" theme="outline"></i>
+            </td>
+            <td colspan="10">
+              <div nz-row class="gxBox trGxBox">
+                <div *ngFor="let item of gxList" nz-col nzSpan="2">
+                  <div class="i1">{{item.name}}</div>
+                  <div class="i2">
+                    <input *ngIf="item.name" [(ngModel)]="item.price" type='number' nz-input>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
         <tr>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td class="doorName">
-            <nz-select [(ngModel)]="item.doorId" (modelChange)="doorChange($event,item)" [nzPlaceHolder]="'请选择'"
-              nzAllowClear>
-              <nz-option *ngFor="let item of doorList" [nzLabel]="item.name" [nzValue]="item.id">
-              </nz-option>
-            </nz-select>
-            <img *ngIf="item.doorImg&&showImg" style="width: 50px;" [src]="item.doorImg" alt="">
-          </td>
-          <td class="input3">
-            <input type="number" [(ngModel)]="item.coverWidth" placeholder="">
-            *
-            <input type="number" [(ngModel)]="item.coverHeight" placeholder="">
-            *
-            <input type="number" [(ngModel)]="item.coverDepth" placeholder="">
-          </td>
-          <td class="input3">
-            <input type="number" [(ngModel)]="item.width" placeholder="">
-            *
-            <input type="number" [(ngModel)]="item.height" placeholder="">
-            =
-            <input type="number" [(ngModel)]="item.sum" placeholder="">
-          </td>
-          <td class="input3">
-            <input type="number" [(ngModel)]="item.lbWidth" placeholder="">
-            *
-            <input type="number" [(ngModel)]="item.lbHeight" placeholder="">
-            =
-            <input type="number" [(ngModel)]="item.lbSum" (ngModelChange)="sumChange()" placeholder="">
-          </td>
-          <td class="input3">
-            <input type="number" [(ngModel)]="item.dbWidth" placeholder="">
-            *
-            <input type="number" [(ngModel)]="item.dbHeight" placeholder="">
-            =
-            <input type="number" [(ngModel)]="item.dbSum" (ngModelChange)="sumChange()" placeholder="">
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-          <td>
-            <textarea style="width: 100%; border: none;" [(ngModel)]="item.mark" placeholder=""></textarea>
-          </td>
-          <td class="operation">
-            <span (click)="copyAdd(item)">复制添加</span>
-            <span (click)="delDoor(item,i)">删除</span>
-          </td>
-        </tr>
-        <!-- <tr *ngFor="let item of productList let i=index">
-        <td>{{i+1}}</td>
-        <td class="doorName">
-          <nz-select [(ngModel)]="item.doorId" (modelChange)="doorChange($event,item)" [nzPlaceHolder]="'请选择'"
-            nzAllowClear>
-            <nz-option *ngFor="let item of doorList" [nzLabel]="item.name" [nzValue]="item.id">
-            </nz-option>
-          </nz-select>
-
-          <img *ngIf="item.doorImg&&showImg" style="width: 50px;" [src]="item.doorImg" alt="">
-        </td>
-        <td class="input3">
-          <input type="number" [(ngModel)]="item.coverWidth" placeholder="">
-          *
-          <input type="number" [(ngModel)]="item.coverHeight" placeholder="">
-          *
-          <input type="number" [(ngModel)]="item.coverDepth" placeholder="">
-        </td>
-        <td class="input3">
-          <input type="number" [(ngModel)]="item.width" placeholder="">
-          *
-          <input type="number" [(ngModel)]="item.height" placeholder="">
-          =
-          <input type="number" [(ngModel)]="item.sum" placeholder="">
-        </td>
-        <td class="input3">
-          <input type="number" [(ngModel)]="item.lbWidth" placeholder="">
-          *
-          <input type="number" [(ngModel)]="item.lbHeight" placeholder="">
-          =
-          <input type="number" [(ngModel)]="item.lbSum" (ngModelChange)="sumChange()" placeholder="">
-        </td>
-        <td class="input3">
-          <input type="number" [(ngModel)]="item.dbWidth" placeholder="">
-          *
-          <input type="number" [(ngModel)]="item.dbHeight" placeholder="">
-          =
-          <input type="number" [(ngModel)]="item.dbSum" (ngModelChange)="sumChange()" placeholder="">
-        </td>
-        <td>
-          <nz-select [(ngModel)]="item.colorId" (modelChange)="colorChange($event,item)" [nzPlaceHolder]="'请选择'"
-            nzAllowClear>
-            <nz-option *ngFor="let item of colorList" [nzLabel]="item.name" [nzValue]="item.id">
-            </nz-option>
-          </nz-select>
-          <img *ngIf="item.colorImg&&showImg" style="width: 50px;" [src]="item.colorImg" alt="">
-        </td>
-        <td>
-          <nz-select [(ngModel)]="item.lineId" (modelChange)="lineChange($event,item)" [nzPlaceHolder]="'请选择'"
-            nzAllowClear>
-            <nz-option *ngFor="let item of lineList" [nzLabel]="item.name" [nzValue]="item.id">
-            </nz-option>
-          </nz-select>
-          <img *ngIf="item.lineImg&&showImg" style="width: 50px;" [src]="item.lineImg" alt="">
-        </td>
-        <td class="input2">
-          <input type="number" [(ngModel)]="item.lineLength" placeholder="">
-          =
-          <input type="number" [(ngModel)]="item.lineSum" (ngModelChange)="sumChange()" placeholder="">
-        </td>
-        <td>
-          <textarea style="width: 100%; border: none;" [(ngModel)]="item.mark" placeholder=""></textarea>
-        </td>
-        <td class="operation">
-          <span (click)="copyAdd(item)">复制添加</span>
-          <span (click)="delDoor(item,i)">删除</span>
-        </td>
-      </tr> -->
-        <tr>
-          <td rowspan="2">总计：</td>
+          <td rowspan="2">总计:</td>
           <td rowspan="2" colspan="6" class="statistics">
-            门扇：
-            <input type="number" [(ngModel)]="ticket.sumDoor" placeholder="">
-            <b>个</b>
-            门套板：
-            <input type="number" [(ngModel)]="ticket.sumTaoban" placeholder="">
-            <b>块</b>
-            窗套板：
-            <input type="number" [(ngModel)]="ticket.sumTaoban" placeholder="">
-            <b>块</b>
+            门扇:
+            <b style="margin-right:4px;">34</b>
+            <span style="margin-right:20px;">个</span>
+            门套板:
+            <b style="margin-right:4px;">34</b>
+            <span style="margin-right:20px;">块</span>
+            窗套板:
+            <b style="margin-right:4px;">34</b>
+            <span style="margin-right:20px;">块</span>
           </td>
           <td>线条长度小计</td>
-          <td>1</td>
-          <td>3</td>
-          <td>1</td>
-          <td>2</td>
-          <td rowspan="2" colspan="3"></td>
+          <td>
+            <b>2</b>
+          </td>
+          <td>
+            <b>2</b>
+          </td>
+          <td>
+            <b>2</b>
+          </td>
+          <td>
+            <b>2</b>
+          </td>
+          <td rowspan="2" colspan="2"></td>
         </tr>
         <tr>
           <td>线条合计</td>
-          <td colspan="4">7</td>
-        </tr>
-        <tr>
-          <td colspan="15">
-            <span>备注：</span>
+          <td colspan="4">
+            <b>7</b>
           </td>
         </tr>
         <tr>
-          <td colspan="15">
+          <td>
+            <span>总结：</span>
+          </td>
+          <td colspan="13">
+            <textarea [(ngModel)]="item.mark" style="width: 100%; border: none; font-size: 16px;
+            text-align: center; font-weight: bold; height:40px; padding: 8px 0;"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>
             <span>备注：</span>
+          </td>
+          <td colspan="13">
+            <textarea [(ngModel)]="item.mark" style="width: 100%; border: none; text-align: left;
+             height:36px; padding: 6px 0; padding-left: 10px;"></textarea>
           </td>
         </tr>
       </table>
@@ -271,16 +258,31 @@
           <div *ngFor="let item of gxList" nz-col nzSpan="2">
             <div class="i1">{{item.name}}</div>
             <div class="i2">
-              <input *ngIf="item.name" [(ngModel)]="item.price" type='number' nz-input placeholder="请输入工序单价">
+              <input *ngIf="item.name" [(ngModel)]="item.price" type='number' nz-input>
             </div>
             <div class="i3"></div>
           </div>
         </div>
       </div>
     </div>
+    <context-menu>
+      <ng-template (execute)="contextMenuClick($event,'show')" contextMenuItem>
+        {{showDetilKey}}
+      </ng-template>
+      <ng-template (execute)="contextMenuClick($event,'copy')" contextMenuItem>
+        复制添加
+      </ng-template>
+      <ng-template (execute)="contextMenuClick($event,'add')" contextMenuItem>
+        添加..
+      </ng-template>
+      <ng-template divider="true"></ng-template>
+      <ng-template (execute)="contextMenuClick($event,'del')" contextMenuItem [enabled]="productList.length>1">
+        删除
+      </ng-template>
+    </context-menu>
     <footer-toolbar errorCollect>
-      <e-ngx-print #print1 [mode]="'popup'" [popTitle]="'表格打印'" [showBtn]="false" [printHTML]="printDiv" [printStyle]="printStyle"
-        [printCSS]="printCSS" (printComplete)="printComplete()">
+      <e-ngx-print #printComponent [mode]="'popup'" [popTitle]="'表格打印'" [showBtn]="false" [printHTML]="printDiv"
+        [printStyle]="printStyle" [printCSS]="printCSS" (printComplete)="printComplete()">
       </e-ngx-print>
       <button nz-button type="button" (click)="print()" [nzLoading]="loading">打印</button>
       <button nz-button type="button" (click)="back()" [nzLoading]="loading">返回</button>

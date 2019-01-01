@@ -22211,6 +22211,32 @@ g2-tag-cloud {
   }
 }
 
+//右键菜单样式
+.ngx-contextmenu .dropdown-menu {
+  border: solid 1px #ededed;
+  background-color: #fff;
+  padding: 0;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  border-radius: 6px;
+}
+.ngx-contextmenu li {
+  display: block;
+  text-transform: uppercase;
+  text-align: left;
+  min-width: 120px;
+}
+.ngx-contextmenu li:first-child {
+  border-top:none;
+}
+.ngx-contextmenu a {
+  color:#000;
+  display: block;
+  padding: 0.5em 1em;
+}
+.ngx-contextmenu a:hover {
+  color:#099;
+  background: #f1f1f1;
+}
 // 可以通过 https://ng-alain.github.io/ng-alain/ 获取主题参数代码
 // The theme paraments can be generated at https://ng-alain.github.io/ng-alain/
 @primary-color: #1890ff;

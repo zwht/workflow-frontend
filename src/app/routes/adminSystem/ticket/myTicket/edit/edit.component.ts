@@ -8,6 +8,8 @@ import { ReuseTabService } from '@delon/abc';
 import { ImageCropperComponent, CropperSettings } from 'ngx-img-cropper';
 import { ENgxPrintComponent } from 'e-ngx-print';
 import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
+import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
+import { ProductObj } from './editClass';
 
 @Component({
   selector: 'app-my-ticket-edit',
@@ -21,18 +23,27 @@ export class MyTicketEditComponent implements OnInit {
   id = this.route.snapshot.queryParams.id;
   valid = false;
   loading = false;
+  ticketId = '999';
 
   ticket = {};
   gxList = [];
+  productList = [
+    new ProductObj(this.ticketId)
+  ];
 
-  showHead: boolean = true;
-  hideTable1: boolean = false;
-  datas: any[];
+  // 打印配
+  showHead: Boolean = true;
+  hideTable1: Boolean = false;
   printCSS: string[] = ['./assets/tmp/css/ticket.css'];
   printStyle: string;
-  @ViewChild('print1') printComponent1: ENgxPrintComponent;
+  @ViewChild('printComponent') printComponent: ENgxPrintComponent;
+  // 右键菜单
+  @ViewChild(ContextMenuComponent) public contextMenu: ContextMenuComponent;
+  showDetilKey = '展开详情';
 
-  item = {};
+  item = {
+    mark: '分开就分开就分开，速度加快艰苦奋斗是，史蒂夫健康科技时代'
+  };
   constructor(
     private elRef: ElementRef,
     private route: ActivatedRoute,
@@ -40,14 +51,60 @@ export class MyTicketEditComponent implements OnInit {
     private reuseTabService: ReuseTabService,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
+    private contextMenuService: ContextMenuService,
   ) {
   }
-
   ngOnInit(): void {
     this.getGxList();
     if (this.id) {
       this.title = '编辑';
 
+    }
+  }
+  // 右键菜单触发
+  onContextMenu($event: MouseEvent, item: any): void {
+    // 实在显示／隐藏详情菜单
+    this.showDetilKey = item.show ? '隐藏详情' : '展开详情';
+    this.contextMenuService.show.next({
+      // Optional - if unspecified, all context menu components will open
+      contextMenu: this.contextMenu,
+      event: $event,
+      item: item,
+    });
+    $event.preventDefault();
+    $event.stopPropagation();
+  }
+  // 右键菜单点击
+  contextMenuClick(event: any, key: String) {
+    switch (key) {
+      case 'add':
+        this.productList.forEach((item, i) => {
+          if (item.id === event.item.id) {
+            this.productList.splice(i + 1, 0, new ProductObj(this.ticketId));
+          }
+        });
+        break;
+      case 'copy':
+        this.productList.forEach((item, i) => {
+          if (item.id === event.item.id) {
+            this.productList.splice(i + 1, 0, event.item.copy());
+          }
+        });
+        break;
+      case 'del':
+        this.productList = this.productList.filter(item => {
+          if (item.id === event.item.id) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+        break;
+      case 'show':
+        event.item.show = !event.item.show;
+        break;
+      default:
+        break;
     }
   }
   save(value: any) {
@@ -101,6 +158,6 @@ export class MyTicketEditComponent implements OnInit {
   print() {
     this.showHead = false;
     this.hideTable1 = true;
-    this.printComponent1.print();
+    this.printComponent.print();
   }
 }

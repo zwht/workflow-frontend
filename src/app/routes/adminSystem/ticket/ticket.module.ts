@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
+import { ContextMenuModule } from 'ngx-contextmenu';
 import { TicketRoutingModule } from './ticket-routing.module';
 import { MyTicketEditComponent } from './myTicket/edit/edit.component';
 import { MyTicketListComponent } from './myTicket/list.component';
@@ -13,7 +14,8 @@ const COMPONENTS_NOROUNT = [];
 @NgModule({
   imports: [
     SharedModule,
-    TicketRoutingModule
+    TicketRoutingModule,
+    ContextMenuModule.forRoot(),
   ],
   declarations: [
     ...COMPONENTS,

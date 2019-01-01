@@ -1,138 +1,162 @@
-.printDiv table {
+*{ box-sizing: border-box;}
+.printHide{ display: none !important;}
+
+
+
+
+input {
+  border: none;
+  padding: 0;
+  width: 100%;
+  border-radius: 0;
+  height: 100%;
+  display: inline-block;
+  height: inherit;
+  text-align: center;
+  background: none;
+}
+input:hover {
+  background: #f1f1f1;
+}
+input:focus {
+  background: #cccab6;
+}
+textarea {
+  height: 100%;
+  display: block;
+  background: none;
+}
+textarea,
+input,
+td,
+.gxTable {
+  font-size: 14px;
+}
+el-select {
+  width: 100%;
+  min-width: 120px;
+  background: none;
+}
+.ant-select-selection {
+  background: none;
+  border-radius: none;
+  border: none;
+}
+.ticketTable {
   border: 1px solid #ededed;
   width: 100%;
   border-left: none;
   border-bottom: none;
   text-align: center;
 }
-.printDiv table td {
+.ticketTable td {
   border-left: 1px solid #ededed;
   border-bottom: 1px solid #ededed;
+  position: relative;
 }
-.printDiv table td input {
-  border: none;
-  padding: 0;
-  width: 100%;
-  border-radius: 0;
+.ticketTable b {
+  font-size: 16px;
 }
-.printDiv table td input:hover {
-  background: #f1f1f1;
+.ticketTable .tbb td:nth-child(1),
+.ticketTable .tbb td:nth-child(3),
+.ticketTable .tbb td:nth-child(5) {
+  text-align: right;
+  width: 100px;
 }
-.printDiv table td input:focus {
-  background: #cccab6;
+.ticketTable .tbb td:nth-child(2),
+.ticketTable .tbb td:nth-child(4),
+.ticketTable .tbb td:nth-child(6) {
+  border-left: 0;
 }
-.printDiv table td el-select {
-  width: 100%;
-}
-.printDiv table .s30 span {
+.ticketTable .s30 span {
   display: inline-block;
   width: 30%;
 }
-.printDiv table .s50 span {
+.ticketTable .s50 span {
   display: inline-block;
   width: 48%;
 }
-.printDiv table .input3 {
+.ticketTable .input3 {
   width: 220px;
 }
-.printDiv table .input3 input {
-  width: 50px;
-  height: 30px;
+.ticketTable .input3 input {
+  width: 35px;
   display: inline-block;
   border-bottom: 1px solid #ededed;
 }
-.printDiv table .input2 {
+.ticketTable .input2 {
   width: 140px;
 }
-.printDiv table .input2 input {
-  width: 50px;
-  height: 30px;
+.ticketTable .input2 input {
+  width: 35px;
   display: inline-block;
   border-bottom: 1px solid #ededed;
 }
-.printDiv table .doorName {
-  width: 200px;
+.ticketTable .inputHeight {
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
 }
-.printDiv table .doorName el-select {
-  width: 100px !important;
+.ticketTable .iconBtn {
+  font-size: 16px;
+  cursor: pointer;
 }
-.printDiv table .doorName span,
-.printDiv table .doorName img,
-.printDiv table .doorName el-select {
-  vertical-align: middle;
+.ticketTable .iconBtn:hover {
+  color: #099;
 }
-.printDiv table .statistics {
-  text-align: left;
-  height: 40px;
-  padding: 10px 50px;
-}
-.printDiv table .statistics input {
-  width: 44px;
-  height: 30px;
-  display: inline-block;
-  border-bottom: 1px solid #ededed;
-}
-.printDiv table .statistics b {
-  margin-right: 50px;
-}
-.printDiv table .statistics span {
+.ticketTable .productShow1 {
+  background: #f9f9f9;
   color: #c00;
 }
-.printDiv table .operation span {
-  color: #00abff;
-  cursor: pointer;
-  margin: 0 5px;
-}
-.printDiv table .operation span:hover {
-  opacity: 0.8;
-}
-.printDiv table .bzBox {
-  width: 200px;
-}
-.printDiv table input,
-.printDiv table textarea {
-  background: #f9f9f9;
-  height: 30px !important;
-  padding-left: 3px !important;
-  vertical-align: middle;
-}
-.printDiv table .el-select {
-  width: 100% !important;
-}
 .gxTable {
-  border-top: none;
   position: relative;
   padding-left: 100px;
 }
 .gxTable .lBox {
   position: absolute;
+  height: 100%;
+  top: 0;
   left: 0;
   width: 100px;
-  bottom: 0;
   border: 1px solid #ededed;
-  height: 100%;
   border-top: none;
 }
-.gxTable .gxBox > div {
+.gxBox:after {
+  content: " ";
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  display: block;
+  clear: both;
+}
+.gxBox > div {
   border-bottom: 1px solid #ededed;
   border-right: 1px solid #ededed;
   text-align: center;
+  float: left;
+  width: 8.333%;
 }
-.gxTable .gxBox > div .i1 {
+.gxBox > div .i1 {
   height: 28px;
   line-height: 28px;
 }
-.gxTable .gxBox > div .i2 {
+.gxBox > div .i2 {
   border-top: 1px solid #ededed;
   border-bottom: 1px solid #ededed;
   height: 28px;
 }
-.gxTable .gxBox > div .i2 input {
-  border: none;
-  text-align: center;
-  height: 26px;
-}
-.gxTable .gxBox > div .i3 {
+.gxBox > div .i3 {
   height: 36px;
 }
-
+.trGxBox {
+  margin: 0 -2px -2px 0;
+  font-size: 12px;
+}
+.trGxBox input {
+  font-size: 12px;
+}
+.printHide {
+  display: none !important;
+}

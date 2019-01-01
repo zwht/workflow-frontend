@@ -24,11 +24,12 @@ import {
   ScanOutline,
   SearchOutline,
   SettingOutline,
+  SolutionOutline,
   StarOutline,
-  StepBackwardFill,
   TaobaoCircleOutline,
   TeamOutline,
   ToolOutline,
+  UpCircleOutline,
   UserOutline,
   WeiboCircleOutline
 } from '@ant-design/icons-angular/icons';
@@ -54,11 +55,12 @@ export const ICONS_AUTO = [
   ScanOutline,
   SearchOutline,
   SettingOutline,
+  SolutionOutline,
   StarOutline,
-  StepBackwardFill,
   TaobaoCircleOutline,
   TeamOutline,
   ToolOutline,
+  UpCircleOutline,
   UserOutline,
   WeiboCircleOutline
 ];

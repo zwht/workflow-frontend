@@ -17,7 +17,7 @@
         },
         {
           "text": "工单管理",
-          "icon": "anticon anticon-build",
+          "icon": "anticon anticon-solution",
           "permission": {
             "roles": [
               "100"
@@ -91,7 +91,8 @@
           "icon": "anticon anticon-build",
           "permission": {
             "roles": [
-              "888888"
+              "888888",
+              "100"
             ],
             "ability": []
           },
@@ -143,7 +144,8 @@
               "link": "/admin/base/icon",
               "permission": {
                 "roles": [
-                  "888888"
+                  "888888",
+                  "100"
                 ],
                 "ability": []
               }
