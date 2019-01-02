@@ -127,30 +127,32 @@
           </td>
         </tr>
         <ng-template ngFor let-data [ngForOf]="productList">
-          <tr [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
+          <tr class="productItem" [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
             <td [attr.rowspan]="data.show?2:1">
-              <nz-select [(ngModel)]="selectedValue" style="width: 100%" nzShowSearch nzAllowClear nzPlaceHolder="选择颜色">
-                <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-                <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-                <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
-              </nz-select>
+              <div>{{data.color}}</div>
+              <div class="printHide addEdit">
+                <i *ngIf="!data.color" class='iconBtn' nz-icon type="plus" theme="outline"></i>
+                <i *ngIf="data.color" class='iconBtn' nz-icon type="edit" theme="outline"></i>
+              </div>
             </td>
             <td [attr.rowspan]="data.show?2:1">
-              <nz-select [(ngModel)]="selectedValue" style="width: 100%" nzShowSearch nzAllowClear nzPlaceHolder="选择材质">
-                <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-                <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-                <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
-              </nz-select>
+              <div>{{data.color}}</div>
+              <div class="printHide addEdit">
+                <i *ngIf="!data.color" class='iconBtn' nz-icon type="plus" theme="outline"></i>
+                <i *ngIf="data.color" class='iconBtn' nz-icon type="edit" theme="outline"></i>
+              </div>
             </td>
             <td [attr.rowspan]="data.show?2:1">
-              <nz-select [(ngModel)]="selectedValue" style="width: 100%" nzShowSearch nzAllowClear nzPlaceHolder="选择型号">
-                <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-                <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-                <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
-              </nz-select>
+              <div>{{data.color}}</div>
+              <div class="printHide addEdit">
+                <i *ngIf="!data.color" class='iconBtn' nz-icon type="plus" theme="outline"></i>
+                <i *ngIf="data.color" class='iconBtn' nz-icon type="edit" theme="outline"></i>
+              </div>
             </td>
             <td>
-              1
+              <span (click)="contextMenuClick({item:data},'show')">
+                1
+              </span>
             </td>
             <td>
               <input [(ngModel)]="data.coverSize" class="inputHeight">
@@ -183,7 +185,8 @@
               <textarea [(ngModel)]="data.remark" style="width: 100%; border: none;"></textarea>
             </td>
           </tr>
-          <tr class="printHide" [ngClass]="{'productShow2': data.show}" (contextmenu)="onContextMenu($event, data)" *ngIf="data.show">
+          <tr class="printHide" [ngClass]="{'productShow2': data.show}" (contextmenu)="onContextMenu($event, data)"
+            *ngIf="data.show">
             <td>
               <i class="iconBtn" (click)="contextMenuClick({item:data},'show')" nz-icon type="up-circle" theme="outline"></i>
             </td>

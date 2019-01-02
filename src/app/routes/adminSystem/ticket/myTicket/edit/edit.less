@@ -15,7 +15,6 @@
     td{ border-left: 1px solid #ededed; border-bottom: 1px solid #ededed;
       position: relative;
     }
-    tr{ }
     b{ font-size: 16px;}
     .tbb{
       td:nth-child(1),td:nth-child(3),td:nth-child(5){ text-align: right; width: 100px;}
@@ -43,6 +42,10 @@
     .productShow1{ background: #f9f9f9;
       color: #c00;
     }
+    .addEdit{ position: absolute; right: 0; top:0; z-index: 10; display: none;}
+    .productItem:hover{ background: #f9f9f9;
+      .addEdit{ display: block;}
+    }
   }
 
   .gxTable{ position: relative; padding-left: 100px;
@@ -62,6 +65,7 @@
   }
   .trGxBox{ margin: 0 -2px -2px 0; font-size: 12px;
     input{ font-size: 12px;}
+    >div{ border-bottom: none;}
   }
   
 }

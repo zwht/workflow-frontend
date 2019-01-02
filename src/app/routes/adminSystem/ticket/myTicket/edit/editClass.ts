@@ -17,6 +17,9 @@ export class ProductObj {
   remark = null;
   /** 是否显示详情 */
   show = false;
+  /** 颜色 */
+  color = null;
+  
   constructor(private tkId: string) {
     this.id = this.getId();
     this.ticketId = tkId;

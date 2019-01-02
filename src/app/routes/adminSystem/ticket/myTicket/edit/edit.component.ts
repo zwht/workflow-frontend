@@ -44,6 +44,17 @@ export class MyTicketEditComponent implements OnInit {
   item = {
     mark: '分开就分开就分开，速度加快艰苦奋斗是，史蒂夫健康科技时代'
   };
+
+  inputValue: string;
+  options = [];
+
+  onInput(value: string): void {
+    this.options = value ? [
+      value,
+      value + value,
+      value + value + value
+    ] : [];
+  }
   constructor(
     private elRef: ElementRef,
     private route: ActivatedRoute,
