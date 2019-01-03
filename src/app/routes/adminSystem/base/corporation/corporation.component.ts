@@ -12,7 +12,7 @@ import { CodeDataService } from '@shared/services/code-data.service';
 })
 export class CorporationComponent implements OnInit {
   title;
-  url = `/cfmy/corporation/list`;
+  url = `/v1/corporation/list`;
   pageSize = 10;
   req: STReq = {
     params: {},
@@ -60,7 +60,7 @@ export class CorporationComponent implements OnInit {
         },
         {
           text: '删除', type: 'del', click: (item: any) => {
-            this.http.get(`/cfmy/corporation/del?id=${item.id}`)
+            this.http.get(`/v1/corporation/del?id=${item.id}`)
               .subscribe((data: ResponseVo) => {
                 this.msgSrv.success('删除成功');
                 this.st.reload();

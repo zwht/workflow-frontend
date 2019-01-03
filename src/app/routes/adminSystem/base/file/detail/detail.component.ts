@@ -18,8 +18,8 @@ export class FileDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.i = this.record;
-    // http://localhost:4201/cfmy/public/file/getById?id=274708819454595072
-    // this.http.get(`/cfmy/user/getById?id=${this.record.id}`).subscribe(res => this.i = res);
+    // http://localhost:4201/v1/public/file/getById?id=274708819454595072
+    // this.http.get(`/v1/user/getById?id=${this.record.id}`).subscribe(res => this.i = res);
   }
 
   close() {

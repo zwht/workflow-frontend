@@ -78,7 +78,7 @@ export class UserIndexEditComponent implements OnInit {
         widget: 'select',
         mode: 'tags',
         asyncData: (name: string) => {
-          return this.http.post('/cfmy/public/code/list',
+          return this.http.post('/v1/public/code/list',
             { valueStart: roleK, valueEnd: 999 },
             { pageNum: 1, pageSize: 1000 })
             .pipe(
@@ -98,7 +98,7 @@ export class UserIndexEditComponent implements OnInit {
       $corporationId: {
         widget: 'select',
         asyncData: (name: string) => {
-          return this.http.post('/cfmy/corporation/list',
+          return this.http.post('/v1/corporation/list',
             { valueStart: 101, valueEnd: 999 },
             { pageNum: 1, pageSize: 1000 })
             .pipe(
@@ -135,7 +135,7 @@ export class UserIndexEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`/cfmy/user/getById?id=${this.id}`)
+      this.http.get(`/v1/user/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           res.response.roles = res.response.roles ? res.response.roles.split(',').map(item => {
             return parseInt(item, 10);
@@ -151,13 +151,13 @@ export class UserIndexEditComponent implements OnInit {
       value.roles = value.roles.join(',');
     }
     if (this.id) {
-      this.http.post(`/cfmy/user/update`, value).subscribe(res => {
+      this.http.post(`/v1/user/update`, value).subscribe(res => {
         this.msgSrv.success('修改成功');
         this.location.back();
       });
     } else {
       value.password = btoa(encodeURIComponent(value.password));
-      this.http.post(`/cfmy/user/add`, value).subscribe(res => {
+      this.http.post(`/v1/user/add`, value).subscribe(res => {
         this.msgSrv.success('添加成功');
         this.location.back();
       });

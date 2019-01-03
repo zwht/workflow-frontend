@@ -34,7 +34,7 @@ export class CodeEditComponent implements OnInit {
     $groupId: {
       widget: 'select',
       asyncData: (name: string) => {
-        return this.http.post('/cfmy/codeGroup/list',
+        return this.http.post('/v1/codeGroup/list',
           { name },
           { pageNum: 1, pageSize: 1000 })
           .pipe(
@@ -85,7 +85,7 @@ export class CodeEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`/cfmy/code/getById?id=${this.id}`)
+      this.http.get(`/v1/code/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
         });
@@ -95,12 +95,12 @@ export class CodeEditComponent implements OnInit {
   }
   save(value: any) {
     if (this.id) {
-      this.http.post(`/cfmy/code/update`, value).subscribe(res => {
+      this.http.post(`/v1/code/update`, value).subscribe(res => {
         this.msgSrv.success('修改成功');
         this.back();
       });
     } else {
-      this.http.post(`/cfmy/code/add`, value).subscribe(res => {
+      this.http.post(`/v1/code/add`, value).subscribe(res => {
         this.msgSrv.success('添加成功');
         this.back();
       });

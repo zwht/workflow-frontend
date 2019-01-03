@@ -34,7 +34,7 @@ export class CodeDataService {
     }
   }
   getData() {
-    this.http.post('/cfmy/public/code/list',
+    this.http.post('/v1/public/code/list',
       {},
       { pageNum: 1, pageSize: 1000 })
       .subscribe((data: ResponseVo) => {

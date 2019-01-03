@@ -18,7 +18,7 @@ export class UserIndexDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.i = this.record;
-    // this.http.get(`/cfmy/user/getById?id=${this.record.id}`).subscribe(res => this.i = res);
+    // this.http.get(`/v1/user/getById?id=${this.record.id}`).subscribe(res => this.i = res);
   }
 
   close() {

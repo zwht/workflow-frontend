@@ -7,7 +7,7 @@
       <div>点击选择图片</div>
     </div>
     <div class="bg" [ngStyle]="{'width': newBoxStyle.previewWidth+'px','height':newBoxStyle.previewHeight+'px'}"></div>
-    <img [ngStyle]="{'width': newBoxStyle.previewWidth+'px','height':newBoxStyle.previewHeight+'px'}"  [src]="'/cfmy/public/file/getById?id='+model" alt="">
+    <img [ngStyle]="{'width': newBoxStyle.previewWidth+'px','height':newBoxStyle.previewHeight+'px'}"  [src]="'/v1/public/file/getById?id='+model" alt="">
   </div>
   <input appTrim #inputImage  type="file" accept="image/*" style="display: none;"/>
   <div *ngIf="!model&&showBtn" >

@@ -48,6 +48,8 @@ export class MyTicketEditComponent implements OnInit {
   inputValue: string;
   options = [];
 
+  bingName = '测试';
+
   onInput(value: string): void {
     this.options = value ? [
       value,
@@ -120,14 +122,14 @@ export class MyTicketEditComponent implements OnInit {
   }
   save(value: any) {
     if (this.id) {
-      this.http.post(`/cfmy/ticket/update`,
+      this.http.post(`/v1/ticket/update`,
         value)
         .subscribe(res => {
           this.msgSrv.success('修改成功');
           this.back();
         });
     } else {
-      this.http.post(`/cfmy/ticket/add`,
+      this.http.post(`/v1/ticket/add`,
         value)
         .subscribe(res => {
           this.msgSrv.success('添加成功');
@@ -147,7 +149,7 @@ export class MyTicketEditComponent implements OnInit {
     }
   }
   getGxList() {
-    this.http.post(`/cfmy/gx/list?pageNum=1&pageSize=1000`, {})
+    this.http.post(`/v1/gx/list?pageNum=1&pageSize=1000`, {})
       .subscribe((res: ResponsePageVo) => {
         if (res.status === 200) {
 

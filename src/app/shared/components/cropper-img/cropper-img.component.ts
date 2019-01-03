@@ -98,7 +98,7 @@ export class CropperImgComponent implements ControlValueAccessor, OnInit {
     const blob = new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
     const formData = new FormData();
     formData.append('multipartFile', blob, this.fileName);
-    this.http.post(`/cfmy/file/add?id=123456&type=fuck`,
+    this.http.post(`/v1/file/add?id=123456&type=fuck`,
       formData
     )
       .subscribe((res: ResponseVo) => {

@@ -56,7 +56,7 @@ export class DoorEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`/cfmy/door/getById?id=${this.id}`)
+      this.http.get(`/v1/door/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
           this.cropperImg = this.i.img;
@@ -80,14 +80,14 @@ export class DoorEditComponent implements OnInit {
     const data = Object.assign({}, value,
       { img: this.cropperImg, gxIds, gxValues, type: 1301 });
     if (this.id) {
-      this.http.post(`/cfmy/door/update`,
+      this.http.post(`/v1/door/update`,
         data)
         .subscribe(res => {
           this.msgSrv.success('修改成功');
           this.back();
         });
     } else {
-      this.http.post(`/cfmy/door/add`,
+      this.http.post(`/v1/door/add`,
         data)
         .subscribe(res => {
           this.msgSrv.success('添加成功');
@@ -107,7 +107,7 @@ export class DoorEditComponent implements OnInit {
     }
   }
   getGxList() {
-    this.http.post(`/cfmy/gx/list?pageNum=1&pageSize=1000`, {})
+    this.http.post(`/v1/gx/list?pageNum=1&pageSize=1000`, {})
       .subscribe((res: ResponseVo) => {
         if (this.i.gxIds) {
           const gxIds = this.i.gxIds.split(','), gxValues = this.i.gxValues.split(',');

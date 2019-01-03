@@ -31,19 +31,19 @@
             经销商：
           </td>
           <td>
-            <input [(ngModel)]="item.price" nz-input>
+            <input [(ngModel)]="bingName" nz-input>
           </td>
           <td>
             品牌名称：
           </td>
           <td>
-            <input [(ngModel)]="item.price" nz-input>
+            <input [(ngModel)]="bingName" nz-input>
           </td>
           <td>
             订单编号：
           </td>
           <td>
-            <input [(ngModel)]="item.price" nz-input>
+            <input [(ngModel)]="bingName" nz-input>
           </td>
         </tr>
         <tr class="tbb">
@@ -51,19 +51,19 @@
             收货地址：
           </td>
           <td>
-            <input [(ngModel)]="item.price" nz-input>
+            <input [(ngModel)]="bingName" nz-input>
           </td>
           <td>
             订货日期：
           </td>
           <td>
-            <input [(ngModel)]="item.price" nz-input>
+            <input [(ngModel)]="bingName" nz-input>
           </td>
           <td>
             排产日期：
           </td>
           <td>
-            <input [(ngModel)]="item.price" nz-input>
+            <input [(ngModel)]="bingName" nz-input>
           </td>
 
         </tr>
@@ -72,19 +72,19 @@
             业务经理：
           </td>
           <td>
-            <input [(ngModel)]="item.price" nz-input>
+            <input [(ngModel)]="bingName" nz-input>
           </td>
           <td>
             制单人员：
           </td>
           <td>
-            <input [(ngModel)]="item.price" nz-input>
+            <input [(ngModel)]="bingName" nz-input>
           </td>
           <td>
             交货日期：
           </td>
           <td>
-            <input [(ngModel)]="item.price" nz-input>
+            <input [(ngModel)]="bingName" nz-input>
           </td>
 
         </tr>
@@ -195,7 +195,7 @@
                 <div *ngFor="let item of gxList" nz-col nzSpan="2">
                   <div class="i1">{{item.name}}</div>
                   <div class="i2">
-                    <input *ngIf="item.name" [(ngModel)]="item.price" type='number' nz-input>
+                    <input *ngIf="item.name" [(ngModel)]="bingName" type='number' nz-input>
                   </div>
                 </div>
               </div>
@@ -261,7 +261,7 @@
           <div *ngFor="let item of gxList" nz-col nzSpan="2">
             <div class="i1">{{item.name}}</div>
             <div class="i2">
-              <input *ngIf="item.name" [(ngModel)]="item.price" type='number' nz-input>
+              <input *ngIf="item.name" [(ngModel)]="bingName" type='number' nz-input>
             </div>
             <div class="i3"></div>
           </div>

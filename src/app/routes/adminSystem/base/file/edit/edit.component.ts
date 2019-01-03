@@ -47,7 +47,7 @@ export class FileEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`/cfmy/file/getById?id=${this.id}`)
+      this.http.get(`/v1/file/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
         });
@@ -57,12 +57,12 @@ export class FileEditComponent implements OnInit {
   }
   save(value: any) {
     if (this.id) {
-      this.http.post(`/cfmy/file/update`, value).subscribe(res => {
+      this.http.post(`/v1/file/update`, value).subscribe(res => {
         this.msgSrv.success('修改成功');
         this.back();
       });
     } else {
-      this.http.post(`/cfmy/file/add`, value).subscribe(res => {
+      this.http.post(`/v1/file/add`, value).subscribe(res => {
         this.msgSrv.success('添加成功');
         this.back();
       });

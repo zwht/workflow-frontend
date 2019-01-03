@@ -47,7 +47,7 @@ export class CodeGroupEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`/cfmy/codeGroup/getById?id=${this.id}`)
+      this.http.get(`/v1/codeGroup/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
         });
@@ -57,12 +57,12 @@ export class CodeGroupEditComponent implements OnInit {
   }
   save(value: any) {
     if (this.id) {
-      this.http.post(`/cfmy/codeGroup/update`, value).subscribe(res => {
+      this.http.post(`/v1/codeGroup/update`, value).subscribe(res => {
         this.msgSrv.success('修改成功');
         this.back();
       });
     } else {
-      this.http.post(`/cfmy/codeGroup/add`, value).subscribe(res => {
+      this.http.post(`/v1/codeGroup/add`, value).subscribe(res => {
         this.msgSrv.success('添加成功');
         this.back();
       });
