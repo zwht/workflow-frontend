@@ -15,7 +15,7 @@ import { CodeDataService } from '@shared/services/code-data.service';
 })
 export class UserIndexComponent implements OnInit {
   title;
-  url = `/v1/user/list`;
+  url = `./v1/user/list`;
   pageSize = 10;
   req: STReq = {
     params: {},
@@ -71,7 +71,7 @@ export class UserIndexComponent implements OnInit {
         },
         {
           text: '删除', type: 'del', click: (item: any) => {
-            this.http.get(`/v1/user/del?id=${item.id}`)
+            this.http.get(`./v1/user/del?id=${item.id}`)
               .subscribe((data: ResponseVo) => {
                 this.msgSrv.success('删除成功');
                 this.st.reload();

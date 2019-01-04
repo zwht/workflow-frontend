@@ -14,7 +14,7 @@ import { CodeDataService } from '@shared/services/code-data.service';
 })
 export class MyTicketListComponent implements OnInit {
   title;
-  url = `/v1/ticket/list`;
+  url = `./v1/ticket/list`;
   pageSize = 30;
   req: STReq = {
     params: {},
@@ -27,7 +27,7 @@ export class MyTicketListComponent implements OnInit {
     process: (data: any) => {
       data.forEach((item, i) => {
         item.no = (this.st.pi - 1) * this.st.ps + i + 1;
-        item.img = '/v1/public/file/getById?id=' + item.img;
+        item.img = './v1/public/file/getById?id=' + item.img;
       });
       return data;
     }
@@ -136,7 +136,7 @@ export class MyTicketListComponent implements OnInit {
     this.router.navigate(['/admin/ticket/myTicket/edit'], { queryParams: { id: item ? item.id || '' : '' } });
   }
   updateState(id, state) {
-    this.http.get(`/v1/ticket/updateState?id=${id}&state=${state}`)
+    this.http.get(`./v1/ticket/updateState?id=${id}&state=${state}`)
       .subscribe((data: ResponseVo) => {
         this.msgSrv.success('成功');
         this.st.reload();

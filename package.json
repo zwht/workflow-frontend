@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run color-less && ng serve -o --port 4201 --proxy-config proxy.conf.json",
-    "build": "npm run color-less && ng build --prod --build-optimizer --deploy-url=./frontend/",
+    "build": "npm run color-less && ng build --prod --build-optimizer --base-href ./ --deploy-url=./frontend/",
     "test": "ng test",
     "lint": "npm run lint:ts && npm run lint:style",
     "e2e": "ng e2e",

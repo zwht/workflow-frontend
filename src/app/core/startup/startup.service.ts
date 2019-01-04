@@ -38,8 +38,8 @@ export class StartupService {
 
   private viaHttp(resolve: any, reject: any) {
     zip(
-      this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
-      this.httpClient.get('/assets/tmp/app-data.json', {
+      this.httpClient.get(`./assets/tmp/i18n/${this.i18n.defaultLang}.json`),
+      this.httpClient.get('./assets/tmp/app-data.json', {
         responseType: 'json',
       })
     ).pipe(
@@ -118,7 +118,7 @@ export class StartupService {
   }
   private viaMockI18n(resolve: any, reject: any) {
     this.httpClient
-      .get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`)
+      .get(`./assets/tmp/i18n/${this.i18n.defaultLang}.json`)
       .subscribe(langData => {
         this.translate.setTranslation(this.i18n.defaultLang, langData);
         this.translate.setDefaultLang(this.i18n.defaultLang);

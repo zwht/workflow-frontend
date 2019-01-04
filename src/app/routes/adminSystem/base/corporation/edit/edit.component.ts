@@ -34,7 +34,7 @@ export class CorporationEditComponent implements OnInit {
       widget: 'select',
       mode: 'tags',
       asyncData: (name: string) => {
-        return this.http.post('/v1/public/code/list',
+        return this.http.post('./v1/public/code/list',
           { valueStart: 200, valueEnd: 299 },
           { pageNum: 1, pageSize: 1000 })
           .pipe(
@@ -81,7 +81,7 @@ export class CorporationEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`/v1/corporation/getById?id=${this.id}`)
+      this.http.get(`./v1/corporation/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           res.response.ability = res.response.ability ? res.response.ability.split(',').map(item => {
             return parseInt(item, 10);
@@ -97,12 +97,12 @@ export class CorporationEditComponent implements OnInit {
       value.ability = value.ability.join(',');
     }
     if (this.id) {
-      this.http.post(`/v1/corporation/update`, value).subscribe(res => {
+      this.http.post(`./v1/corporation/update`, value).subscribe(res => {
         this.msgSrv.success('修改成功');
         this.back();
       });
     } else {
-      this.http.post(`/v1/corporation/add`, value).subscribe(res => {
+      this.http.post(`./v1/corporation/add`, value).subscribe(res => {
         this.msgSrv.success('添加成功');
         this.back();
       });

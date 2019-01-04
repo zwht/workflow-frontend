@@ -122,11 +122,11 @@ export class DefaultInterceptor implements HttpInterceptor {
     const overTime1 = localStorage.getItem('overTime');
     if (overTime1) {
       const overTime = parseInt(overTime1, 10);
-      if (url.indexOf('/v1/start/newToken') === -1
-        && url.indexOf('/v1/public/') === -1
+      if (url.indexOf('./v1/start/newToken') === -1
+        && url.indexOf('./v1/public/') === -1
         && overTime > new Date().getTime()
         && (overTime - new Date().getTime()) < 1000 * 60 * 30) {
-        this.http.get('/v1/start/newToken', {})
+        this.http.get('./v1/start/newToken', {})
           .subscribe((res: any) => {
             if (res.msg) {
               this.tokenService.set({

@@ -58,7 +58,7 @@ export class GxEditComponent implements OnInit {
     this.id = this.route.snapshot.queryParams.id;
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`/v1/gx/getById?id=${this.id}`)
+      this.http.get(`./v1/gx/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
         });
@@ -68,12 +68,12 @@ export class GxEditComponent implements OnInit {
   }
   save(value: any) {
     if (this.id) {
-      this.http.post(`/v1/gx/update`, value).subscribe(res => {
+      this.http.post(`./v1/gx/update`, value).subscribe(res => {
         this.msgSrv.success('修改成功');
         this.back();
       });
     } else {
-      this.http.post(`/v1/gx/add`, value).subscribe(res => {
+      this.http.post(`./v1/gx/add`, value).subscribe(res => {
         this.msgSrv.success('添加成功');
         this.back();
       });

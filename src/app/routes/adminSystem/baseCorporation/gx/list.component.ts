@@ -13,7 +13,7 @@ import { CodeDataService } from '@shared/services/code-data.service';
 })
 export class GxListComponent implements OnInit {
   title;
-  url = `/v1/gx/list`;
+  url = `./v1/gx/list`;
   pageSize = 30;
   req: STReq = {
     params: {},
@@ -122,7 +122,7 @@ export class GxListComponent implements OnInit {
     this.router.navigate(['/admin/baseCorporation/gx/edit'], { queryParams: { id: item ? item.id || '' : '' } });
   }
   updateState(id, state) {
-    this.http.get(`/v1/gx/updateState?id=${id}&state=${state}`)
+    this.http.get(`./v1/gx/updateState?id=${id}&state=${state}`)
       .subscribe((data: ResponseVo) => {
         this.msgSrv.success('成功');
         this.st.reload();

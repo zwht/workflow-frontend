@@ -4,7 +4,7 @@
     "secure": false
   },
   "/v2": {
-    "target": "http://120.79.171.251:9876",
+    "target": "http://120.79.171.251:8080/conference",
     "secure": false
   }
 }

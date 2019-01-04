@@ -14,7 +14,7 @@ import { FileDetailComponent } from './detail/detail.component';
 })
 export class FileComponent implements OnInit {
   title;
-  url = `/v1/file/list`;
+  url = `./v1/file/list`;
   pageSize = 10;
   req: STReq = {
     params: {},
@@ -27,7 +27,7 @@ export class FileComponent implements OnInit {
     process: (data: any) => {
       data.forEach((item, i) => {
         item.no = (this.st.pi - 1) * this.st.ps + i + 1;
-        item.url = '/v1/public/file/getById?id=' + item.id;
+        item.url = './v1/public/file/getById?id=' + item.id;
       });
       return data;
     }
@@ -65,7 +65,7 @@ export class FileComponent implements OnInit {
         },
         {
           text: '删除', type: 'del', click: (item: any) => {
-            this.http.get(`/v1/file/del?id=${item.id}`)
+            this.http.get(`./v1/file/del?id=${item.id}`)
               .subscribe((data: ResponseVo) => {
                 this.msgSrv.success('删除成功');
                 this.st.reload();

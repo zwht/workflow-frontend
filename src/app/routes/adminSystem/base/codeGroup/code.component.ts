@@ -13,7 +13,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 })
 export class CodeGroupComponent implements OnInit {
   title;
-  url = `/v1/codeGroup/list`;
+  url = `./v1/codeGroup/list`;
   pageSize = 10;
   req: STReq = {
     params: {},
@@ -56,7 +56,7 @@ export class CodeGroupComponent implements OnInit {
         },
         {
           text: '删除', type: 'del', click: (item: any) => {
-            this.http.get(`/v1/codeGroup/del?id=${item.id}`)
+            this.http.get(`./v1/codeGroup/del?id=${item.id}`)
               .subscribe((data: ResponseVo) => {
                 this.msgSrv.success('删除成功');
                 this.st.reload();
