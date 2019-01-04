@@ -2,21 +2,10 @@
  * 进一步对基础模块的导入提炼
  * 有关模块注册指导原则请参考：https://github.com/ng-alain/ng-alain/issues/180
  */
-import {
-  NgModule,
-  Optional,
-  SkipSelf,
-  ModuleWithProviders,
-} from '@angular/core';
-import { throwIfAlreadyLoaded } from '@core/module-import-guard';
+import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
+import { throwIfAlreadyLoaded } from '@core';
 
 import { AlainThemeModule } from '@delon/theme';
-import { DelonABCModule, STConfig } from '@delon/abc';
-import { DelonChartModule } from '@delon/chart';
-import { DelonAuthModule } from '@delon/auth';
-import { DelonACLModule } from '@delon/acl';
-import { DelonCacheModule } from '@delon/cache';
-import { DelonUtilModule } from '@delon/util';
 
 // #region mock
 import { DelonMockModule } from '@delon/mock';
@@ -42,11 +31,11 @@ const MOCK_MODULES = !environment.production
 import { RouteReuseStrategy } from '@angular/router';
 import { ReuseTabService, ReuseTabStrategy } from '@delon/abc/reuse-tab';
 const REUSETAB_PROVIDES = [
-  {
-    provide: RouteReuseStrategy,
-    useClass: ReuseTabStrategy,
-    deps: [ReuseTabService],
-  },
+  // {
+  //   provide: RouteReuseStrategy,
+  //   useClass: ReuseTabStrategy,
+  //   deps: [ReuseTabService],
+  // },
 ];
 // #endregion
 
@@ -54,20 +43,28 @@ const REUSETAB_PROVIDES = [
 
 import { PageHeaderConfig } from '@delon/abc';
 export function fnPageHeaderConfig(): PageHeaderConfig {
-  return Object.assign(new PageHeaderConfig(), { homeI18n: 'home' });
+  return {
+    ...new PageHeaderConfig(),
+    ...{ homeI18n: 'home' } as PageHeaderConfig
+  };
 }
 
 import { DelonAuthConfig } from '@delon/auth';
 export function fnDelonAuthConfig(): DelonAuthConfig {
-  return Object.assign(new DelonAuthConfig(), <DelonAuthConfig>{
-    login_url: '/passport/login',
-  });
+  return {
+    ...new DelonAuthConfig(),
+    ...{ login_url: '/passport/login' } as DelonAuthConfig
+  };
 }
 
+import { STConfig } from '@delon/abc';
 export function fnSTConfig(): STConfig {
-  return Object.assign(new STConfig(), <STConfig>{
-    modal: { size: 'lg' },
-  });
+  return {
+    ...new STConfig(),
+    ...{
+      modal: { size: 'lg' }
+    } as STConfig
+  };
 }
 
 const GLOBAL_CONFIG_PROVIDES = [
@@ -82,22 +79,11 @@ const GLOBAL_CONFIG_PROVIDES = [
 @NgModule({
   imports: [
     AlainThemeModule.forRoot(),
-    DelonABCModule.forRoot(),
-    DelonChartModule.forRoot(),
-    DelonAuthModule.forRoot(),
-    DelonACLModule.forRoot(),
-    DelonCacheModule.forRoot(),
-    DelonUtilModule.forRoot(),
-    // mock
     ...MOCK_MODULES,
   ],
 })
 export class DelonModule {
-  constructor(
-    @Optional()
-    @SkipSelf()
-    parentModule: DelonModule,
-  ) {
+  constructor(@Optional() @SkipSelf() parentModule: DelonModule) {
     throwIfAlreadyLoaded(parentModule, 'DelonModule');
   }
 

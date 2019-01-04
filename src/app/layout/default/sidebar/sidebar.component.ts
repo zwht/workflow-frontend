@@ -1,18 +1,11 @@
-import { Component } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { SettingsService } from '@delon/theme';
-import { CodeDataService } from '@shared/services/code-data.service';
 
 @Component({
   selector: 'layout-sidebar',
   templateUrl: './sidebar.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
-  constructor(
-    public settings: SettingsService,
-    public msgSrv: NzMessageService,
-    private codeDataService: CodeDataService
-  ) {
-    this.codeDataService.getData();
-  }
+  constructor(public settings: SettingsService) {}
 }

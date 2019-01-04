@@ -14,13 +14,13 @@
             <input type="password" nz-input formControlName="password" />
           </nz-input-group>
           <nz-form-explain *ngIf="f.get('password').dirty && f.get('password').errors">
-            请输入密码！
+            {{ 'validation.password.required' | translate }}
           </nz-form-explain>
         </nz-form-control>
       </nz-form-item>
       <nz-row nzType="flex" nzAlign="middle">
         <nz-col [nzOffset]="12" [nzSpan]="12" style="text-align:right;">
-          <button nz-button [disabled]="!f.valid" nzType="primary">锁屏</button>
+          <button nz-button [disabled]="!f.valid" nzType="primary">{{ 'app.lock' | translate }}</button>
         </nz-col>
       </nz-row>
     </form>

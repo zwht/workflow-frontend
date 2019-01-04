@@ -1,10 +1,13 @@
 import { Injectable, Injector, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { zip } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { MenuService, SettingsService, TitleService } from '@delon/theme';
+import { MenuService, SettingsService, TitleService, ALAIN_I18N_TOKEN } from '@delon/theme';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { ACLService } from '@delon/acl';
+import { TranslateService } from '@ngx-translate/core';
+import { I18NService } from '../i18n/i18n.service';
 
 import { NzIconService } from 'ng-zorro-antd';
 import { ICONS_AUTO } from '../../../style-icons-auto';
@@ -16,65 +19,71 @@ import { deepCopy } from '@delon/util';
  */
 @Injectable()
 export class StartupService {
+  private roles = [];
+  private ability = [];
   constructor(
     iconSrv: NzIconService,
     private menuService: MenuService,
+    private translate: TranslateService,
+    @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
     private settingService: SettingsService,
     private aclService: ACLService,
     private titleService: TitleService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private httpClient: HttpClient,
-    private injector: Injector,
+    private injector: Injector
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
-  private roles = [];
-  private ability = [];
 
   private viaHttp(resolve: any, reject: any) {
     zip(
+      this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
       this.httpClient.get('/assets/tmp/app-data.json', {
         responseType: 'json',
       })
-    )
-      .pipe(
-        // 接收其他拦截器后产生的异常消息
-        catchError(([appData]) => {
-          resolve(null);
-          return [appData];
-        })
-      )
-      .subscribe(([appData]) => {
-        // application data
-        const res: any = appData;
-        // 应用信息：包括站点名、描述、年份
-        this.settingService.setApp(res.app);
-        // 用户信息：包括姓名、头像、邮箱地址
-        // this.settingService.setUser(JSON.parse(localStorage.getItem('user')));
-        // ACL：设置权限为全量
-        this.aclService.setFull(false);
+    ).pipe(
+      // 接收其他拦截器后产生的异常消息
+      catchError(([langData, appData]) => {
+        resolve(null);
+        return [langData, appData];
+      })
+    ).subscribe(([langData, appData]) => {
+      // setting language data
+      this.translate.setTranslation(this.i18n.defaultLang, langData);
+      this.translate.setDefaultLang(this.i18n.defaultLang);
 
-        if (this.settingService.user) {
-          this.roles = this.settingService.user.roles ? this.settingService.user.roles.split(',') : [];
-          this.ability = this.settingService.user.ability ? this.settingService.user.ability.split(',') : [];
-          // 设置用户角色及权限能力
-          this.aclService.set({
-            role: this.roles,
-            ability: this.ability
-          });
-        }
-        // 初始化菜单
-        const menu = deepCopy(res.menu);
-        this.setMenuHide(menu);
-        this.menuService.add(menu);
-        // 设置页面标题的后缀
-        this.titleService.suffix = res.app.name;
-      },
-        () => {
-        },
-        () => {
-          resolve({});
+      // application data
+      const res: any = appData;
+      // 应用信息：包括站点名、描述、年份
+      this.settingService.setApp(res.app);
+      // 用户信息：包括姓名、头像、邮箱地址
+      // this.settingService.setUser(res.user);
+      // ACL：设置权限为全量
+      this.aclService.setFull(true);
+
+
+      if (this.settingService.user) {
+        this.roles = this.settingService.user.roles ? this.settingService.user.roles.split(',') : [];
+        this.ability = this.settingService.user.ability ? this.settingService.user.ability.split(',') : [];
+        // 设置用户角色及权限能力
+        this.aclService.set({
+          role: this.roles,
+          ability: this.ability
         });
+      }
+      // 初始化菜单
+      const menu = deepCopy(res.menu);
+      this.setMenuHide(menu);
+      this.menuService.add(menu);
+
+      // 设置页面标题的后缀
+      this.titleService.suffix = res.app.name;
+    },
+      () => { },
+      () => {
+        resolve(null);
+      });
   }
   private setMenuHide(menu) {
     menu.forEach(item => {
@@ -107,17 +116,34 @@ export class StartupService {
       }
     });
   }
+  private viaMockI18n(resolve: any, reject: any) {
+    this.httpClient
+      .get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`)
+      .subscribe(langData => {
+        this.translate.setTranslation(this.i18n.defaultLang, langData);
+        this.translate.setDefaultLang(this.i18n.defaultLang);
+
+        this.viaMock(resolve, reject);
+      });
+  }
 
   private viaMock(resolve: any, reject: any) {
+    // const tokenData = this.tokenService.get();
+    // if (!tokenData.token) {
+    //   this.injector.get(Router).navigateByUrl('/passport/login');
+    //   resolve({});
+    //   return;
+    // }
+    // mock
     const app: any = {
-      name: '木门管理系统',
-      description: '川峰木门'
+      name: `ng-alain`,
+      description: `Ng-zorro admin panel front-end framework`
     };
     const user: any = {
-      name: 'zw',
+      name: 'Admin',
       avatar: './assets/tmp/img/avatar.jpg',
-      email: '1512763623@qq.com',
-      token: 'token string'
+      email: 'cipchk@qq.com',
+      token: '123456789'
     };
     // 应用信息：包括站点名、描述、年份
     this.settingService.setApp(app);
@@ -128,45 +154,25 @@ export class StartupService {
     // 初始化菜单
     this.menuService.add([
       {
-        text: '导航组1',
-        group: false,
-        hideInBreadcrumb: true,
+        text: '主导航',
+        group: true,
         children: [
           {
             text: '仪表盘',
-            link: '/admin/dashboard',
-            hideInBreadcrumb: true,
-            icon: 'anticon anticon-appstore',
+            link: '/dashboard',
+            icon: { type: 'icon', value: 'appstore' }
           },
           {
-            text: '用户管理',
-            icon: 'anticon anticon-team',
-            children: [
-              {
-                text: '用户列表',
-                link: '/admin/user/index',
-              }
-            ]
-          },
-          {
-            text: '基础数据模块',
-            icon: 'anticon anticon-build',
-            children: [
-              {
-                text: '码表列表',
-                link: '/admin/base/code',
-              },
-              {
-                text: 'icon图标',
-                link: '/admin/base/icon',
-              }
-            ]
-          },
+            text: '快捷菜单',
+            icon: { type: 'icon', value: 'rocket' },
+            shortcutRoot: true
+          }
         ]
       }
     ]);
     // 设置页面标题的后缀
     this.titleService.suffix = app.name;
+
     resolve({});
   }
 
@@ -177,7 +183,7 @@ export class StartupService {
       // http
       this.viaHttp(resolve, reject);
       // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
-      // this.viaMock(resolve, reject);
+      // this.viaMockI18n(resolve, reject);
     });
   }
 }

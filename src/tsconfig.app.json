@@ -31,25 +31,17 @@
         "app/vo/*"
       ],
       "@shared": [
-        "app/shared"
+        "app/shared/index"
       ],
       "@shared/*": [
+        
         "app/shared/*"
       ],
       "@core": [
-        "app/core"
+        "app/core/index"
       ],
       "@core/*": [
         "app/core/*"
-      ],
-      "@testing": [
-        "testing"
-      ],
-      "@testing/*": [
-        "testing/*"
-      ],
-      "@env": [
-        "environments"
       ],
       "@env/*": [
         "environments/*"

@@ -7,15 +7,15 @@ import { AlainThemeModule } from '@delon/theme';
 import { DelonABCModule } from '@delon/abc';
 import { DelonACLModule } from '@delon/acl';
 import { DelonFormModule } from '@delon/form';
+// i18n
+import { TranslateModule } from '@ngx-translate/core';
 
 // #region third libs
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
 
-// directives
 import { ZwMouseSetDirective } from './directives/zw-mouse-set.directive';
 import { CodeNamePipe } from './pipe/code-name.pipe';
-
 // 打印模块
 import { ENgxPrintModule } from 'e-ngx-print';
 import { CropperImgComponent } from './components/cropper-img/cropper-img.component';
@@ -32,11 +32,12 @@ const THIRDMODULES = [
 
 // #region your componets & directives
 const COMPONENTS = [CropperImgComponent];
-const ENTERCOMPONENTS = [CropperImgModalComponent];
 const DIRECTIVES = [ZwMouseSetDirective];
-const PIPES = [CodeNamePipe];
 
+const ENTERCOMPONENTS = [CropperImgModalComponent];
+const PIPES = [CodeNamePipe];
 // #endregion
+
 @NgModule({
   imports: [
     CommonModule,
@@ -53,9 +54,9 @@ const PIPES = [CodeNamePipe];
   declarations: [
     // your components
     ...COMPONENTS,
-    ...ENTERCOMPONENTS,
     ...DIRECTIVES,
-    ...PIPES
+    ...ENTERCOMPONENTS,
+    ...PIPES,
   ],
   exports: [
     CommonModule,
@@ -66,12 +67,14 @@ const PIPES = [CodeNamePipe];
     DelonABCModule,
     DelonACLModule,
     DelonFormModule,
+    // i18n
+    TranslateModule,
     // third libs
     ...THIRDMODULES,
-    // your components,directives,pipes
+    // your components
     ...COMPONENTS,
     ...DIRECTIVES,
-    ...PIPES
+    ...PIPES,
   ],
   entryComponents: [
     ...ENTERCOMPONENTS
