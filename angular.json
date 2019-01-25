@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../../waibao/conference-afterend/v1-controller/src/main/resources/static/frontend",
+            "outputPath": "../../java/workflow/v1-controller/src/main/resources/static/frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
