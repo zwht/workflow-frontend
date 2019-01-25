@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, Input } from '@angular/core';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
@@ -6,6 +7,8 @@ import { SFSchema, SFUISchema, SFComponent } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { ReuseTabService } from '@delon/abc';
 import { ImageCropperComponent, CropperSettings } from 'ngx-img-cropper';
+import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
+import { SelectGxComponent } from '../selectGx/selectGx.component';
 
 @Component({
   selector: 'app-door-edit',
@@ -40,16 +43,22 @@ export class DoorEditComponent implements OnInit {
     },
   };
   gxList = [];
+  myGxList = [];
+  selectGxModal;
 
   cropperImg;
   @ViewChild('cropper', undefined)
   cropper: ImageCropperComponent;
+  // 右键菜单
+  @ViewChild(ContextMenuComponent) public contextMenu: ContextMenuComponent;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private reuseTabService: ReuseTabService,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
+    private contextMenuService: ContextMenuService,
+    private modalService: NzModalService,
   ) {
   }
 
@@ -119,11 +128,71 @@ export class DoorEditComponent implements OnInit {
             });
           });
         }
+        this.gxList = res.response.data;
+        const myGxList = Object.assign([], this.gxList);
         const hasKey = 12 - res.response.data.length % 12;
         for (let i = 0; i < hasKey; i++) {
-          res.response.data.push({});
+          myGxList.push({});
         }
-        this.gxList = res.response.data;
+        this.myGxList = myGxList;
       });
+  }
+  // 右键菜单触发
+  onContextMenu($event: MouseEvent, item: any): void {
+    // 触发弹框
+    this.contextMenuService.show.next({
+      // Optional - if unspecified, all context menu components will open
+      contextMenu: this.contextMenu,
+      event: $event,
+      item: item,
+    });
+    $event.preventDefault();
+    $event.stopPropagation();
+  }
+  // 右键菜单点击event={event:obj,item:obj}
+  contextMenuClick(event: any, key: String) {
+    switch (key) {
+      case 'add1':
+        this.createSelectGxModal();
+        break;
+      case 'add2':
+
+        break;
+      case 'del':
+
+        break;
+      case 'show':
+
+        break;
+      default:
+        break;
+    }
+  }
+  createSelectGxModal(): void {
+    const modal = this.modalService.create({
+      nzTitle: '选择工序',
+      nzWidth: 1200,
+      nzContent: SelectGxComponent,
+      nzComponentParams: {
+        gxList: this.gxList,
+      },
+      nzFooter: null,
+      // nzFooter: [{
+      //   label: '确定',
+      //   onClick: (componentInstance) => {
+      //     componentInstance.title = 'title in inner component is changed';
+      //   }
+      // }]
+    });
+    // 打开后回调
+    modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
+    // 关闭回调
+    modal.afterClose.subscribe((result) => {
+      console.log('[afterClose] The result is:', result)
+    });
+    // 推迟到模态实例创建
+    // window.setTimeout(() => {
+    //   const instance = modal.getContentComponent();
+    // }, 2000);
   }
 }

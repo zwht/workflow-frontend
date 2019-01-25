@@ -22,8 +22,10 @@
       </div>
       <div nz-col nzSpan="24">
         <div nz-row class="gxBox">
-          <div *ngFor="let item of gxList" nz-col nzSpan="2">
-            <div class="i1">{{item.name}}</div>
+          <div *ngFor="let item of myGxList" nz-col nzSpan="2">
+            <div class="i1" (contextmenu)="onContextMenu($event, item)">
+              {{item.name}}
+            </div>
             <div class="i2">
               <input *ngIf="item.name" [(ngModel)]="item.price"
               type='number' nz-input placeholder="请输入工序单价">
@@ -32,6 +34,18 @@
           </div>
         </div>
       </div>
+      <context-menu>
+          <ng-template (execute)="contextMenuClick($event,'add1')" contextMenuItem>
+            在前添加
+          </ng-template>
+          <ng-template (execute)="contextMenuClick($event,'add2')" contextMenuItem>
+            在后添加
+          </ng-template>
+          <ng-template divider="true"></ng-template>
+          <ng-template (execute)="contextMenuClick($event,'del')" contextMenuItem>
+            删除
+          </ng-template>
+        </context-menu>
     </div>
   </nz-card>
 </div>

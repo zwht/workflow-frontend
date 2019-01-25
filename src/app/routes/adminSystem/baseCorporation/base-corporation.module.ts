@@ -5,13 +5,14 @@ import { GxListComponent } from './gx/list.component';
 import { GxEditComponent } from './gx/edit/edit.component';
 import { DoorEditComponent } from './door/edit/edit.component';
 import { DoorListComponent } from './door/list.component';
+import { SelectGxComponent } from './door/selectGx/selectGx.component';
 
 const COMPONENTS = [
   GxListComponent, GxEditComponent,
   DoorEditComponent, DoorListComponent,
 
 ];
-const COMPONENTS_NOROUNT = [];
+const COMPONENTS_NOROUNT = [ SelectGxComponent];
 
 @NgModule({
   imports: [

@@ -100,7 +100,7 @@ export class DoorListComponent implements OnInit {
         },
         {
           text: '删除', type: 'del', click: (item: any) => {
-            this.updateState(item.id, 1400);
+            this.del(item.id);
           }
         },
       ]
@@ -137,6 +137,13 @@ export class DoorListComponent implements OnInit {
   }
   updateState(id, state) {
     this.http.get(`./v1/door/updateState?id=${id}&state=${state}`)
+      .subscribe((data: ResponseVo) => {
+        this.msgSrv.success('成功');
+        this.st.reload();
+      });
+  }
+  del(id) {
+    this.http.get(`./v1/gx/del?id=${id}`)
       .subscribe((data: ResponseVo) => {
         this.msgSrv.success('成功');
         this.st.reload();

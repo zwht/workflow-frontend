@@ -21,7 +21,8 @@ import { ENgxPrintModule } from 'e-ngx-print';
 import { CropperImgComponent } from './components/cropper-img/cropper-img.component';
 import { CropperImgModalComponent } from './components/cropper-img-modal/cropper-img-modal.component';
 import { ImageCropperModule } from 'ngx-img-cropper';
-
+// 右键菜单
+import { ContextMenuModule } from 'ngx-contextmenu';
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule,
@@ -48,6 +49,7 @@ const PIPES = [CodeNamePipe];
     DelonABCModule,
     DelonACLModule,
     DelonFormModule,
+    ContextMenuModule.forRoot(),
     // third libs
     ...THIRDMODULES
   ],
@@ -69,6 +71,7 @@ const PIPES = [CodeNamePipe];
     DelonFormModule,
     // i18n
     TranslateModule,
+    ContextMenuModule,
     // third libs
     ...THIRDMODULES,
     // your components
