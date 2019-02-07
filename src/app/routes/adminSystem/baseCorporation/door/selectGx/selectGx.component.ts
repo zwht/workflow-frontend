@@ -21,6 +21,9 @@ export class SelectGxComponent implements OnInit {
   ngOnInit(): void {
   }
   destroyModal(): void {
-    this.modal.destroy({ data: 'this the result data' });
+    this.modal.destroy({ data: false });
+  }
+  clickItem(item) {
+    this.modal.destroy({ data: item });
   }
 }

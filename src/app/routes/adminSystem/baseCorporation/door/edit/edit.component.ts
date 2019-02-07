@@ -45,6 +45,9 @@ export class DoorEditComponent implements OnInit {
   gxList = [];
   myGxList = [];
   selectGxModal;
+  contextMenuKey;
+  activeItem;
+  modleGxL = [];
 
   cropperImg;
   @ViewChild('cropper', undefined)
@@ -78,7 +81,7 @@ export class DoorEditComponent implements OnInit {
   }
   save(value: any) {
     let gxIds = '', gxValues = '';
-    this.gxList.forEach(item => {
+    this.myGxList.forEach(item => {
       if (item.price) {
         gxIds += item.id + ',';
         gxValues += item.price + ',';
@@ -124,13 +127,20 @@ export class DoorEditComponent implements OnInit {
             gxIds.forEach((obj, i) => {
               if (obj === item.id) {
                 item.price = gxValues[i];
+                item.act = true;
               }
             });
           });
+        } else {
+          res.response.data.forEach(item => {
+            item.act = true;
+          });
         }
         this.gxList = res.response.data;
-        const myGxList = Object.assign([], this.gxList);
-        const hasKey = 12 - res.response.data.length % 12;
+        const myGxList = Object.assign([], this.gxList.filter(item => {
+          return item.act;
+        }));
+        const hasKey = 12 - myGxList.length % 12;
         for (let i = 0; i < hasKey; i++) {
           myGxList.push({});
         }
@@ -139,27 +149,45 @@ export class DoorEditComponent implements OnInit {
   }
   // 右键菜单触发
   onContextMenu($event: MouseEvent, item: any): void {
-    // 触发弹框
-    this.contextMenuService.show.next({
-      // Optional - if unspecified, all context menu components will open
-      contextMenu: this.contextMenu,
-      event: $event,
-      item: item,
+    this.modleGxL = this.gxList.filter(gx => {
+      let key = true;
+      this.myGxList.forEach(obj => {
+        if (obj.id === gx.id) {
+          key = false;
+        }
+      });
+      return key;
     });
+    if (!item || !item.id) {
+      return;
+    }
+    setTimeout(() => {
+      // 触发弹框
+      this.contextMenuService.show.next({
+        contextMenu: this.contextMenu,
+        event: $event,
+        item: item,
+      });
+    }, 100);
     $event.preventDefault();
     $event.stopPropagation();
   }
   // 右键菜单点击event={event:obj,item:obj}
   contextMenuClick(event: any, key: String) {
+    this.contextMenuKey = key;
+    this.myGxList.forEach((item, index) => {
+      item.newIndex = index;
+    });
+    this.activeItem = event.item;
     switch (key) {
       case 'add1':
         this.createSelectGxModal();
         break;
       case 'add2':
-
+        this.createSelectGxModal();
         break;
       case 'del':
-
+        this.del(event);
         break;
       case 'show':
 
@@ -168,13 +196,24 @@ export class DoorEditComponent implements OnInit {
         break;
     }
   }
+  del(event) {
+    this.myGxList.forEach((item, index) => {
+      if (item.id === event.item.id) {
+        this.myGxList.splice(index, 1);
+      }
+    });
+  }
   createSelectGxModal(): void {
+    if (!this.modleGxL.length) {
+      this.msgSrv.warning('已经添加全部工序');
+      return;
+    }
     const modal = this.modalService.create({
       nzTitle: '选择工序',
       nzWidth: 1200,
       nzContent: SelectGxComponent,
       nzComponentParams: {
-        gxList: this.gxList,
+        gxList: this.modleGxL,
       },
       nzFooter: null,
       // nzFooter: [{
@@ -188,7 +227,14 @@ export class DoorEditComponent implements OnInit {
     modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
     // 关闭回调
     modal.afterClose.subscribe((result) => {
-      console.log('[afterClose] The result is:', result)
+      if (result) {
+        if (this.contextMenuKey === 'add1') {
+          this.myGxList.splice(this.activeItem.newIndex, 0, result.data);
+        }
+        if (this.contextMenuKey === 'add2') {
+          this.myGxList.splice(this.activeItem.newIndex + 1, 0, result.data);
+        }
+      }
     });
     // 推迟到模态实例创建
     // window.setTimeout(() => {

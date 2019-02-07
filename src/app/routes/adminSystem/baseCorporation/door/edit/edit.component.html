@@ -35,10 +35,10 @@
         </div>
       </div>
       <context-menu>
-          <ng-template (execute)="contextMenuClick($event,'add1')" contextMenuItem>
+          <ng-template *ngIf="modleGxL.length" (execute)="contextMenuClick($event,'add1')" contextMenuItem>
             在前添加
           </ng-template>
-          <ng-template (execute)="contextMenuClick($event,'add2')" contextMenuItem>
+          <ng-template *ngIf="modleGxL.length" (execute)="contextMenuClick($event,'add2')" contextMenuItem>
             在后添加
           </ng-template>
           <ng-template divider="true"></ng-template>
