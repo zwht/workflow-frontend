@@ -5,12 +5,14 @@ import { TicketRoutingModule } from './ticket-routing.module';
 import { MyTicketEditComponent } from './myTicket/edit/edit.component';
 import { MyTicketListComponent } from './myTicket/list.component';
 import { SelectDoorComponent } from './myTicket/selectDoor/selectDoor.component';
+import { SelectColorComponent } from './myTicket/selectColor/selectColor.component';
+import { SelectMaterialComponent } from './myTicket/selectMaterial/selectMaterial.component';
 
 
 const COMPONENTS = [
   MyTicketListComponent, MyTicketEditComponent,
 ];
-const COMPONENTS_NOROUNT = [SelectDoorComponent];
+const COMPONENTS_NOROUNT = [SelectDoorComponent, SelectColorComponent, SelectMaterialComponent];
 
 @NgModule({
   imports: [

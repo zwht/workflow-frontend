@@ -68,6 +68,16 @@
               }
             },
             {
+              "text": "材质列表",
+              "link": "/admin/baseCorporation/material",
+              "permission": {
+                "roles": [
+                  "100"
+                ],
+                "ability": []
+              }
+            },
+            {
               "text": "工序列表",
               "link": "/admin/baseCorporation/gx",
               "permission": {

@@ -10,24 +10,24 @@ import { ImageCropperComponent, CropperSettings } from 'ngx-img-cropper';
 import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
 
 @Component({
-  selector: 'app-color-edit',
+  selector: 'app-material-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.less'],
 })
-export class ColorEditComponent implements OnInit {
+export class MaterialEditComponent implements OnInit {
   @ViewChild('sf') sf: SFComponent;
   title = '添加';
-  cpName = '颜色';
+  cpName = '材质';
   id = this.route.snapshot.queryParams.id;
   i: any;
   schema: SFSchema = {
     properties: {
-      name: { type: 'string', title: '颜色名', maxLength: 30 },
-      value: { type: 'string', title: '颜色值', maxLength: 20, minimum: 2 },
+      name: { type: 'string', title: '材质名', maxLength: 30 },
+      // value: { type: 'string', title: '材质值', maxLength: 20, minimum: 2 },
     },
     required: ['name', 'value'],
   };
-  colorGroupList = [];
+  materialGroupList = [];
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
@@ -67,7 +67,7 @@ export class ColorEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`./v1/color/getById?id=${this.id}`)
+      this.http.get(`./v1/material/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
           this.cropperImg = this.i.img;
@@ -80,14 +80,14 @@ export class ColorEditComponent implements OnInit {
     const data = Object.assign({}, value,
       { img: this.cropperImg});
     if (this.id) {
-      this.http.post(`./v1/color/update`,
+      this.http.post(`./v1/material/update`,
         data)
         .subscribe(res => {
           this.msgSrv.success('修改成功');
           this.back();
         });
     } else {
-      this.http.post(`./v1/color/add`,
+      this.http.post(`./v1/material/add`,
         data)
         .subscribe(res => {
           this.msgSrv.success('添加成功');
@@ -96,13 +96,13 @@ export class ColorEditComponent implements OnInit {
     }
   }
   back() {
-    const parentUrl = '/admin/baseCorporation/color';
+    const parentUrl = '/admin/baseCorporation/material';
     if (this.reuseTabService.exists(parentUrl)) {
       this.reuseTabService.replace(parentUrl);
     } else {
       this.router.navigateByUrl(parentUrl);
       setTimeout(() => {
-        this.reuseTabService.close('/admin/baseCorporation/color/edit');
+        this.reuseTabService.close('/admin/baseCorporation/material/edit');
       }, 100);
     }
   }

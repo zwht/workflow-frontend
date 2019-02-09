@@ -23,11 +23,15 @@ import { CropperImgModalComponent } from './components/cropper-img-modal/cropper
 import { ImageCropperModule } from 'ngx-img-cropper';
 // 右键菜单
 import { ContextMenuModule } from 'ngx-contextmenu';
+// 二维码模块
+import { NgxQRCodeModule } from 'ngx-qrcode2';
+
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule,
   ENgxPrintModule,
   ImageCropperModule,
+  NgxQRCodeModule,
 ];
 // #endregion
 

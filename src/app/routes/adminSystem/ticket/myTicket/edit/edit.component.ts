@@ -11,6 +11,9 @@ import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
 import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
 import { ProductObj } from './editClass';
 import { SelectDoorComponent } from '../selectDoor/selectDoor.component';
+import { SelectColorComponent } from '../selectColor/selectColor.component';
+import { SelectMaterialComponent } from '../selectMaterial/selectMaterial.component';
+import { container } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-my-ticket-edit',
@@ -25,7 +28,8 @@ export class MyTicketEditComponent implements OnInit {
   valid = false;
   loading = false;
   ticketId = '999';
-
+  contextMenuActive = {};
+  
   ticket = {};
   gxList = [];
   productList = [
@@ -40,8 +44,8 @@ export class MyTicketEditComponent implements OnInit {
   @ViewChild('printComponent') printComponent: ENgxPrintComponent;
   // 右键菜单
   @ViewChild(ContextMenuComponent) public contextMenu: ContextMenuComponent;
-  showDetilKey = '展开详情';
-
+  showDetilName = '展开详情';
+  mergeKey = true;
   item = {
     mark: '分开就分开就分开，速度加快艰苦奋斗是，史蒂夫健康科技时代'
   };
@@ -79,7 +83,8 @@ export class MyTicketEditComponent implements OnInit {
   // 右键菜单触发
   onContextMenu($event: MouseEvent, item: any): void {
     // 实在显示／隐藏详情菜单
-    this.showDetilKey = item.show ? '隐藏详情' : '展开详情';
+    this.showDetilName = item.show ? '隐藏详情' : '展开详情';
+    this.contextMenuActive = item;
     this.contextMenuService.show.next({
       // Optional - if unspecified, all context menu components will open
       contextMenu: this.contextMenu,
@@ -98,6 +103,7 @@ export class MyTicketEditComponent implements OnInit {
             this.productList.splice(i + 1, 0, new ProductObj(this.ticketId));
           }
         });
+        this.setProductList();
         break;
       case 'copy':
         this.productList.forEach((item, i) => {
@@ -105,6 +111,7 @@ export class MyTicketEditComponent implements OnInit {
             this.productList.splice(i + 1, 0, event.item.copy());
           }
         });
+        this.setProductList();
         break;
       case 'del':
         this.productList = this.productList.filter(item => {
@@ -114,9 +121,15 @@ export class MyTicketEditComponent implements OnInit {
             return true;
           }
         });
+        this.setProductList();
         break;
       case 'show':
         event.item.show = !event.item.show;
+        this.setProductList();
+        break;
+      case 'merge':
+        this.mergeKey = !this.mergeKey;
+        this.setProductList();
         break;
       default:
         break;
@@ -185,7 +198,20 @@ export class MyTicketEditComponent implements OnInit {
     // 关闭回调
     modal.afterClose.subscribe((result) => {
       if (result) {
+        let active = -1;
+        if (item.rowspanDoor !== 1) {
+          this.productList.forEach((it, i) => {
+            if (it === item) {
+              active = i;
+            } else if (it.rowspanDoorParent === active) {
+              it.doorObj = result.data;
+            } else {
+              active = -1;
+            }
+          });
+        }
         item.doorObj = result.data;
+        this.setProductList();
       }
     });
     // 推迟到模态实例创建
@@ -194,12 +220,178 @@ export class MyTicketEditComponent implements OnInit {
     // }, 2000);
   }
 
+  showColor(item) {
+    const modal = this.modalService.create({
+      nzTitle: '选择颜色',
+      nzWidth: 1200,
+      nzContent: SelectColorComponent,
+      nzComponentParams: {
+        gxList: this.gxList,
+      },
+      nzFooter: null,
+      // nzFooter: [{
+      //   label: '确定',
+      //   onClick: (componentInstance) => {
+      //     componentInstance.title = 'title in inner component is changed';
+      //   }
+      // }]
+    });
+    // 打开后回调
+    modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
+    // 关闭回调
+    modal.afterClose.subscribe((result) => {
+      if (result) {
+        let active = -1;
+        if (item.rowspanColor !== 1) {
+          this.productList.forEach((it, i) => {
+            if (it === item) {
+              active = i;
+            } else if (it.rowspanColorParent === active) {
+              it.color = result.data.name;
+            } else {
+              active = -1;
+            }
+          });
+        }
+        item.color = result.data.name;
+        this.setProductList();
+      }
+    });
+    // 推迟到模态实例创建
+    // window.setTimeout(() => {
+    //   const instance = modal.getContentComponent();
+    // }, 2000);
+  }
+
+  showMaterial(item) {
+    const modal = this.modalService.create({
+      nzTitle: '选择材质',
+      nzWidth: 1200,
+      nzContent: SelectMaterialComponent,
+      nzComponentParams: {
+        gxList: this.gxList,
+      },
+      nzFooter: null,
+      // nzFooter: [{
+      //   label: '确定',
+      //   onClick: (componentInstance) => {
+      //     componentInstance.title = 'title in inner component is changed';
+      //   }
+      // }]
+    });
+    // 打开后回调
+    modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
+    // 关闭回调
+    modal.afterClose.subscribe((result) => {
+      if (result) {
+        let active = -1;
+        if (item.rowspanMaterial !== 1) {
+          this.productList.forEach((it, i) => {
+            if (it === item) {
+              active = i;
+            } else if (it.rowspanMaterialParent === active) {
+              it.material = result.data.name;
+            } else {
+              active = -1;
+            }
+          });
+        }
+        item.material = result.data.name;
+        this.setProductList();
+      }
+    });
+    // 推迟到模态实例创建
+    // window.setTimeout(() => {
+    //   const instance = modal.getContentComponent();
+    // }, 2000);
+  }
+
+  setProductList() {
+
+    for (let i = 0; i < this.productList.length; i++) {
+      this.productList[i].rowspanDoor = 1;
+      if (this.productList[i].show) {
+        this.productList[i].rowspanDoor++;
+      }
+      this.productList[i].rowspanDoorParent = null;
+      if (this.productList[i].doorObj.id && this.mergeKey) {
+        for (let j = i + 1; j < this.productList.length; j++) {
+          if (this.productList[i].doorObj.id === this.productList[j].doorObj.id) {
+            this.productList[i].rowspanDoor++;
+            if (this.productList[j].show) {
+              this.productList[i].rowspanDoor++;
+            }
+            this.productList[j].rowspanDoor = 0;
+            this.productList[j].rowspanDoorParent = i;
+          } else {
+            i = j - 1;
+            break;
+          }
+          if (j === this.productList.length - 1) {
+            i = j;
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < this.productList.length; i++) {
+      this.productList[i].rowspanMaterial = 1;
+      if (this.productList[i].show) {
+        this.productList[i].rowspanMaterial++;
+      }
+      this.productList[i].rowspanMaterialParent = null;
+      if (this.productList[i].material && this.mergeKey) {
+        for (let j = i + 1; j < this.productList.length; j++) {
+          if (this.productList[i].material === this.productList[j].material) {
+            this.productList[i].rowspanMaterial++;
+            if (this.productList[j].show) {
+              this.productList[i].rowspanMaterial++;
+            }
+            this.productList[j].rowspanMaterial = 0;
+            this.productList[j].rowspanMaterialParent = i;
+          } else {
+            i = j - 1;
+            break;
+          }
+          if (j === this.productList.length - 1) {
+            i = j;
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < this.productList.length; i++) {
+      this.productList[i].rowspanColor = 1;
+      if (this.productList[i].show) {
+        this.productList[i].rowspanColor++;
+      }
+      this.productList[i].rowspanColorParent = null;
+      if (this.productList[i].color && this.mergeKey) {
+        for (let j = i + 1; j < this.productList.length; j++) {
+          if (this.productList[i].color === this.productList[j].color) {
+            this.productList[i].rowspanColor++;
+            if (this.productList[j].show) {
+              this.productList[i].rowspanColor++;
+            }
+            this.productList[j].rowspanColor = 0;
+            this.productList[j].rowspanColorParent = i;
+          } else {
+            i = j - 1;
+            break;
+          }
+          if (j === this.productList.length - 1) {
+            i = j;
+          }
+        }
+      }
+    }
+  }
+
   printComplete() {
     console.log('打印完成！');
     this.showHead = true;
     this.hideTable1 = false;
   }
-
   print() {
     this.showHead = false;
     this.hideTable1 = true;

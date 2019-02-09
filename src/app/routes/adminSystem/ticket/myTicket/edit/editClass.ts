@@ -4,9 +4,14 @@ export class ProductObj {
   ticketId = null;
   doorId = null;
   doorObj = {
+    id: null,
     gxList: [],
-    name: ''
+    name: null,
   };
+  /** 颜色 */
+  color = null;
+  /** 材质 */
+  material = '';
   /** 门洞 */
   coverSize = '2345*123*4';
   /** 门扇 */
@@ -21,8 +26,16 @@ export class ProductObj {
   remark = null;
   /** 是否显示详情 */
   show = false;
-  /** 颜色 */
-  color = null;
+
+  rowspanColor = 1;
+  rowspanColorParent = null;
+
+  rowspanMaterial = 1;
+  rowspanMaterialParent = null;
+
+  rowspanDoor = 1;
+  rowspanDoorParent = null;
+
   constructor(private tkId: string) {
     this.id = this.getId();
     this.ticketId = tkId;

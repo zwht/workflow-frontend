@@ -22,8 +22,9 @@
             <b>5</b>
             <span>套</span>
           </td>
-          <td rowspan="4" colspan="">
-            二维码
+          <td rowspan="4" colspan="" style="width: 120px;">
+            <ngx-qrcode [qrc-element-type]="'url'" [qrc-value]="'id'" qrc-class="aclass" qrc-errorCorrectionLevel="L">
+            </ngx-qrcode>
           </td>
         </tr>
         <tr class="tbb">
@@ -128,13 +129,16 @@
         </tr>
         <ng-template ngFor let-i="index" let-data [ngForOf]="productList">
           <tr class="productItem" [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
-            <td class="cursor" [attr.rowspan]="data.show?2:1">
+            <td (contextmenu)="onContextMenu($event, data, 'rowspanColor')" *ngIf="data.rowspanColor"
+              [attr.rowspan]="data.rowspanColor" (click)="showColor(data)" class="cursor">
               <div>{{data.color}}</div>
             </td>
-            <td class="cursor" [attr.rowspan]="data.show?2:1">
-              <div>{{data.color}}</div>
+            <td (contextmenu)="onContextMenu($event, data, 'rowspanMaterial')" *ngIf="data.rowspanMaterial"
+              [attr.rowspan]="data.rowspanMaterial" (click)="showMaterial(data)" class="cursor">
+              <div>{{data.material}}</div>
             </td>
-            <td (click)="showDoor(data)" class="cursor" [attr.rowspan]="data.show?2:1">
+            <td (contextmenu)="onContextMenu($event, data, 'rowspanDoor')" *ngIf="data.rowspanDoor"
+              [attr.rowspan]="data.rowspanDoor" (click)="showDoor(data)" class="cursor">
               <div>{{data.doorObj.name}}</div>
             </td>
             <td class="cursor" (click)="contextMenuClick({item:data},'show')">
@@ -176,7 +180,8 @@
           <tr class="printHide" [ngClass]="{'productShow2': data.show}" (contextmenu)="onContextMenu($event, data)"
             *ngIf="data.show">
             <td>
-              <i class="iconBtn" (click)="contextMenuClick({item:data},'show')" nz-icon type="up-circle" theme="outline"></i>
+              <i class="iconBtn" (click)="contextMenuClick({item:data},'show')" nz-icon type="up-circle"
+                theme="outline"></i>
             </td>
             <td colspan="10">
               <div nz-row class="gxBox trGxBox">
@@ -257,16 +262,19 @@
       </div>
     </div>
     <context-menu>
-      <ng-template (execute)="contextMenuClick($event,'show')" contextMenuItem>
-        {{showDetilKey}}
-      </ng-template>
       <ng-template (execute)="contextMenuClick($event,'copy')" contextMenuItem>
         复制添加
       </ng-template>
       <ng-template (execute)="contextMenuClick($event,'add')" contextMenuItem>
         添加..
       </ng-template>
-      <ng-template divider="true"></ng-template>
+      <ng-template (execute)="contextMenuClick($event,'show')" contextMenuItem>
+        {{showDetilName}}
+      </ng-template>
+      <ng-template (execute)="contextMenuClick($event,'merge')" contextMenuItem>
+        {{mergeKey?'取消合并单元格':'合并单元格'}}
+      </ng-template>
+      <ng-template contextMenuItem divider="true"></ng-template>
       <ng-template (execute)="contextMenuClick($event,'del')" contextMenuItem [enabled]="productList.length>1">
         删除
       </ng-template>
@@ -277,7 +285,8 @@
       </e-ngx-print>
       <button nz-button type="button" (click)="print()" [nzLoading]="loading">打印</button>
       <button nz-button type="button" (click)="back()" [nzLoading]="loading">返回</button>
-      <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="valid" [nzLoading]="loading">保存</button>
+      <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="valid"
+        [nzLoading]="loading">保存</button>
     </footer-toolbar>
   </nz-card>
 </div>
