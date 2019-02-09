@@ -6,11 +6,13 @@ import { GxEditComponent } from './gx/edit/edit.component';
 import { DoorEditComponent } from './door/edit/edit.component';
 import { DoorListComponent } from './door/list.component';
 import { SelectGxComponent } from './door/selectGx/selectGx.component';
+import { ColorEditComponent } from './color/edit/edit.component';
+import { ColorListComponent } from './color/list.component';
 
 const COMPONENTS = [
   GxListComponent, GxEditComponent,
   DoorEditComponent, DoorListComponent,
-
+  ColorEditComponent, ColorListComponent,
 ];
 const COMPONENTS_NOROUNT = [ SelectGxComponent];
 

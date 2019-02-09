@@ -58,6 +58,16 @@
               }
             },
             {
+              "text": "颜色列表",
+              "link": "/admin/baseCorporation/color",
+              "permission": {
+                "roles": [
+                  "100"
+                ],
+                "ability": []
+              }
+            },
+            {
               "text": "工序列表",
               "link": "/admin/baseCorporation/gx",
               "permission": {
