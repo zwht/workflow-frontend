@@ -3,6 +3,10 @@ export class ProductObj {
   id = null;
   ticketId = null;
   doorId = null;
+  doorObj = {
+    gxList: [],
+    name: ''
+  };
   /** 门洞 */
   coverSize = '2345*123*4';
   /** 门扇 */
@@ -19,7 +23,6 @@ export class ProductObj {
   show = false;
   /** 颜色 */
   color = null;
-  
   constructor(private tkId: string) {
     this.id = this.getId();
     this.ticketId = tkId;

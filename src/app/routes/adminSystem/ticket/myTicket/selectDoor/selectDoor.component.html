@@ -1,0 +1,17 @@
+<div nz-row class="select_door_cpt">
+  <sf mode="search" [schema]="searchSchema" (formSubmit)="search($event)" (formReset)="search($event)"></sf>
+  <ul>
+    <li *ngFor="let item of list">
+      <div (click)="selectItem(item)">
+        <img [src]="'./v1/public/file/getById?id=' + item.img" alt="">
+        <div class="item">
+          <p>{{item.name}}</p>
+          <p>{{item.number}}</p>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <nz-pagination (nzPageIndexChange)="pageChange($event)" (nzPageSizeChange)="pageSizeChange($event)" 
+   [nzPageIndex]="page" [nzTotal]="total" nzShowSizeChanger
+   [nzPageSize]="pageSize"></nz-pagination>
+</div>

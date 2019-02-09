@@ -126,32 +126,20 @@
             <span>3000</span>
           </td>
         </tr>
-        <ng-template ngFor let-data [ngForOf]="productList">
+        <ng-template ngFor let-i="index" let-data [ngForOf]="productList">
           <tr class="productItem" [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
-            <td [attr.rowspan]="data.show?2:1">
+            <td class="cursor" [attr.rowspan]="data.show?2:1">
               <div>{{data.color}}</div>
-              <div class="printHide addEdit">
-                <i *ngIf="!data.color" class='iconBtn' nz-icon type="plus" theme="outline"></i>
-                <i *ngIf="data.color" class='iconBtn' nz-icon type="edit" theme="outline"></i>
-              </div>
             </td>
-            <td [attr.rowspan]="data.show?2:1">
+            <td class="cursor" [attr.rowspan]="data.show?2:1">
               <div>{{data.color}}</div>
-              <div class="printHide addEdit">
-                <i *ngIf="!data.color" class='iconBtn' nz-icon type="plus" theme="outline"></i>
-                <i *ngIf="data.color" class='iconBtn' nz-icon type="edit" theme="outline"></i>
-              </div>
             </td>
-            <td [attr.rowspan]="data.show?2:1">
-              <div>{{data.color}}</div>
-              <div class="printHide addEdit">
-                <i *ngIf="!data.color" class='iconBtn' nz-icon type="plus" theme="outline"></i>
-                <i *ngIf="data.color" class='iconBtn' nz-icon type="edit" theme="outline"></i>
-              </div>
+            <td (click)="showDoor(data)" class="cursor" [attr.rowspan]="data.show?2:1">
+              <div>{{data.doorObj.name}}</div>
             </td>
-            <td>
-              <span (click)="contextMenuClick({item:data},'show')">
-                1
+            <td class="cursor" (click)="contextMenuClick({item:data},'show')">
+              <span>
+                {{i+1}}
               </span>
             </td>
             <td>
@@ -192,10 +180,10 @@
             </td>
             <td colspan="10">
               <div nz-row class="gxBox trGxBox">
-                <div *ngFor="let item of gxList" nz-col nzSpan="2">
+                <div *ngFor="let item of data.doorObj.gxList" nz-col nzSpan="2">
                   <div class="i1">{{item.name}}</div>
                   <div class="i2">
-                    <input *ngIf="item.name" [(ngModel)]="bingName" type='number' nz-input>
+                    <input *ngIf="item.name" [(ngModel)]="item.price" type='number' nz-input>
                   </div>
                 </div>
               </div>

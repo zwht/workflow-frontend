@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema, SFComponent } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
@@ -10,6 +10,7 @@ import { ENgxPrintComponent } from 'e-ngx-print';
 import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
 import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
 import { ProductObj } from './editClass';
+import { SelectDoorComponent } from '../selectDoor/selectDoor.component';
 
 @Component({
   selector: 'app-my-ticket-edit',
@@ -65,6 +66,7 @@ export class MyTicketEditComponent implements OnInit {
     private msgSrv: NzMessageService,
     public http: _HttpClient,
     private contextMenuService: ContextMenuService,
+    private modalService: NzModalService,
   ) {
   }
   ngOnInit(): void {
@@ -160,6 +162,36 @@ export class MyTicketEditComponent implements OnInit {
           this.gxList = res.response.data;
         }
       });
+  }
+
+  showDoor(item) {
+    const modal = this.modalService.create({
+      nzTitle: '选择型号',
+      nzWidth: 1200,
+      nzContent: SelectDoorComponent,
+      nzComponentParams: {
+        gxList: this.gxList,
+      },
+      nzFooter: null,
+      // nzFooter: [{
+      //   label: '确定',
+      //   onClick: (componentInstance) => {
+      //     componentInstance.title = 'title in inner component is changed';
+      //   }
+      // }]
+    });
+    // 打开后回调
+    modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
+    // 关闭回调
+    modal.afterClose.subscribe((result) => {
+      if (result) {
+        item.doorObj = result.data;
+      }
+    });
+    // 推迟到模态实例创建
+    // window.setTimeout(() => {
+    //   const instance = modal.getContentComponent();
+    // }, 2000);
   }
 
   printComplete() {

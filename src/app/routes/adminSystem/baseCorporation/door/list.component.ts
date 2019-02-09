@@ -40,6 +40,10 @@ export class DoorListComponent implements OnInit {
       name: {
         type: 'string',
         title: '名称'
+      },
+      number: {
+        type: 'string',
+        title: '编号'
       }
     }
   };
