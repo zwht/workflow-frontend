@@ -22,10 +22,10 @@ export class MaterialEditComponent implements OnInit {
   title = '添加';
   cpName = '材质';
   id = this.route.snapshot.queryParams.id;
-  i: any = {};
+  i: any;
   schema: SFSchema = {
     properties: {
-      name: { type: 'string', title: '材质名', maxLength: 30 },
+      name: { type: 'string', title: '名称', maxLength: 30 },
       number: { type: 'string', title: '编号', maxLength: 20, minimum: 2 },
     },
     required: ['name', 'number'],
@@ -135,6 +135,7 @@ export class MaterialEditComponent implements OnInit {
           });
         } else {
           res.response.data.forEach(item => {
+            item.price = 0;
             item.act = true;
           });
         }

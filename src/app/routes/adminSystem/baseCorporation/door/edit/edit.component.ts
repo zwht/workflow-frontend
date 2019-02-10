@@ -20,7 +20,7 @@ import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
 export class DoorEditComponent implements OnInit {
   @ViewChild('sf') sf: SFComponent;
   title = '添加';
-  cpName = '门';
+  cpName = '型号';
   id = this.route.snapshot.queryParams.id;
   i: any = {
     type: 1301,

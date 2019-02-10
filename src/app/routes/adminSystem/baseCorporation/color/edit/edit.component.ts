@@ -22,10 +22,10 @@ export class ColorEditComponent implements OnInit {
   title = '添加';
   cpName = '颜色';
   id = this.route.snapshot.queryParams.id;
-  i: any = {};
+  i: any;
   schema: SFSchema = {
     properties: {
-      name: { type: 'string', title: '颜色名', maxLength: 30 },
+      name: { type: 'string', title: '名称', maxLength: 30 },
       number: { type: 'string', title: '编号', maxLength: 20, minimum: 2 },
     },
     required: ['name', 'number'],
@@ -92,7 +92,7 @@ export class ColorEditComponent implements OnInit {
     gxIds = gxIds.substr(0, gxIds.length - 1);
     gxValues = gxValues.substr(0, gxValues.length - 1);
     const data = Object.assign({}, value,
-      { img: this.cropperImg, gxIds, gxValues, type: 1350});
+      { img: this.cropperImg, gxIds, gxValues, type: 1350 });
     if (this.id) {
       this.http.post(`./v1/door/update`,
         data)
@@ -135,7 +135,9 @@ export class ColorEditComponent implements OnInit {
           });
         } else {
           res.response.data.forEach(item => {
-            item.act = true;
+            if (item.name === '面漆') {
+              item.act = true;
+            }
           });
         }
         this.gxList = res.response.data;
