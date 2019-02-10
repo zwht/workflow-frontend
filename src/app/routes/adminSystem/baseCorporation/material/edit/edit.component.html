@@ -2,7 +2,7 @@
   <page-header [breadcrumb]="breadcrumb">
     <ng-template #breadcrumb>
       <nz-breadcrumb>
-        <nz-breadcrumb-item><a href="/#/admin/baseCorporation/material">{{cpName}}列表</a></nz-breadcrumb-item>
+        <nz-breadcrumb-item><a href="/#/admin/baseCorporation/door">{{cpName}}列表</a></nz-breadcrumb-item>
         <nz-breadcrumb-item>{{title+cpName}}</nz-breadcrumb-item>
       </nz-breadcrumb>
     </ng-template>
@@ -20,6 +20,32 @@
           </footer-toolbar>
         </sf>
       </div>
+      <div nz-col nzSpan="24">
+        <div nz-row class="gxBox">
+          <div *ngFor="let item of myGxList" nz-col nzSpan="2">
+            <div class="i1" (contextmenu)="onContextMenu($event, item)">
+              {{item.name}}
+            </div>
+            <div class="i2">
+              <input *ngIf="item.name" [(ngModel)]="item.price"
+              type='number' nz-input placeholder="请输入工序单价">
+            </div>
+            <div class="i3"></div>
+          </div>
+        </div>
+      </div>
+      <context-menu>
+          <ng-template *ngIf="modleGxL.length" (execute)="contextMenuClick($event,'add1')" contextMenuItem>
+            在前添加
+          </ng-template>
+          <ng-template *ngIf="modleGxL.length" (execute)="contextMenuClick($event,'add2')" contextMenuItem>
+            在后添加
+          </ng-template>
+          <ng-template divider="true"></ng-template>
+          <ng-template (execute)="contextMenuClick($event,'del')" contextMenuItem>
+            删除
+          </ng-template>
+        </context-menu>
     </div>
   </nz-card>
 </div>

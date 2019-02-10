@@ -48,7 +48,7 @@
           },
           "children": [
             {
-              "text": "门列表",
+              "text": "型号列表",
               "link": "/admin/baseCorporation/door",
               "permission": {
                 "roles": [

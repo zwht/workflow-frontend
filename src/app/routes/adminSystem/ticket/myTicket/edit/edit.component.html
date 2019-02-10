@@ -164,16 +164,16 @@
               <input (blur)="onBlur($event,data,'dbSize')" [(ngModel)]="data.dbSize" class="inputHeight">
             </td>
             <td>
-              <input [(ngModel)]="data.dbHeight" class="inputHeight">
+              <input (blur)="onBlur($event,data,'line22')" [(ngModel)]="data.line22" class="inputHeight">
             </td>
             <td>
-              <input [(ngModel)]="data.dbHeight" class="inputHeight">
+              <input (blur)="onBlur($event,data,'line24')" [(ngModel)]="data.line24" class="inputHeight">
             </td>
             <td>
-              <input [(ngModel)]="data.dbHeight" class="inputHeight">
+              <input (blur)="onBlur($event,data,'line27')" [(ngModel)]="data.line27" class="inputHeight">
             </td>
             <td>
-              <input [(ngModel)]="data.dbHeight" class="inputHeight">
+              <input (blur)="onBlur($event,data,'line30')" [(ngModel)]="data.line30" class="inputHeight">
             </td>
             <td>
               <input (blur)="onBlur($event,data,'sum')" [(ngModel)]="data.sum" class="inputHeight">
@@ -215,23 +215,23 @@
           </td>
           <td>线条长度小计</td>
           <td>
-            <b>2</b>
+            <b>{{ticketObj.sumLine22}}</b>
           </td>
           <td>
-            <b>2</b>
+            <b>{{ticketObj.sumLine24}}</b>
           </td>
           <td>
-            <b>2</b>
+            <b>{{ticketObj.sumLine27}}</b>
           </td>
           <td>
-            <b>2</b>
+            <b>{{ticketObj.sumLine30}}</b>
           </td>
           <td rowspan="2" colspan="2"></td>
         </tr>
         <tr>
           <td>线条合计</td>
           <td colspan="4">
-            <b>7</b>
+            <b>{{ticketObj.sumLine}}</b>
           </td>
         </tr>
         <tr>
@@ -239,7 +239,7 @@
             <span>总结：</span>
           </td>
           <td colspan="13">
-            <textarea [(ngModel)]="item.mark" style="width: 100%; border: none; font-size: 16px;
+            <textarea [(ngModel)]="ticketObj.summary" style="width: 100%; border: none; font-size: 16px;
             text-align: center; font-weight: bold; height:40px; padding: 8px 0;"></textarea>
           </td>
         </tr>
@@ -248,7 +248,7 @@
             <span>备注：</span>
           </td>
           <td colspan="13">
-            <textarea [(ngModel)]="item.mark" style="width: 100%; border: none; text-align: left;
+            <textarea [(ngModel)]="ticketObj.mark" style="width: 100%; border: none; text-align: left;
              height:36px; padding: 6px 0; padding-left: 10px;"></textarea>
           </td>
         </tr>
@@ -259,7 +259,7 @@
           <div *ngFor="let item of gxList" nz-col nzSpan="2">
             <div class="i1">{{item.name}}</div>
             <div class="i2">
-              <input *ngIf="item.name" [(ngModel)]="bingName" type='number' nz-input>
+              <input *ngIf="item.name" [(ngModel)]="item.countPrice" type='number' nz-input>
             </div>
             <div class="i3"></div>
           </div>

@@ -8,7 +8,7 @@ import { ResponseVo } from '@interface/utils/ResponseVo';
 import { ReuseTabService } from '@delon/abc';
 import { ImageCropperComponent, CropperSettings } from 'ngx-img-cropper';
 import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
-import { SelectGxComponent } from '../selectGx/selectGx.component';
+import { SelectGxComponent } from '../../selectGx/selectGx.component';
 import { map } from 'rxjs/operators';
 import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
 

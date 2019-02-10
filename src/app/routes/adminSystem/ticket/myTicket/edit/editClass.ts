@@ -28,6 +28,11 @@ export class ProductObj {
   /** 是否显示详情 */
   show = false;
 
+  line22 = null;
+  line24 = null;
+  line27 = null;
+  line30 = null;
+
   rowspanColor = 1;
   rowspanColorParent = null;
 

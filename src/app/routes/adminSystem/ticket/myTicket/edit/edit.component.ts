@@ -47,6 +47,12 @@ export class MyTicketEditComponent implements OnInit {
     sumTaoban: 0,
     sumWindow: 0,
     sumLine: 0,
+    sumLine22: 0,
+    sumLine24: 0,
+    sumLine27: 0,
+    sumLine30: 0,
+    mark: '',
+    summary: '',
   };
   dealersList = [];
   marketList = [];
@@ -71,9 +77,6 @@ export class MyTicketEditComponent implements OnInit {
   @ViewChild(ContextMenuComponent) public contextMenu: ContextMenuComponent;
   showDetilName = '展开详情';
   mergeKey = true;
-  item = {
-    mark: '分开就分开就分开，速度加快艰苦奋斗是，史蒂夫健康科技时代'
-  };
 
   inputValue: string;
   options = [];
@@ -132,6 +135,8 @@ export class MyTicketEditComponent implements OnInit {
           }
         });
         this.totalFn();
+        this.countLine();
+        this.setTotalPrice();
         this.setProductList();
         break;
       case 'copy':
@@ -141,6 +146,8 @@ export class MyTicketEditComponent implements OnInit {
           }
         });
         this.totalFn();
+        this.countLine();
+        this.setTotalPrice();
         this.setProductList();
         break;
       case 'del':
@@ -152,6 +159,8 @@ export class MyTicketEditComponent implements OnInit {
           }
         });
         this.totalFn();
+        this.countLine();
+        this.setTotalPrice();
         this.setProductList();
         break;
       case 'show':
@@ -256,6 +265,7 @@ export class MyTicketEditComponent implements OnInit {
           item.doorSize = '';
         }
         this.setProductList();
+        this.setItemGxPrice(item);
       }
     });
     // 推迟到模态实例创建
@@ -342,6 +352,7 @@ export class MyTicketEditComponent implements OnInit {
         }
         item.material = result.data.name;
         this.setProductList();
+        this.setItemGxPrice(item);
       }
     });
     // 推迟到模态实例创建
@@ -350,10 +361,10 @@ export class MyTicketEditComponent implements OnInit {
     // }, 2000);
   }
 
+  // 设置产品列表合并单元格情况
   setProductList() {
     for (let i = 0; i < this.productList.length; i++) {
       this.productList[i].index = i;
-      this.setItemGxPrice(this.productList[i]);
     }
 
     for (let i = 0; i < this.productList.length; i++) {
@@ -439,7 +450,10 @@ export class MyTicketEditComponent implements OnInit {
   setItemGxPrice(item) {
     let sum = 0;
     if (item.doorSize !== '') {
-      sum += parseInt(item.doorSize.split('=')[1], 10) || 0;
+      const doorSum = parseInt(item.doorSize.split('=')[1], 10);
+      if (doorSum) {
+        sum += doorSum / 2;
+      }
     }
     let dblbSum = 0;
     if (item.lbSize) {
@@ -449,11 +463,34 @@ export class MyTicketEditComponent implements OnInit {
       dblbSum += parseInt(item.dbSize.split('=')[1], 10) || 0;
     }
     if (dblbSum) {
-      sum += dblbSum / 6;
+      sum += 0.5 * (parseInt(dblbSum / 3 + '', 10) + (dblbSum % 3 === 2 ? 1 : 0));
     }
-    item.doorObj.gxList.forEach(obj => {
+    const gxList = JSON.parse(JSON.stringify(item.doorObj.gxList));
+    gxList.forEach(obj => {
       obj.countPrice = Math.floor(parseFloat(obj.price) * sum * item.sum * 100) / 100;
     });
+    item.doorObj.gxList = gxList;
+    this.setTotalPrice();
+  }
+
+  // 计算总价格
+  setTotalPrice() {
+    const gxList = JSON.parse(JSON.stringify(this.gxList));
+    gxList.forEach(tGx => {
+      tGx.countPrice = 0;
+    });
+    this.productList.forEach(item => {
+      if (item.doorObj && item.doorObj.gxList.length) {
+        item.doorObj.gxList.forEach(itemGx => {
+          gxList.forEach(tGx => {
+            if (tGx.name === itemGx.name) {
+              tGx.countPrice += itemGx.countPrice;
+            }
+          });
+        });
+      }
+    });
+    this.gxList = gxList;
   }
 
   // 失去焦点处理
@@ -477,6 +514,12 @@ export class MyTicketEditComponent implements OnInit {
       case 'sum':
         a = /^[1-9][0-9]{0,1}$/.test(item[key]);
         break;
+      case 'line22':
+      case 'line24':
+      case 'line27':
+      case 'line30':
+        a = /^[1-9][0-9]{0,1}$/.test(item[key]);
+        break;
       default:
         break;
     }
@@ -487,6 +530,7 @@ export class MyTicketEditComponent implements OnInit {
       event.target.style.background = 'none';
     }
     this.totalFn();
+    this.countLine();
   }
 
   // 总计方法
@@ -505,6 +549,21 @@ export class MyTicketEditComponent implements OnInit {
         }
       });
     }, 100);
+  }
+
+  // 计算线条数量
+  countLine() {
+    this.ticketObj.sumLine22 = 0;
+    this.ticketObj.sumLine24 = 0;
+    this.ticketObj.sumLine27 = 0;
+    this.ticketObj.sumLine30 = 0;
+    this.productList.forEach(item => {
+      this.ticketObj.sumLine22 += (parseInt(item.line22 || 0, 10) * item.sum);
+      this.ticketObj.sumLine24 += (parseInt(item.line24 || 0, 10) * item.sum);
+      this.ticketObj.sumLine27 += (parseInt(item.line27 || 0, 10) * item.sum);
+      this.ticketObj.sumLine30 += (parseInt(item.line30 || 0, 10) * item.sum);
+    });
+    this.ticketObj.sumLine = this.ticketObj.sumLine22 + this.ticketObj.sumLine24 + this.ticketObj.sumLine27 + this.ticketObj.sumLine30;
   }
 
   createTimeDisabled = (current: Date): boolean => {

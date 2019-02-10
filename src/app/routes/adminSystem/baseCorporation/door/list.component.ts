@@ -51,6 +51,7 @@ export class DoorListComponent implements OnInit {
       type: {
         type: 'string',
         title: '类型',
+        default: '1301,1302',
         ui: {
           widget: 'select',
           nzAllowClear: true,
@@ -64,9 +65,11 @@ export class DoorListComponent implements OnInit {
                   if (!item.response.data.length) return [];
                   return [{
                     label: '--全部--',
-                    value: '',
+                    value: '1301,1302',
                   }].concat(
-                    item.response.data.map(obj => {
+                    item.response.data.filter(obj => {
+                      return obj.value < 1350;
+                    }).map(obj => {
                       return {
                         label: obj.name,
                         value: obj.value,

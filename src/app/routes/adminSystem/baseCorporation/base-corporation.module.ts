@@ -5,7 +5,7 @@ import { GxListComponent } from './gx/list.component';
 import { GxEditComponent } from './gx/edit/edit.component';
 import { DoorEditComponent } from './door/edit/edit.component';
 import { DoorListComponent } from './door/list.component';
-import { SelectGxComponent } from './door/selectGx/selectGx.component';
+import { SelectGxComponent } from './selectGx/selectGx.component';
 import { ColorEditComponent } from './color/edit/edit.component';
 import { ColorListComponent } from './color/list.component';
 import { MaterialEditComponent } from './material/edit/edit.component';
