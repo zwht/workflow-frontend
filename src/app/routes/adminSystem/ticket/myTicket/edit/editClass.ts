@@ -1,5 +1,6 @@
 
 export class ProductObj {
+  index = 0;
   id = null;
   ticketId = null;
   doorId = null;
@@ -15,11 +16,11 @@ export class ProductObj {
   /** 门洞 */
   coverSize = '2345*123*4';
   /** 门扇 */
-  doorSize = '2523*123=23';
+  doorSize = '2523*123=1';
   /** 立板 */
-  lbSize = '2523*123=23';
+  lbSize = '2523*123=2';
   /** 顶板 */
-  dbSize = '2523*123=23';
+  dbSize = '2523*123=1';
   /** 数量 */
   sum = 1;
   /** 备注 */

@@ -9,6 +9,8 @@ import { ReuseTabService } from '@delon/abc';
 import { ImageCropperComponent, CropperSettings } from 'ngx-img-cropper';
 import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
 import { SelectGxComponent } from '../selectGx/selectGx.component';
+import { map } from 'rxjs/operators';
+import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
 
 @Component({
   selector: 'app-door-edit',
@@ -20,13 +22,16 @@ export class DoorEditComponent implements OnInit {
   title = '添加';
   cpName = '门';
   id = this.route.snapshot.queryParams.id;
-  i: any;
+  i: any = {
+    type: 1301,
+  };
   schema: SFSchema = {
     properties: {
+      type: { type: 'number', title: '类型', maxLength: 20, minimum: 2 },
       name: { type: 'string', title: '门名', maxLength: 30 },
       number: { type: 'string', title: '编号', maxLength: 20, minimum: 2 },
     },
-    required: ['name', 'number'],
+    required: ['name', 'number', 'type'],
   };
   doorGroupList = [];
   ui: SFUISchema = {
@@ -40,6 +45,23 @@ export class DoorEditComponent implements OnInit {
     },
     $name: {
       widget: 'string',
+    },
+    $type: {
+      widget: 'select',
+      asyncData: () => {
+        return this.http.post('./v1/public/code/list', {
+          groupId: '291996688304967680'
+        }, { pageNum: 1, pageSize: 1000 }).pipe(
+          map((item: ResponsePageVo) => {
+            if (!item.response.data.length) return [];
+            return item.response.data.map(obj => {
+              return {
+                label: obj.name,
+                value: obj.value,
+              };
+            });
+          }));
+      }
     },
   };
   gxList = [];
@@ -90,7 +112,7 @@ export class DoorEditComponent implements OnInit {
     gxIds = gxIds.substr(0, gxIds.length - 1);
     gxValues = gxValues.substr(0, gxValues.length - 1);
     const data = Object.assign({}, value,
-      { img: this.cropperImg, gxIds, gxValues, type: 1301 });
+      { img: this.cropperImg, gxIds, gxValues});
     if (this.id) {
       this.http.post(`./v1/door/update`,
         data)

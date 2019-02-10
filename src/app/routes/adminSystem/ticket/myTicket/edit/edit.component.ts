@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-import { _HttpClient } from '@delon/theme';
+import { _HttpClient, SettingsService } from '@delon/theme';
 import { SFSchema, SFUISchema, SFComponent } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { ReuseTabService } from '@delon/abc';
@@ -28,12 +28,37 @@ export class MyTicketEditComponent implements OnInit {
   valid = false;
   loading = false;
   ticketId = '999';
-  contextMenuActive = {};
-  
+  contextMenuActive: ProductObj = new ProductObj(this.ticketId);
   ticket = {};
   gxList = [];
   productList = [
     new ProductObj(this.ticketId)
+  ];
+  ticketObj = {
+    createTime: new Date(),
+    startTime: null,
+    endTime: null,
+    createUserName: this.settings.user.name,
+    brandId: '',
+    dealersId: '',
+    marketId: '',
+    number: 0,
+    sumDoor: 0,
+    sumTaoban: 0,
+    sumWindow: 0,
+    sumLine: 0,
+  };
+  dealersList = [];
+  marketList = [];
+  brandList = [
+    {
+      id: 1,
+      name: '重庆川峰门业',
+    },
+    {
+      id: 2,
+      name: '重庆御驰门业',
+    }
   ];
 
   // 打印配
@@ -71,26 +96,29 @@ export class MyTicketEditComponent implements OnInit {
     public http: _HttpClient,
     private contextMenuService: ContextMenuService,
     private modalService: NzModalService,
+    public settings: SettingsService,
   ) {
   }
   ngOnInit(): void {
     this.getGxList();
     if (this.id) {
       this.title = '编辑';
-
     }
+    this.getUser();
   }
   // 右键菜单触发
   onContextMenu($event: MouseEvent, item: any): void {
     // 实在显示／隐藏详情菜单
     this.showDetilName = item.show ? '隐藏详情' : '展开详情';
     this.contextMenuActive = item;
-    this.contextMenuService.show.next({
-      // Optional - if unspecified, all context menu components will open
-      contextMenu: this.contextMenu,
-      event: $event,
-      item: item,
-    });
+    setTimeout(() => {
+      this.contextMenuService.show.next({
+        // Optional - if unspecified, all context menu components will open
+        contextMenu: this.contextMenu,
+        event: $event,
+        item: item,
+      });
+    }, 100);
     $event.preventDefault();
     $event.stopPropagation();
   }
@@ -103,6 +131,7 @@ export class MyTicketEditComponent implements OnInit {
             this.productList.splice(i + 1, 0, new ProductObj(this.ticketId));
           }
         });
+        this.totalFn();
         this.setProductList();
         break;
       case 'copy':
@@ -111,6 +140,7 @@ export class MyTicketEditComponent implements OnInit {
             this.productList.splice(i + 1, 0, event.item.copy());
           }
         });
+        this.totalFn();
         this.setProductList();
         break;
       case 'del':
@@ -121,6 +151,7 @@ export class MyTicketEditComponent implements OnInit {
             return true;
           }
         });
+        this.totalFn();
         this.setProductList();
         break;
       case 'show':
@@ -129,6 +160,16 @@ export class MyTicketEditComponent implements OnInit {
         break;
       case 'merge':
         this.mergeKey = !this.mergeKey;
+        this.setProductList();
+        break;
+      case 'up':
+        [this.productList[this.contextMenuActive.index], this.productList[this.contextMenuActive.index - 1]] =
+          [this.productList[this.contextMenuActive.index - 1], this.productList[this.contextMenuActive.index]];
+        this.setProductList();
+        break;
+      case 'down':
+        [this.productList[this.contextMenuActive.index], this.productList[this.contextMenuActive.index + 1]] =
+          [this.productList[this.contextMenuActive.index + 1], this.productList[this.contextMenuActive.index]];
         this.setProductList();
         break;
       default:
@@ -211,6 +252,9 @@ export class MyTicketEditComponent implements OnInit {
           });
         }
         item.doorObj = result.data;
+        if (result.data.type === 1302) {
+          item.doorSize = '';
+        }
         this.setProductList();
       }
     });
@@ -307,6 +351,10 @@ export class MyTicketEditComponent implements OnInit {
   }
 
   setProductList() {
+    for (let i = 0; i < this.productList.length; i++) {
+      this.productList[i].index = i;
+      this.setItemGxPrice(this.productList[i]);
+    }
 
     for (let i = 0; i < this.productList.length; i++) {
       this.productList[i].rowspanDoor = 1;
@@ -385,6 +433,118 @@ export class MyTicketEditComponent implements OnInit {
         }
       }
     }
+  }
+
+  // 计算单个产品价格
+  setItemGxPrice(item) {
+    let sum = 0;
+    if (item.doorSize !== '') {
+      sum += parseInt(item.doorSize.split('=')[1], 10) || 0;
+    }
+    let dblbSum = 0;
+    if (item.lbSize) {
+      dblbSum += parseInt(item.lbSize.split('=')[1], 10) || 0;
+    }
+    if (item.dbSize) {
+      dblbSum += parseInt(item.dbSize.split('=')[1], 10) || 0;
+    }
+    if (dblbSum) {
+      sum += dblbSum / 6;
+    }
+    item.doorObj.gxList.forEach(obj => {
+      obj.countPrice = Math.floor(parseFloat(obj.price) * sum * item.sum * 100) / 100;
+    });
+  }
+
+  // 失去焦点处理
+  onBlur(event, item, key) {
+    let a = true;
+    switch (key) {
+      case 'doorSize':
+        if (item[key]) {
+          a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\=[1-9]{1}$/.test(item[key]);
+        }
+        break;
+      case 'lbSize':
+        a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,2}\=[1-9][0-9]{0,1}$/.test(item[key]);
+        break;
+      case 'dbSize':
+        a = /^[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}\=[1-9][0-9]{0,1}$/.test(item[key]);
+        break;
+      case 'coverSize':
+        a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}$/.test(item[key]);
+        break;
+      case 'sum':
+        a = /^[1-9][0-9]{0,1}$/.test(item[key]);
+        break;
+      default:
+        break;
+    }
+    if (!a) {
+      event.target.style.background = 'rgba(255,0,0,0.2)';
+    } else {
+      this.setItemGxPrice(item);
+      event.target.style.background = 'none';
+    }
+    this.totalFn();
+  }
+
+  // 总计方法
+  totalFn() {
+    setTimeout(() => {
+      this.ticketObj.sumDoor = 0;
+      this.ticketObj.sumTaoban = 0;
+      this.ticketObj.sumWindow = 0;
+
+      this.productList.forEach(item => {
+        if (item.doorSize) {
+          this.ticketObj.sumDoor += item.sum * parseInt(item.doorSize.split('=')[1], 10);
+          this.ticketObj.sumTaoban += item.sum * (parseInt(item.lbSize.split('=')[1], 10) + parseInt(item.dbSize.split('=')[1], 10));
+        } else {
+          this.ticketObj.sumWindow += item.sum * (parseInt(item.lbSize.split('=')[1], 10) + parseInt(item.dbSize.split('=')[1], 10));
+        }
+      });
+    }, 100);
+  }
+
+  createTimeDisabled = (current: Date): boolean => {
+    if (this.ticketObj.startTime) {
+      return current.getTime() > new Date(this.ticketObj.startTime).getTime();
+    } else {
+      return false;
+    }
+  }
+
+  startTimeDisabled = (current: Date): boolean => {
+    if (this.ticketObj.endTime) {
+      return current.getTime() > new Date(this.ticketObj.endTime).getTime() ||
+        current.getTime() < new Date(this.ticketObj.createTime).getTime();
+    } else {
+      return false;
+    }
+  }
+
+  endTimeDisabled = (current: Date): boolean => {
+    if (this.ticketObj.startTime) {
+      return current.getTime() < new Date(this.ticketObj.startTime).getTime();
+    } else {
+      return false;
+    }
+  }
+
+  getUser() {
+    this.http.post(`./v1/user/list?pageNum=1&pageSize=10000`, {
+      roles: '101'
+    })
+      .subscribe((res: ResponsePageVo) => {
+        this.marketList = res.response.data;
+      });
+    this.http.post(`./v1/user/list?pageNum=1&pageSize=10000`, {
+      roles: '102'
+    })
+      .subscribe((res: ResponsePageVo) => {
+        this.dealersList = res.response.data;
+      });
   }
 
   printComplete() {

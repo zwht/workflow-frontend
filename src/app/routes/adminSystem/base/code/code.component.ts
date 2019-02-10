@@ -53,12 +53,17 @@ export class CodeComponent implements OnInit {
                 delay(1200),
                 map((item: ResponsePageVo) => {
                   if (!item.response.data.length) return [];
-                  return item.response.data.map(obj => {
-                    return {
-                      label: obj.name,
-                      value: obj.id,
-                    };
-                  });
+                  return [{
+                    label: '--全部--',
+                    value: '',
+                  }].concat(
+                    item.response.data.map(obj => {
+                      return {
+                        label: obj.name,
+                        value: obj.id,
+                      };
+                    })
+                  );
                 })
               );
           },

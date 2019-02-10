@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { NzMessageService } from 'ng-zorro-antd';
 import { CodeDataService } from '@shared/services/code-data.service';
+import { delay, map } from 'rxjs/operators';
+import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
 
 @Component({
   selector: 'app-door-list',
@@ -28,6 +30,7 @@ export class DoorListComponent implements OnInit {
       data.forEach((item, i) => {
         item.no = (this.st.pi - 1) * this.st.ps + i + 1;
         item.img = './v1/public/file/getById?id=' + item.img;
+        item.type = this.codeDataService.getName(item.type);
       });
       return data;
     }
@@ -44,6 +47,37 @@ export class DoorListComponent implements OnInit {
       number: {
         type: 'string',
         title: '编号'
+      },
+      type: {
+        type: 'string',
+        title: '类型',
+        ui: {
+          widget: 'select',
+          nzAllowClear: true,
+          asyncData: (name: string) => {
+            return this.http.post('./v1/public/code/list', {
+              groupId: '291996688304967680'
+            }, { pageNum: 1, pageSize: 1000 })
+              .pipe(
+                delay(120),
+                map((item: ResponsePageVo) => {
+                  if (!item.response.data.length) return [];
+                  return [{
+                    label: '--全部--',
+                    value: '',
+                  }].concat(
+                    item.response.data.map(obj => {
+                      return {
+                        label: obj.name,
+                        value: obj.value,
+                      };
+                    })
+                  );
+                })
+              );
+          },
+          width: 200
+        }
       }
     }
   };
@@ -53,6 +87,9 @@ export class DoorListComponent implements OnInit {
     { title: '序号', index: 'no' },
     { title: '名称', index: 'name' },
     { title: '编号', index: 'number' },
+    {
+      title: '类型', index: 'type'
+    },
     {
       title: '图片', index: 'img', type: 'img', width: '150px',
       className: 'imgTd'

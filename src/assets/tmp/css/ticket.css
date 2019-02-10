@@ -1,7 +1,7 @@
 *{ box-sizing: border-box;}
 .printHide{ display: none !important;}
-
-
+.ant-calendar-picker-clear,.ant-calendar-picker-icon,
+.topTable .anticon,.ant-select-search{ display: none;}
 
 input {
   border: none;
@@ -41,6 +41,12 @@ el-select {
   border-radius: none;
   border: none;
 }
+.rightB{ text-align: left;
+  
+}
+.rightB .ant-calendar-picker{ width: 100%;}
+.topTable input{ text-align: left;}
+.ant-input{ padding: 0;}
 .ticketTable {
   border: 1px solid #ededed;
   width: 100%;
