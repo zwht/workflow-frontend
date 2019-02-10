@@ -307,7 +307,7 @@ export class MyTicketEditComponent implements OnInit {
             }
           });
         }
-        item.color = result.data.name;
+        item.color = result.data;
         this.setProductList();
       }
     });
@@ -350,7 +350,7 @@ export class MyTicketEditComponent implements OnInit {
             }
           });
         }
-        item.material = result.data.name;
+        item.material = result.data;
         this.setProductList();
         this.setItemGxPrice(item);
       }

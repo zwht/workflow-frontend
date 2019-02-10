@@ -3,18 +3,25 @@ export class ProductObj {
   index = 0;
   id = null;
   ticketId = null;
-  doorId = null;
   doorObj = {
     id: null,
     gxList: [],
     name: null,
   };
   /** 颜色 */
-  color = null;
+  color = {
+    id: null,
+    gxList: [],
+    name: null,
+  };
   /** 材质 */
-  material = '';
+  material = {
+    id: null,
+    gxList: [],
+    name: null,
+  };
   /** 门洞 */
-  coverSize = '2345*123*4';
+  coverSize = '2345*123*42';
   /** 门扇 */
   doorSize = '2523*123=1';
   /** 立板 */

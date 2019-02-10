@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import { STColumn, STComponent} from '@delon/abc';
+import { STColumn, STComponent } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { ActivatedRoute } from '@angular/router';
 import { ResponseVo } from '@interface/utils/ResponseVo';
@@ -13,7 +13,6 @@ import { NzModalRef } from 'ng-zorro-antd';
 })
 export class SelectColorComponent implements OnInit {
   title;
-  url = `./v1/color/list`;
   pageSize = 12;
   total = 0;
   page = 1;
@@ -25,7 +24,11 @@ export class SelectColorComponent implements OnInit {
       name: {
         type: 'string',
         title: '名称'
-      }
+      },
+      number: {
+        type: 'string',
+        title: '编号'
+      },
     }
   };
   @ViewChild('st') st: STComponent;
@@ -58,8 +61,8 @@ export class SelectColorComponent implements OnInit {
   }
 
   getList(data?) {
-    this.http.post(`./v1/color/list?pageNum=${this.page}&pageSize=${this.pageSize}`,
-      data || {})
+    this.http.post(`./v1/door/list?pageNum=${this.page}&pageSize=${this.pageSize}`,
+      Object.assign((data || {}), { type: '1350' }))
       .subscribe((res: ResponseVo) => {
         if (res.response) {
           this.total = res.response.pageCount;
@@ -79,7 +82,17 @@ export class SelectColorComponent implements OnInit {
     this.getList();
   }
 
-  selectItem(color) {
-    this.modal.destroy({ data: color });
+  selectItem(door) {
+    const gxIds = door.gxIds.split(','), gxValues = door.gxValues.split(',');
+    door.gxList = [];
+    this.gxList.forEach(item => {
+      gxIds.forEach((obj, i) => {
+        if (obj === item.id) {
+          item.price = gxValues[i];
+          door.gxList.push(item);
+        }
+      });
+    });
+    this.modal.destroy({ data: door });
   }
 }

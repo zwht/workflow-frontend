@@ -136,11 +136,11 @@
           <tr class="productItem" [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
             <td (contextmenu)="onContextMenu($event, data, 'rowspanColor')" *ngIf="data.rowspanColor"
               [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)" class="cursor">
-              <div>{{data.color}}</div>
+              <div>{{data.color.name}}</div>
             </td>
             <td (contextmenu)="onContextMenu($event, data, 'rowspanMaterial')" *ngIf="data.rowspanMaterial"
               [attr.rowspan]="data.rowspanMaterial" (dblclick)="showMaterial(data)" class="cursor">
-              <div>{{data.material}}</div>
+              <div>{{data.material.name}}</div>
             </td>
             <td (contextmenu)="onContextMenu($event, data, 'rowspanDoor')" *ngIf="data.rowspanDoor"
               [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)" class="cursor">
