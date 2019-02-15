@@ -1,21 +1,21 @@
 
 export class ProductObj {
-  index = 0;
+  indexKey = 0;
   id = null;
-  ticketId = null;
+  gxList = [];
   doorObj = {
     id: null,
     gxList: [],
     name: null,
   };
   /** 颜色 */
-  color = {
+  colorObj = {
     id: null,
     gxList: [],
     name: null,
   };
   /** 材质 */
-  material = {
+  materialObj = {
     id: null,
     gxList: [],
     name: null,
@@ -35,10 +35,7 @@ export class ProductObj {
   /** 是否显示详情 */
   show = false;
 
-  line22 = null;
-  line24 = null;
-  line27 = null;
-  line30 = null;
+  lines = [{ value: '' }, { value: '' }, { value: '' }, { value: '' }];
 
   rowspanColor = 1;
   rowspanColorParent = null;
@@ -49,9 +46,8 @@ export class ProductObj {
   rowspanDoor = 1;
   rowspanDoorParent = null;
 
-  constructor(private tkId: string) {
+  constructor(private ticketId: string) {
     this.id = this.getId();
-    this.ticketId = tkId;
   }
 
   /**

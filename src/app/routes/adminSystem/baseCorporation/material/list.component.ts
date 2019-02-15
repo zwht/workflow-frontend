@@ -152,7 +152,7 @@ export class MaterialListComponent implements OnInit {
       });
   }
   del(id) {
-    this.http.get(`./v1/gx/del?id=${id}`)
+    this.http.get(`./v1/door/del?id=${id}`)
       .subscribe((data: ResponseVo) => {
         this.msgSrv.success('成功');
         this.st.reload();

@@ -34,7 +34,6 @@ export class SelectDoorComponent implements OnInit {
       type: {
         type: 'string',
         title: '类型',
-        default: '1301,1302',
         ui: {
           widget: 'select',
           nzAllowClear: true,
@@ -98,7 +97,7 @@ export class SelectDoorComponent implements OnInit {
 
   getList(data?) {
     this.http.post(`./v1/door/list?pageNum=${this.page}&pageSize=${this.pageSize}`,
-      data || {})
+      data || { type: '1301,1302' })
       .subscribe((res: ResponseVo) => {
         if (res.response) {
           this.total = res.response.pageCount;
@@ -120,15 +119,23 @@ export class SelectDoorComponent implements OnInit {
 
   selectItem(door) {
     const gxIds = door.gxIds.split(','), gxValues = door.gxValues.split(',');
-    door.gxList = [];
+    const gxList = [];
     this.gxList.forEach(item => {
-      gxIds.forEach((obj, i) => {
-        if (obj === item.id) {
-          item.price = gxValues[i];
-          door.gxList.push(item);
+      gxIds.forEach((id, i) => {
+        if (id === item.id) {
+          gxList.push({
+            name: item.name,
+            price: gxValues[i]
+          });
         }
       });
     });
-    this.modal.destroy({ data: door });
+    this.modal.destroy({
+      data: {
+        id: door.id,
+        name: door.name,
+        gxList
+      }
+    });
   }
 }

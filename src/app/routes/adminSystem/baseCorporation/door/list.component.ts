@@ -21,7 +21,9 @@ export class DoorListComponent implements OnInit {
   req: STReq = {
     params: {},
     method: 'post',
-    body: {},
+    body: {
+      type: '1301,1302'
+    },
     reName: { pi: 'pageNum', ps: 'pageSize' },
   };
   res: STRes = {
@@ -51,7 +53,6 @@ export class DoorListComponent implements OnInit {
       type: {
         type: 'string',
         title: '类型',
-        default: '1301,1302',
         ui: {
           widget: 'select',
           nzAllowClear: true,
@@ -187,7 +188,7 @@ export class DoorListComponent implements OnInit {
       });
   }
   del(id) {
-    this.http.get(`./v1/gx/del?id=${id}`)
+    this.http.get(`./v1/door/del?id=${id}`)
       .subscribe((data: ResponseVo) => {
         this.msgSrv.success('成功');
         this.st.reload();

@@ -73,6 +73,7 @@ el-select {
 .ticketTable .tbb td:nth-child(6) {
   border-left: 0;
 }
+.ticketTable .tbb td:nth-child(2){ width: 422px;}
 .ticketTable .s30 span {
   display: inline-block;
   width: 30%;

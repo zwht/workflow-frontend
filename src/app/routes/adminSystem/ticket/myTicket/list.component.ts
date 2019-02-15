@@ -47,21 +47,16 @@ export class MyTicketListComponent implements OnInit {
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
     { title: '序号', index: 'no' },
-    { title: '名称', index: 'name' },
     { title: '编号', index: 'number' },
-    {
-      title: '图片', index: 'img', type: 'img', width: '150px',
-      className: 'imgTd'
-    },
     {
       title: '状态', index: 'state', type: 'tag',
       tag: {
-        1402: {
-          text: this.codeDataService.getName(1402),
+        1502: {
+          text: this.codeDataService.getName(1502),
           color: 'magenta'
         },
-        1401: {
-          text: this.codeDataService.getName(1401),
+        1501: {
+          text: this.codeDataService.getName(1501),
           color: 'green'
         }
       }
@@ -69,30 +64,6 @@ export class MyTicketListComponent implements OnInit {
     {
       title: '操作',
       buttons: [
-        {
-          text: '起用', click: (item: any) => {
-            this.updateState(item.id, 1401);
-          },
-          iif: (item: STData, btn: STColumnButton, column: STColumn) => {
-            if (item.state === 1401) {
-              return false;
-            } else {
-              return true;
-            }
-          }
-        },
-        {
-          text: '禁用', click: (item: any) => {
-            this.updateState(item.id, 1402);
-          },
-          iif: (item: STData, btn: STColumnButton, column: STColumn) => {
-            if (item.state === 1402) {
-              return false;
-            } else {
-              return true;
-            }
-          }
-        },
         {
           text: '编辑', click: (item: any) => {
             this.add(item);
@@ -106,8 +77,6 @@ export class MyTicketListComponent implements OnInit {
       ]
     }
   ];
-
-
   constructor(
     private http: _HttpClient,
     private router: Router,
@@ -117,7 +86,6 @@ export class MyTicketListComponent implements OnInit {
   ) {
 
   }
-
   ngOnInit() {
   }
   _onReuseInit() {

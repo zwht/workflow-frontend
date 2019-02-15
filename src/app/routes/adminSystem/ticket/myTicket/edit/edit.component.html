@@ -12,9 +12,9 @@
     <div class="printDiv" #printDiv>
       <table class="ticketTable topTable" cellspacing="0">
         <tr>
-          <td colspan="2">
+          <td colspan="1">
           </td>
-          <td colspan="3" style="border-left:0;">
+          <td colspan="4" style="border-left:0;">
             <span style="font-size:24px;">川峰木门生成流程单</span>
           </td>
           <td colspan="1">
@@ -22,9 +22,9 @@
             <b>{{ticketObj.sumDoor}}</b>
             <span>套</span>
           </td>
-          <td rowspan="4" colspan="" style="width: 120px;">
+          <td rowspan="4" colspan="" style="width: 120px; padding: 5px;">
             <ngx-qrcode [qrc-element-type]="'url'" [qrc-value]="'286212849657843712'" qrc-class="aclass"
-              qrc-errorCorrectionLevel="L">
+              qrc-errorCorrectionLevel="H">
             </ngx-qrcode>
           </td>
         </tr>
@@ -57,7 +57,7 @@
             收货地址：
           </td>
           <td class="rightB">
-            <input [(ngModel)]="bingName" nz-input>
+            <input [(ngModel)]="ticketObj.address" nz-input>
           </td>
           <td>
             订货日期：
@@ -136,11 +136,11 @@
           <tr class="productItem" [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
             <td (contextmenu)="onContextMenu($event, data, 'rowspanColor')" *ngIf="data.rowspanColor"
               [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)" class="cursor">
-              <div>{{data.color.name}}</div>
+              <div>{{data.colorObj.name}}</div>
             </td>
             <td (contextmenu)="onContextMenu($event, data, 'rowspanMaterial')" *ngIf="data.rowspanMaterial"
               [attr.rowspan]="data.rowspanMaterial" (dblclick)="showMaterial(data)" class="cursor">
-              <div>{{data.material.name}}</div>
+              <div>{{data.materialObj.name}}</div>
             </td>
             <td (contextmenu)="onContextMenu($event, data, 'rowspanDoor')" *ngIf="data.rowspanDoor"
               [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)" class="cursor">
@@ -148,7 +148,7 @@
             </td>
             <td class="cursor" (click)="contextMenuClick({item:data},'show')">
               <span>
-                {{data.index+1}}
+                {{data.indexKey+1}}
               </span>
             </td>
             <td>
@@ -163,17 +163,8 @@
             <td>
               <input (blur)="onBlur($event,data,'dbSize')" [(ngModel)]="data.dbSize" class="inputHeight">
             </td>
-            <td>
-              <input (blur)="onBlur($event,data,'line22')" [(ngModel)]="data.line22" class="inputHeight">
-            </td>
-            <td>
-              <input (blur)="onBlur($event,data,'line24')" [(ngModel)]="data.line24" class="inputHeight">
-            </td>
-            <td>
-              <input (blur)="onBlur($event,data,'line27')" [(ngModel)]="data.line27" class="inputHeight">
-            </td>
-            <td>
-              <input (blur)="onBlur($event,data,'line30')" [(ngModel)]="data.line30" class="inputHeight">
+            <td *ngFor="let item of data.lines; let i=index">
+              <input (blur)="onBlur($event,data,'lines',i)" [(ngModel)]="item.value" class="inputHeight">
             </td>
             <td>
               <input (blur)="onBlur($event,data,'sum')" [(ngModel)]="data.sum" class="inputHeight">
@@ -190,10 +181,10 @@
             </td>
             <td colspan="10">
               <div nz-row class="gxBox trGxBox">
-                <div *ngFor="let item of data.doorObj.gxList" nz-col nzSpan="2">
+                <div *ngFor="let item of data.gxList" nz-col nzSpan="2">
                   <div class="i1">{{item.name}}/{{item.price}}</div>
                   <div class="i2">
-                    <input *ngIf="item.name" [(ngModel)]="item.countPrice" type='number' nz-input>
+                    <input disabled *ngIf="item.name" [(ngModel)]="item.countPrice" type='number' nz-input>
                   </div>
                 </div>
               </div>
@@ -214,17 +205,8 @@
             <span style="margin-right:20px;">块</span>
           </td>
           <td>线条长度小计</td>
-          <td>
-            <b>{{ticketObj.sumLine22}}</b>
-          </td>
-          <td>
-            <b>{{ticketObj.sumLine24}}</b>
-          </td>
-          <td>
-            <b>{{ticketObj.sumLine27}}</b>
-          </td>
-          <td>
-            <b>{{ticketObj.sumLine30}}</b>
+          <td *ngFor="let item of ticketObj.lines">
+            <b>{{item.value}}</b>
           </td>
           <td rowspan="2" colspan="2"></td>
         </tr>
@@ -236,7 +218,7 @@
         </tr>
         <tr>
           <td>
-            <span>总结：</span>
+            <span (click)="summaryFn()">总结：</span>
           </td>
           <td colspan="13">
             <textarea [(ngModel)]="ticketObj.summary" style="width: 100%; border: none; font-size: 16px;
@@ -248,7 +230,7 @@
             <span>备注：</span>
           </td>
           <td colspan="13">
-            <textarea [(ngModel)]="ticketObj.mark" style="width: 100%; border: none; text-align: left;
+            <textarea [(ngModel)]="ticketObj.remarks" style="width: 100%; border: none; text-align: left;
              height:36px; padding: 6px 0; padding-left: 10px;"></textarea>
           </td>
         </tr>
@@ -298,13 +280,13 @@
         删除
       </ng-template>
     </context-menu>
-    <footer-toolbar errorCollect>
+    <footer-toolbar>
       <e-ngx-print #printComponent [mode]="'popup'" [popTitle]="'表格打印'" [showBtn]="false" [printHTML]="printDiv"
         [printStyle]="printStyle" [printCSS]="printCSS" (printComplete)="printComplete()">
       </e-ngx-print>
       <button nz-button type="button" (click)="print()" [nzLoading]="loading">打印</button>
       <button nz-button type="button" (click)="back()" [nzLoading]="loading">返回</button>
-      <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="valid"
+      <button nz-button type="submit" nzType="primary" (click)="save()" [disabled]="valid"
         [nzLoading]="loading">保存</button>
     </footer-toolbar>
   </nz-card>

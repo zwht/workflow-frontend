@@ -136,6 +136,7 @@ export class ColorEditComponent implements OnInit {
         } else {
           res.response.data.forEach(item => {
             if (item.name === '面漆') {
+              item.price = 0;
               item.act = true;
             }
           });
