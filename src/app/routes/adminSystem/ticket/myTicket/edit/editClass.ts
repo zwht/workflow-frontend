@@ -31,7 +31,7 @@ export class ProductObj {
   /** 数量 */
   sum = 1;
   /** 备注 */
-  remark = null;
+  remarks = null;
   /** 是否显示详情 */
   show = false;
 
@@ -46,7 +46,7 @@ export class ProductObj {
   rowspanDoor = 1;
   rowspanDoorParent = null;
 
-  constructor(private ticketId: string) {
+  constructor(public ticketId: string) {
     this.id = this.getId();
   }
 

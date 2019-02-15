@@ -2,7 +2,7 @@
   <page-header [breadcrumb]="breadcrumb">
     <ng-template #breadcrumb>
       <nz-breadcrumb>
-        <nz-breadcrumb-item><a href="/#/admin/baseCorporation/door">{{cpName}}列表</a></nz-breadcrumb-item>
+        <nz-breadcrumb-item><a href="/#/admin/ticket/myTicket">{{cpName}}列表</a></nz-breadcrumb-item>
         <nz-breadcrumb-item>{{title+cpName}}</nz-breadcrumb-item>
       </nz-breadcrumb>
     </ng-template>
@@ -85,7 +85,7 @@
             制单人员：
           </td>
           <td class="rightB">
-            <span>{{ticketObj.createUserName}}</span>
+            <span>{{ticketObj.editName}}</span>
           </td>
           <td>
             交货日期：
@@ -119,17 +119,8 @@
             <span>高</span>
             <span>宽</span>
           </td>
-          <td class="">
-            <span>2200</span>
-          </td>
-          <td class="">
-            <span>2400</span>
-          </td>
-          <td class="">
-            <span>2700</span>
-          </td>
-          <td class="">
-            <span>3000</span>
+          <td *ngFor="let item of lines" class="">
+            <span>{{item.name}}</span>
           </td>
         </tr>
         <ng-template ngFor let-i="index" let-data [ngForOf]="productList">
@@ -170,7 +161,7 @@
               <input (blur)="onBlur($event,data,'sum')" [(ngModel)]="data.sum" class="inputHeight">
             </td>
             <td>
-              <textarea [(ngModel)]="data.remark" style="width: 100%; border: none;"></textarea>
+              <textarea [(ngModel)]="data.remarks" style="width: 100%; border: none;"></textarea>
             </td>
           </tr>
           <tr class="printHide" [ngClass]="{'productShow2': data.show}" (contextmenu)="onContextMenu($event, data)"
@@ -284,8 +275,8 @@
       <e-ngx-print #printComponent [mode]="'popup'" [popTitle]="'表格打印'" [showBtn]="false" [printHTML]="printDiv"
         [printStyle]="printStyle" [printCSS]="printCSS" (printComplete)="printComplete()">
       </e-ngx-print>
-      <button nz-button type="button" (click)="print()" [nzLoading]="loading">打印</button>
-      <button nz-button type="button" (click)="back()" [nzLoading]="loading">返回</button>
+      <button nz-button type="button" (click)="print()">打印</button>
+      <button nz-button type="button" (click)="back()">返回</button>
       <button nz-button type="submit" nzType="primary" (click)="save()" [disabled]="valid"
         [nzLoading]="loading">保存</button>
     </footer-toolbar>

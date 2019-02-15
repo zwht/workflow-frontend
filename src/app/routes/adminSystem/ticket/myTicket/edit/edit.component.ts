@@ -23,7 +23,7 @@ export class MyTicketEditComponent implements OnInit {
   @ViewChild('sf') sf: SFComponent;
   title = '添加';
   cpName = '工单';
-  id = this.route.snapshot.queryParams.id || '999';
+  id = this.route.snapshot.queryParams.id;
   valid = false;
   loading = false;
   contextMenuActive: ProductObj = new ProductObj(this.id);
@@ -32,12 +32,27 @@ export class MyTicketEditComponent implements OnInit {
   productList = [
     new ProductObj(this.id)
   ];
+  lines = [
+    {
+      name: '2200'
+    },
+    {
+      name: '2400'
+    },
+    {
+      name: '2700'
+    },
+    {
+      name: '3000'
+    }
+  ]
   ticketObj = {
     name: '',
     createTime: new Date(),
     startTime: null,
     endTime: null,
-    createUserName: this.settings.user.name,
+    editName: this.settings.user.name,
+    editId: this.settings.user.id,
     brandId: '',
     dealersId: '',
     marketId: '',
@@ -129,6 +144,7 @@ export class MyTicketEditComponent implements OnInit {
         this.setProductList();
         this.totalFn();
         this.countLine();
+        this.loading = false;
       });
   }
   // 右键菜单触发
@@ -208,6 +224,7 @@ export class MyTicketEditComponent implements OnInit {
     }
   }
   save() {
+    this.loading = true;
     this.ticketObj.name = this.ticketObj.number;
     if (this.id) {
       this.http.post(`./v1/ticket/update`,
@@ -221,12 +238,14 @@ export class MyTicketEditComponent implements OnInit {
         this.ticketObj)
         .subscribe((res: ResponseVo) => {
           this.id = res.response;
+          this.router.navigate(['/admin/ticket/myTicket/edit'], { queryParams: { id: this.id } });
           this.saveProduct();
         });
     }
   }
   saveProduct() {
     this.productList.forEach(item => {
+      item.ticketId = this.id;
       item['door'] = JSON.stringify(item.doorObj);
       item['color'] = JSON.stringify(item.colorObj);
       item['material'] = JSON.stringify(item.materialObj);
@@ -236,6 +255,7 @@ export class MyTicketEditComponent implements OnInit {
       this.productList)
       .subscribe(res => {
         this.msgSrv.success('添加成功');
+        this.getDetails();
       });
   }
 
@@ -614,9 +634,8 @@ export class MyTicketEditComponent implements OnInit {
       this.ticketObj.sumWindow = 0;
       this.productList.forEach(item => {
         if (item.doorObj.id) {
+          this.ticketObj.sumDoor += item.sum;
           if (item.doorObj['type'] === 1301) {
-            this.ticketObj.sumDoor += item.sum
-              * (item.doorSize ? parseInt(item.doorSize.split('=')[1], 10) : 0);
             this.ticketObj.sumTaoban += item.sum
               * ((item.lbSize ? (parseInt(item.lbSize.split('=')[1], 10)) : 0)
                 + (item.dbSize ? parseInt(item.dbSize.split('=')[1], 10) : 0));
@@ -633,18 +652,9 @@ export class MyTicketEditComponent implements OnInit {
   // 总结生成方法
   summaryFn() {
     this.ticketObj.summary = '';
-    if (this.ticketObj.sumLine22) {
-      this.ticketObj.summary += '2200=' + this.ticketObj.sumLine22 + '支  ';
-    }
-    if (this.ticketObj.sumLine24) {
-      this.ticketObj.summary += '2400=' + this.ticketObj.sumLine24 + '支  ';
-    }
-    if (this.ticketObj.sumLine27) {
-      this.ticketObj.summary += '2700=' + this.ticketObj.sumLine27 + '支  ';
-    }
-    if (this.ticketObj.sumLine30) {
-      this.ticketObj.summary += '3000=' + this.ticketObj.sumLine30 + '支  ';
-    }
+    this.ticketObj.lines.forEach((item, i) => {
+      this.ticketObj.summary += this.lines[i].name + '=' + item.value + '支  ';
+    });
   }
 
   // 计算线条数量

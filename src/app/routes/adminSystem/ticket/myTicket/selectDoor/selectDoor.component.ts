@@ -132,6 +132,7 @@ export class SelectDoorComponent implements OnInit {
     });
     this.modal.destroy({
       data: {
+        type: door.type,
         id: door.id,
         name: door.name,
         gxList

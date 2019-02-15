@@ -46,8 +46,10 @@ export class MyTicketListComponent implements OnInit {
 
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
-    { title: '序号', index: 'no' },
     { title: '编号', index: 'number' },
+    { title: '制单', index: 'editName' },
+    { title: '经销商', index: 'dealersName' },
+    { title: '业务经理', index: 'marketName' },
     {
       title: '状态', index: 'state', type: 'tag',
       tag: {
@@ -71,7 +73,7 @@ export class MyTicketListComponent implements OnInit {
         },
         {
           text: '删除', type: 'del', click: (item: any) => {
-            this.updateState(item.id, 1400);
+            this.del(item.id);
           }
         },
       ]
@@ -103,11 +105,12 @@ export class MyTicketListComponent implements OnInit {
   add(item?) {
     this.router.navigate(['/admin/ticket/myTicket/edit'], { queryParams: { id: item ? item.id || '' : '' } });
   }
-  updateState(id, state) {
-    this.http.get(`./v1/ticket/updateState?id=${id}&state=${state}`)
+  del(id) {
+    this.http.get(`./v1/ticket/del?id=${id}`)
       .subscribe((data: ResponseVo) => {
         this.msgSrv.success('成功');
         this.st.reload();
       });
   }
+  
 }
