@@ -45,7 +45,7 @@ export class MyTicketEditComponent implements OnInit {
     {
       name: '3000'
     }
-  ]
+  ];
   ticketObj = {
     name: '',
     createTime: new Date(),
@@ -97,6 +97,8 @@ export class MyTicketEditComponent implements OnInit {
   inputValue: string;
   options = [];
 
+  baseTdList = [];
+
   onInput(value: string): void {
     this.options = value ? [
       value,
@@ -122,6 +124,9 @@ export class MyTicketEditComponent implements OnInit {
     if (this.id) {
       this.title = '编辑';
       this.getDetails();
+    }
+    for (let i = 1; i <= 29; i++) {
+      this.baseTdList.push(i);
     }
   }
   getDetails() {

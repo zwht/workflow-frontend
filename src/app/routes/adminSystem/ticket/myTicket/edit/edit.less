@@ -1,12 +1,12 @@
 
 .ticket_edit_cpt{
   input{ border: none; padding: 0; width: 100%; border-radius: 0;
-    height: 100%; display: inline-block; height:inherit;
+    height: 24px; display: inline-block; height:inherit;
     text-align: center; background: none;
     &:hover{ background: #f1f1f1;}
     &:focus{ background: #cccab6;}
   }
-  textarea{ height: 100%; display: block; background: none;}
+  textarea{ height: 24px; display: block; background: none;}
   textarea,input,td,.gxTable{ font-size: 14px;}
   el-select{ width: 100%; min-width: 120px; background: none;}
   /deep/.ant-select-selection{ background: none; border-radius: none;
@@ -15,42 +15,25 @@
   .modal-spin{position: absolute;top: 0;bottom: 0;width: 100%;
     background: #fff;z-index: 3;display: block; left: 0;}
 
-  .topTable{
-    .rightB{ text-align: left;
+
+  .ticketTable{ border: 1px solid #ededed; width: 100%;
+    border-left: none; border-bottom: none; text-align: center;
+    td{ border-left: 1px solid #ededed; border-bottom: 1px solid #ededed;
+    }
+    .productItem td{position: relative;}
+    .rightB{ text-align: left; position: relative;
+      padding-left: 76px;
+      b{ position: absolute; top:6px; left: 8px;}
+      input{ border: none; text-align: left; }
       /deep/.ant-calendar-picker{ width: 100%;
-        input{ border: none; }
+        input{ border: none; text-align: left; }
         .ant-input{ padding: 0; height: 100%;}
       }
     }
-    input{ text-align: left;}
     /deep/nz-select{ width: 100%;
       div{ height: 100%; margin: 0; line-height: inherit;}
     }
-  }
-  .ticketTable{ border: 1px solid #ededed; width: 100%;  border-left: none; border-bottom: none; text-align: center;
-    td{ border-left: 1px solid #ededed; border-bottom: 1px solid #ededed;
-      position: relative;
-    }
-    b{ font-size: 16px;}
-    .tbb{
-      td:nth-child(1),td:nth-child(3),td:nth-child(5){ text-align: right; width: 100px;}
-      td:nth-child(2),td:nth-child(4),td:nth-child(6){ border-left: 0;}
-      td:nth-child(2){ width: 350px;}
-    }
-    .s30{
-      span{ display: inline-block; width: 30%;}
-    }
-    .s50{
-      span{ display: inline-block; width: 48%;}
-    }
-    .input3{ width: 220px;
-      input{ width: 35px; display: inline-block;
-         border-bottom: 1px solid #ededed; }
-    }
-    .input2{width: 140px; 
-      input{ width: 35px; display: inline-block;
-         border-bottom: 1px solid #ededed;}
-    }
+    .haderB{ font-weight: bold;}
     .inputHeight{ position: absolute; left: 1px; top:1px;
       right:1px; bottom:1px;}
     .iconBtn{ font-size: 16px; cursor: pointer;
@@ -73,17 +56,20 @@
     &:after{ content: " "; height: 0; width: 0; visibility: hidden;display: block; clear: both }
     >div{ border-bottom: 1px solid #ededed; border-right: 1px solid #ededed;
       text-align: center; float: left;  width: 8.333%;
-      .i1{ height: 28px; line-height: 28px;}
+      .i1{ height: 24px; line-height: 28px;}
       .i2{ border-top: 1px solid #ededed; border-bottom: 1px solid #ededed;
-        height: 28px;
+        height: 24px;
       }
-      .i3{ height: 36px;}
+      .i3{ height: 24px;}
     }
   }
   .trGxBox{ margin: 0 -2px -2px 0; font-size: 12px;
     input{ font-size: 12px;}
     >div{ border-bottom: none;}
   }
+
+  .baseTdItem{width: 3.57%; height: 0; border: none !important;}
+  .baseBox{ border-left: 1px solid #ededed;}
   
 }
 

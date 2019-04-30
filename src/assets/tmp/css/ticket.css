@@ -41,11 +41,12 @@ el-select {
   border-radius: none;
   border: none;
 }
-.rightB{ text-align: left;
-  
-}
+.rightB{ text-align: left;position: relative; padding-left: 76px;}
 .rightB .ant-calendar-picker{ width: 100%;}
-.topTable input{ text-align: left;}
+.rightB b{ position: absolute; top:6px; left: 8px;}
+.rightB nz-select{ text-align: left;}
+.rightB nz-select span{ display: none;}
+.rightB input{ text-align: left !important;}
 .ant-input{ padding: 0;}
 .ticketTable {
   border: 1px solid #ededed;
@@ -57,44 +58,17 @@ el-select {
 .ticketTable td {
   border-left: 1px solid #ededed;
   border-bottom: 1px solid #ededed;
-  position: relative;
+  
 }
-.ticketTable b {
-  font-size: 16px;
-}
-.ticketTable .tbb td:nth-child(1),
-.ticketTable .tbb td:nth-child(3),
-.ticketTable .tbb td:nth-child(5) {
-  text-align: right;
-  width: 100px;
-}
-.ticketTable .tbb td:nth-child(2),
-.ticketTable .tbb td:nth-child(4),
-.ticketTable .tbb td:nth-child(6) {
-  border-left: 0;
-}
-.ticketTable .tbb td:nth-child(2){ width: 422px;}
-.ticketTable .s30 span {
-  display: inline-block;
-  width: 30%;
-}
-.ticketTable .s50 span {
-  display: inline-block;
-  width: 48%;
-}
-.ticketTable .input3 {
-  width: 220px;
-}
+.productItem td{position: relative;}
+.haderB{ font-weight: bold;}
+
 .ticketTable .input3 input {
-  width: 35px;
   display: inline-block;
   border-bottom: 1px solid #ededed;
 }
-.ticketTable .input2 {
-  width: 140px;
-}
+
 .ticketTable .input2 input {
-  width: 35px;
   display: inline-block;
   border-bottom: 1px solid #ededed;
 }
@@ -145,16 +119,16 @@ el-select {
   width: 8.333%;
 }
 .gxBox > div .i1 {
-  height: 28px;
-  line-height: 28px;
+  height: 24px;
+  line-height: 24px;
 }
 .gxBox > div .i2 {
   border-top: 1px solid #ededed;
   border-bottom: 1px solid #ededed;
-  height: 28px;
+  height: 24px;
 }
 .gxBox > div .i3 {
-  height: 36px;
+  height: 24px;
 }
 .trGxBox {
   margin: 0 -2px -2px 0;
@@ -166,3 +140,5 @@ el-select {
 .printHide {
   display: none !important;
 }
+.baseTdItem{width: 3.57%; height: 0; border: none !important;}
+.baseBox{ border-left: 1px solid #ededed;}

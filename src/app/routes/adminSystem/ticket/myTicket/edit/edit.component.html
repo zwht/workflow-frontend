@@ -9,115 +9,123 @@
   </page-header>
   <nz-card>
     <nz-spin *ngIf="loading" class="modal-spin"></nz-spin>
-    <div class="printDiv" #printDiv>
-      <table class="ticketTable topTable" cellspacing="0">
+    <div #printDiv>
+      <table class="ticketTable" cellspacing="0">
+        <tr class='baseBox'>
+          <td class='baseTdItem' *ngFor="let item of baseTdList"></td>
+        </tr>
         <tr>
-          <td colspan="1">
+          <td colspan="22">
+            <span style="font-size:20px;">川峰木门生成流程单</span>
           </td>
-          <td colspan="4" style="border-left:0;">
-            <span style="font-size:24px;">川峰木门生成流程单</span>
-          </td>
-          <td colspan="1">
+          <td colspan="3">
             <span>合计：</span>
             <b>{{ticketObj.sumDoor}}</b>
             <span>套</span>
           </td>
-          <td rowspan="4" colspan="" style="width: 120px; padding: 5px;">
+          <td rowspan="4" colspan="4" style=" padding: 5px;">
             <ngx-qrcode [qrc-element-type]="'url'" [qrc-value]="'286212849657843712'" qrc-class="aclass"
               qrc-errorCorrectionLevel="H">
             </ngx-qrcode>
           </td>
         </tr>
-        <tr class="tbb">
-          <td>
-            经销商：
-          </td>
-          <td class="rightB">
+        <tr>
+          <td colspan="9" class="rightB">
+            <b>经&nbsp;销&nbsp;商&nbsp;：</b>
             <nz-select nzShowSearch nzAllowClear [(ngModel)]="ticketObj.dealersId">
               <nz-option *ngFor="let item of dealersList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
             </nz-select>
           </td>
-          <td>
-            品牌名称：
-          </td>
-          <td class="rightB">
+          <td colspan="8" class="rightB">
+            <b>品牌名称：</b>
             <nz-select [(ngModel)]="ticketObj.brandId" nzAllowClear>
               <nz-option *ngFor="let item of brandList" [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
             </nz-select>
           </td>
-          <td>
-            订单编号：
-          </td>
-          <td class="rightB">
+          <td colspan="8" class="rightB">
+            <b>订单编号：</b>
             <input [(ngModel)]="ticketObj.number" nz-input>
           </td>
         </tr>
-        <tr class="tbb">
-          <td>
-            收货地址：
-          </td>
-          <td class="rightB">
+        <tr>
+          <td colspan="9" class="rightB">
+            <b>收货地址：</b>
             <input [(ngModel)]="ticketObj.address" nz-input>
           </td>
-          <td>
-            订货日期：
-          </td>
-          <td class="rightB">
+          <td colspan="8" class="rightB">
+            <b>订货日期：</b>
             <nz-date-picker [nzDisabledDate]="createTimeDisabled" [(ngModel)]="ticketObj.createTime"></nz-date-picker>
           </td>
-          <td>
-            排产日期：
-          </td>
-          <td class="rightB">
+          <td colspan="8" class="rightB">
+            <b>排产日期：</b>
             <nz-date-picker [nzDisabledDate]="startTimeDisabled" [(ngModel)]="ticketObj.startTime"></nz-date-picker>
           </td>
         </tr>
-        <tr class="tbb">
-          <td>
-            业务经理：
-          </td>
-          <td class="rightB">
+        <tr>
+          <td colspan="9" class="rightB">
+            <b>业务经理：</b>
             <nz-select nzShowSearch nzAllowClear [(ngModel)]="ticketObj.marketId">
               <nz-option *ngFor="let item of marketList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
             </nz-select>
           </td>
-          <td>
-            制单人员：
-          </td>
-          <td class="rightB">
+          <td colspan="8" class="rightB">
+            <b>制单人员：</b>
             <span>{{ticketObj.editName}}</span>
           </td>
-          <td>
-            交货日期：
-          </td>
-          <td class="rightB">
+          <td colspan="8" class="rightB">
+            <b>交货日期：</b>
             <nz-date-picker [nzDisabledDate]="endTimeDisabled" [(ngModel)]="ticketObj.endTime"></nz-date-picker>
           </td>
         </tr>
-      </table>
-      <table class="ticketTable" cellspacing="0" style="border-top: 0;">
-        <tr>
-          <td rowspan="2" style="width: 60px;">颜色</td>
-          <td rowspan="2" style="width: 160px;">材质</td>
-          <td rowspan="2" style="width: 160px;">型号</td>
-          <td rowspan="2" style="width: 40px;">序号</td>
-          <td style="width: 200px;">洞口尺寸</td>
-          <td style="width: 160px;">门扇尺寸</td>
-          <td rowspan="2" style="width: 160px;">立板尺寸</td>
-          <td rowspan="2" style="width: 160px;">顶板尺寸</td>
+        <tr class='haderB'>
+          <td rowspan="2" colspan="2">颜色</td>
+          <td rowspan="2" colspan="3">材质</td>
+          <td rowspan="2" colspan="3">型号</td>
+          <td rowspan="2" colspan="1">序号</td>
+          <td colspan="3">洞口尺寸</td>
+          <td colspan="3">门扇尺寸</td>
+          <td colspan="3">立板尺寸</td>
+          <td colspan="3">顶板尺寸</td>
           <td colspan="4">线条信息</td>
-          <td rowspan="2" style="width: 40px;">数量</td>
-          <td rowspan="2" style="width: 160px;">备注</td>
+          <td colspan="1" rowspan="2">数量</td>
+          <td colspan="3" rowspan="2">备注</td>
         </tr>
-        <tr>
-          <td class="s30">
+        <tr class='haderB'>
+          <td>
             <span>高</span>
+          </td>
+          <td>
             <span>宽</span>
+          </td>
+          <td>
             <span>厚</span>
           </td>
-          <td class="s50">
+          <td>
             <span>高</span>
+          </td>
+          <td>
             <span>宽</span>
+          </td>
+          <td>
+            <span>数量</span>
+          </td>
+          <td>
+            <span>高</span>
+          </td>
+          <td>
+            <span>宽</span>
+          </td>
+          <td>
+            <span>数量</span>
+          </td>
+          <td>
+            <span>高</span>
+          </td>
+          <td>
+            <span>宽</span>
+          </td>
+          <td>
+            <span>数量</span>
           </td>
           <td *ngFor="let item of lines" class="">
             <span>{{item.name}}</span>
@@ -125,15 +133,15 @@
         </tr>
         <ng-template ngFor let-i="index" let-data [ngForOf]="productList">
           <tr class="productItem" [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
-            <td (contextmenu)="onContextMenu($event, data, 'rowspanColor')" *ngIf="data.rowspanColor"
+            <td colspan="2" (contextmenu)="onContextMenu($event, data, 'rowspanColor')" *ngIf="data.rowspanColor"
               [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)" class="cursor">
               <div>{{data.colorObj.name}}</div>
             </td>
-            <td (contextmenu)="onContextMenu($event, data, 'rowspanMaterial')" *ngIf="data.rowspanMaterial"
+            <td colspan="3" (contextmenu)="onContextMenu($event, data, 'rowspanMaterial')" *ngIf="data.rowspanMaterial"
               [attr.rowspan]="data.rowspanMaterial" (dblclick)="showMaterial(data)" class="cursor">
               <div>{{data.materialObj.name}}</div>
             </td>
-            <td (contextmenu)="onContextMenu($event, data, 'rowspanDoor')" *ngIf="data.rowspanDoor"
+            <td colspan="3" (contextmenu)="onContextMenu($event, data, 'rowspanDoor')" *ngIf="data.rowspanDoor"
               [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)" class="cursor">
               <div>{{data.doorObj.name}}</div>
             </td>
@@ -142,16 +150,16 @@
                 {{data.indexKey+1}}
               </span>
             </td>
-            <td>
+            <td colspan="3">
               <input (blur)="onBlur($event,data,'coverSize')" [(ngModel)]="data.coverSize" class="inputHeight">
             </td>
-            <td>
+            <td colspan="3">
               <input (blur)="onBlur($event,data,'doorSize')" [(ngModel)]="data.doorSize" class="inputHeight">
             </td>
-            <td>
+            <td colspan="3">
               <input (blur)="onBlur($event,data,'lbSize')" [(ngModel)]="data.lbSize" class="inputHeight">
             </td>
-            <td>
+            <td colspan="3">
               <input (blur)="onBlur($event,data,'dbSize')" [(ngModel)]="data.dbSize" class="inputHeight">
             </td>
             <td *ngFor="let item of data.lines; let i=index">
@@ -160,7 +168,7 @@
             <td>
               <input (blur)="onBlur($event,data,'sum')" [(ngModel)]="data.sum" class="inputHeight">
             </td>
-            <td>
+            <td colspan="3">
               <textarea [(ngModel)]="data.remarks" style="width: 100%; border: none;"></textarea>
             </td>
           </tr>
@@ -170,7 +178,7 @@
               <i class="iconBtn" (click)="contextMenuClick({item:data},'show')" nz-icon type="up-circle"
                 theme="outline"></i>
             </td>
-            <td colspan="10">
+            <td colspan="20">
               <div nz-row class="gxBox trGxBox">
                 <div *ngFor="let item of data.gxList" nz-col nzSpan="2">
                   <div class="i1">{{item.name}}/{{item.price}}</div>
@@ -183,8 +191,8 @@
           </tr>
         </ng-template>
         <tr>
-          <td rowspan="2">总计:</td>
-          <td rowspan="2" colspan="6" class="statistics">
+          <td rowspan="2" colspan="2">总计:</td>
+          <td rowspan="2" colspan="17" class="statistics">
             门扇:
             <b style="margin-right:4px;">{{ticketObj.sumDoor}}</b>
             <span style="margin-right:20px;">个</span>
@@ -195,34 +203,34 @@
             <b style="margin-right:4px;">{{ticketObj.sumWindow}}</b>
             <span style="margin-right:20px;">块</span>
           </td>
-          <td>线条长度小计</td>
+          <td colspan="2">线条小计</td>
           <td *ngFor="let item of ticketObj.lines">
             <b>{{item.value}}</b>
           </td>
-          <td rowspan="2" colspan="2"></td>
+          <td rowspan="2" colspan="4"></td>
         </tr>
         <tr>
-          <td>线条合计</td>
+          <td colspan="2" colspan="2">线条合计</td>
           <td colspan="4">
             <b>{{ticketObj.sumLine}}</b>
           </td>
         </tr>
         <tr>
-          <td>
+          <td colspan="2">
             <span (click)="summaryFn()">总结：</span>
           </td>
-          <td colspan="13">
-            <textarea [(ngModel)]="ticketObj.summary" style="width: 100%; border: none; font-size: 16px;
-            text-align: center; font-weight: bold; height:40px; padding: 8px 0;"></textarea>
+          <td colspan="27">
+            <textarea [(ngModel)]="ticketObj.summary" style="width: 100%; border: none;
+            text-align: center; font-weight: bold;"></textarea>
           </td>
         </tr>
         <tr>
-          <td>
+          <td colspan="2">
             <span>备注：</span>
           </td>
-          <td colspan="13">
+          <td colspan="27">
             <textarea [(ngModel)]="ticketObj.remarks" style="width: 100%; border: none; text-align: left;
-             height:36px; padding: 6px 0; padding-left: 10px;"></textarea>
+             padding-left: 10px;"></textarea>
           </td>
         </tr>
       </table>
