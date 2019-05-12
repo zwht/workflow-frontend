@@ -29,22 +29,20 @@ export class MyTicketEditComponent implements OnInit {
   contextMenuActive: ProductObj = new ProductObj(this.id);
   ticket = {};
   gxList = [];
-  productList = [
-    new ProductObj(this.id)
-  ];
+  productList = [];
   lines = [
     {
-      name: '2200'
+      name: '2200',
     },
     {
-      name: '2400'
+      name: '2400',
     },
     {
-      name: '2700'
+      name: '2700',
     },
     {
-      name: '3000'
-    }
+      name: '3000',
+    },
   ];
   ticketObj = {
     name: '',
@@ -80,7 +78,7 @@ export class MyTicketEditComponent implements OnInit {
     {
       id: '2',
       name: '重庆御驰门业',
-    }
+    },
   ];
 
   // 打印配
@@ -100,11 +98,7 @@ export class MyTicketEditComponent implements OnInit {
   baseTdList = [];
 
   onInput(value: string): void {
-    this.options = value ? [
-      value,
-      value + value,
-      value + value + value
-    ] : [];
+    this.options = value ? [value, value + value, value + value + value] : [];
   }
   constructor(
     private elRef: ElementRef,
@@ -116,27 +110,24 @@ export class MyTicketEditComponent implements OnInit {
     private contextMenuService: ContextMenuService,
     private modalService: NzModalService,
     public settings: SettingsService,
-  ) {
-  }
+  ) {}
   ngOnInit(): void {
     this.getGxList();
     this.getUser();
-    if (this.id) {
-      this.title = '编辑';
-      this.getDetails();
-    }
     for (let i = 1; i <= 29; i++) {
       this.baseTdList.push(i);
     }
   }
   getDetails() {
-    this.http.get(`./v1/ticket/getById?id=${this.id}`)
+    this.http
+      .get(`./v1/ticket/getById?id=${this.id}`)
       .subscribe((res: ResponseVo) => {
         this.ticketObj = Object.assign(this.ticketObj, res.response);
       });
-    this.http.post(`./v1/product/list?pageNum=1&pageSize=100`, {
-      ticketId: this.id
-    })
+    this.http
+      .post(`./v1/product/list?pageNum=1&pageSize=100`, {
+        ticketId: this.id,
+      })
       .subscribe((res: ResponsePageVo) => {
         res.response.data.forEach(item => {
           item['doorObj'] = JSON.parse(item.door);
@@ -145,10 +136,32 @@ export class MyTicketEditComponent implements OnInit {
           item['lines'] = JSON.parse(item.line);
           this.setItemGxPrice(item);
         });
-        this.productList = res.response.data;
+        this.productList = res.response.data.map(item => {
+          return new ProductObj(item);
+        });
+
         this.setProductList();
         this.totalFn();
         this.countLine();
+        this.loading = false;
+      });
+    this.http
+      .post(`./v1/process/list?pageNum=1&pageSize=100`, {
+        ticketId: this.id,
+      })
+      .subscribe((res: ResponsePageVo) => {
+        const ar = JSON.parse(JSON.stringify(this.gxList));
+        res.response.data.forEach(item => {
+          ar.forEach(obj => {
+            if (obj.id === item.gxId) {
+              obj.processId = obj.id;
+              obj.countPrice = item.price + item.priceAdd;
+              obj.priceAdd = item.priceAdd;
+              obj.state = item.state;
+            }
+          });
+        });
+        this.gxList = ar;
         this.loading = false;
       });
   }
@@ -215,13 +228,23 @@ export class MyTicketEditComponent implements OnInit {
         this.setProductList();
         break;
       case 'up':
-        [this.productList[this.contextMenuActive.indexKey], this.productList[this.contextMenuActive.indexKey - 1]] =
-          [this.productList[this.contextMenuActive.indexKey - 1], this.productList[this.contextMenuActive.indexKey]];
+        [
+          this.productList[this.contextMenuActive.indexKey],
+          this.productList[this.contextMenuActive.indexKey - 1],
+        ] = [
+          this.productList[this.contextMenuActive.indexKey - 1],
+          this.productList[this.contextMenuActive.indexKey],
+        ];
         this.setProductList();
         break;
       case 'down':
-        [this.productList[this.contextMenuActive.indexKey], this.productList[this.contextMenuActive.indexKey + 1]] =
-          [this.productList[this.contextMenuActive.indexKey + 1], this.productList[this.contextMenuActive.indexKey]];
+        [
+          this.productList[this.contextMenuActive.indexKey],
+          this.productList[this.contextMenuActive.indexKey + 1],
+        ] = [
+          this.productList[this.contextMenuActive.indexKey + 1],
+          this.productList[this.contextMenuActive.indexKey],
+        ];
         this.setProductList();
         break;
       default:
@@ -232,18 +255,18 @@ export class MyTicketEditComponent implements OnInit {
     this.loading = true;
     this.ticketObj.name = this.ticketObj.number;
     if (this.id) {
-      this.http.post(`./v1/ticket/update`,
-        this.ticketObj)
-        .subscribe(res => {
-          this.msgSrv.success('修改成功');
-          this.saveProduct();
-        });
+      this.http.post(`./v1/ticket/update`, this.ticketObj).subscribe(res => {
+        this.msgSrv.success('修改成功');
+        this.saveProduct();
+      });
     } else {
-      this.http.post(`./v1/ticket/add`,
-        this.ticketObj)
+      this.http
+        .post(`./v1/ticket/add`, this.ticketObj)
         .subscribe((res: ResponseVo) => {
           this.id = res.response;
-          this.router.navigate(['/admin/ticket/myTicket/edit'], { queryParams: { id: this.id } });
+          this.router.navigate(['/admin/ticket/myTicket/edit'], {
+            queryParams: { id: this.id },
+          });
           this.saveProduct();
         });
     }
@@ -255,13 +278,32 @@ export class MyTicketEditComponent implements OnInit {
       item['color'] = JSON.stringify(item.colorObj);
       item['material'] = JSON.stringify(item.materialObj);
       item['line'] = JSON.stringify(item.lines);
+      item.sum = parseInt(item.sum, 10);
     });
-    this.http.post(`./v1/product/add`,
-      this.productList)
-      .subscribe(res => {
-        this.msgSrv.success('添加成功');
-        this.getDetails();
-      });
+    this.http.post(`./v1/product/add`, this.productList).subscribe(res => {
+      this.msgSrv.success('添加成功');
+      this.saveProcess();
+    });
+  }
+  saveProcess() {
+    const gxAr = [];
+    this.gxList.forEach((item, i) => {
+      if (item.id) {
+        gxAr.push({
+          id: item.process,
+          gxId: item.id,
+          price: item.price,
+          priceAdd: item.countPrice - item.price,
+          indexKey: i,
+          ticketId: this.id,
+          state: item.state,
+        });
+      }
+    });
+    this.http.post(`./v1/process/add`, gxAr).subscribe(res => {
+      this.msgSrv.success('添加成功');
+      this.getDetails();
+    });
   }
 
   back() {
@@ -276,15 +318,21 @@ export class MyTicketEditComponent implements OnInit {
     }
   }
   getGxList() {
-    this.http.post(`./v1/gx/list?pageNum=1&pageSize=1000`, {})
+    this.http
+      .post(`./v1/gx/list?pageNum=1&pageSize=1000`, {})
       .subscribe((res: ResponsePageVo) => {
         if (res.status === 200) {
-
-          const hasKey = 12 - res.response.data.length % 12;
+          const hasKey = 12 - (res.response.data.length % 12);
           for (let i = 0; i < hasKey; i++) {
             res.response.data.push({});
           }
           this.gxList = res.response.data;
+          if (this.id) {
+            this.title = '编辑';
+            this.getDetails();
+          } else {
+            this.productList = [new ProductObj(this.id)];
+          }
         }
       });
   }
@@ -308,7 +356,7 @@ export class MyTicketEditComponent implements OnInit {
     // 打开后回调
     modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
     // 关闭回调
-    modal.afterClose.subscribe((result) => {
+    modal.afterClose.subscribe(result => {
       if (result) {
         let active = -1;
         if (item.rowspanDoor !== 1) {
@@ -356,7 +404,7 @@ export class MyTicketEditComponent implements OnInit {
     // 打开后回调
     modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
     // 关闭回调
-    modal.afterClose.subscribe((result) => {
+    modal.afterClose.subscribe(result => {
       if (result) {
         let active = -1;
         if (item.rowspanColor !== 1) {
@@ -400,7 +448,7 @@ export class MyTicketEditComponent implements OnInit {
     // 打开后回调
     modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
     // 关闭回调
-    modal.afterClose.subscribe((result) => {
+    modal.afterClose.subscribe(result => {
       if (result) {
         let active = -1;
         if (item.rowspanMaterial !== 1) {
@@ -439,7 +487,9 @@ export class MyTicketEditComponent implements OnInit {
       this.productList[i].rowspanDoorParent = null;
       if (this.productList[i].doorObj.id && this.mergeKey) {
         for (let j = i + 1; j < this.productList.length; j++) {
-          if (this.productList[i].doorObj.id === this.productList[j].doorObj.id) {
+          if (
+            this.productList[i].doorObj.id === this.productList[j].doorObj.id
+          ) {
             this.productList[i].rowspanDoor++;
             if (this.productList[j].show) {
               this.productList[i].rowspanDoor++;
@@ -465,7 +515,10 @@ export class MyTicketEditComponent implements OnInit {
       this.productList[i].rowspanMaterialParent = null;
       if (this.productList[i].materialObj.id && this.mergeKey) {
         for (let j = i + 1; j < this.productList.length; j++) {
-          if (this.productList[i].materialObj.id === this.productList[j].materialObj.id) {
+          if (
+            this.productList[i].materialObj.id ===
+            this.productList[j].materialObj.id
+          ) {
             this.productList[i].rowspanMaterial++;
             if (this.productList[j].show) {
               this.productList[i].rowspanMaterial++;
@@ -491,7 +544,9 @@ export class MyTicketEditComponent implements OnInit {
       this.productList[i].rowspanColorParent = null;
       if (this.productList[i].colorObj.id && this.mergeKey) {
         for (let j = i + 1; j < this.productList.length; j++) {
-          if (this.productList[i].colorObj.id === this.productList[j].colorObj.id) {
+          if (
+            this.productList[i].colorObj.id === this.productList[j].colorObj.id
+          ) {
             this.productList[i].rowspanColor++;
             if (this.productList[j].show) {
               this.productList[i].rowspanColor++;
@@ -513,12 +568,14 @@ export class MyTicketEditComponent implements OnInit {
   // 计算单个产品价格
   setItemGxPrice(item) {
     let sum = 0;
-    if (item.doorSize !== '') {
+    // 门扇1/2
+    if (item.doorSize) {
       const doorSum = parseInt(item.doorSize.split('=')[1], 10);
       if (doorSum) {
         sum += doorSum / 2;
       }
     }
+    // 门套3块1/2,5块为1，4块为1/2
     let dblbSum = 0;
     if (item.lbSize) {
       dblbSum += parseInt(item.lbSize.split('=')[1], 10) || 0;
@@ -527,19 +584,26 @@ export class MyTicketEditComponent implements OnInit {
       dblbSum += parseInt(item.dbSize.split('=')[1], 10) || 0;
     }
     if (dblbSum) {
-      sum += 0.5 * (parseInt(dblbSum / 3 + '', 10) + (dblbSum % 3 === 2 ? 1 : 0));
+      sum +=
+        0.5 * (parseInt(dblbSum / 3 + '', 10) + (dblbSum % 3 === 2 ? 1 : 0));
     }
+    // 根据型号计算价格
     const gxList = JSON.parse(JSON.stringify(item.doorObj.gxList)) || [];
     gxList.forEach(obj => {
-      obj.countPrice = Math.floor(parseFloat(obj.price) * sum * item.sum * 100) / 100;
+      obj.countPrice =
+        Math.floor(parseFloat(obj.price) * sum * item.sum * 100) / 100;
     });
 
+    // 根据颜色计算价格
     item.colorObj.gxList.forEach(obj => {
-      obj.countPrice = Math.floor(parseFloat(obj.price) * sum * item.sum * 100) / 100;
+      obj.countPrice =
+        Math.floor(parseFloat(obj.price) * sum * item.sum * 100) / 100;
     });
 
+    // 根据材质计算价格
     item.materialObj.gxList.forEach(obj => {
-      obj.countPrice = Math.floor(parseFloat(obj.price) * sum * item.sum * 100) / 100;
+      obj.countPrice =
+        Math.floor(parseFloat(obj.price) * sum * item.sum * 100) / 100;
     });
 
     item.colorObj.gxList.forEach(ob => {
@@ -553,7 +617,6 @@ export class MyTicketEditComponent implements OnInit {
       if (k) {
         gxList.push(ob);
       }
-
     });
 
     item.materialObj.gxList.forEach(ob => {
@@ -589,7 +652,22 @@ export class MyTicketEditComponent implements OnInit {
         });
       }
     });
+    gxList.forEach(tGx => {
+      tGx.price = tGx.price;
+      if (tGx.priceAdd) {
+        tGx.countPrice += tGx.priceAdd;
+      }
+    });
     this.gxList = gxList;
+  }
+
+  // 总工序价格修改
+  gxBlur(event, item) {
+    if (item.countPrice && item.price !== item.countPrice) {
+      item.priceAdd = item.countPrice - item.price;
+    } else if (item.price === item.countPrice) {
+      item.priceAdd = 0;
+    }
   }
 
   // 失去焦点处理
@@ -597,18 +675,22 @@ export class MyTicketEditComponent implements OnInit {
     let a = true;
     switch (key) {
       case 'doorSize':
-        if (item[key]) {
-          a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\=[1-9]{1}$/.test(item[key]);
-        }
+        a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\=[1-9]{1}$/.test(item[key]);
         break;
       case 'lbSize':
-        a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,2}\=[1-9][0-9]{0,1}$/.test(item[key]);
+        a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,2}\=[1-9][0-9]{0,1}$/.test(
+          item[key],
+        );
         break;
       case 'dbSize':
-        a = /^[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}\=[1-9][0-9]{0,1}$/.test(item[key]);
+        a = /^[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}\=[1-9][0-9]{0,1}$/.test(
+          item[key],
+        );
         break;
       case 'coverSize':
-        a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}$/.test(item[key]);
+        a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}$/.test(
+          item[key],
+        );
         break;
       case 'sum':
         a = /^[1-9][0-9]{0,1}$/.test(item[key]);
@@ -641,13 +723,15 @@ export class MyTicketEditComponent implements OnInit {
         if (item.doorObj.id) {
           this.ticketObj.sumDoor += item.sum;
           if (item.doorObj['type'] === 1301) {
-            this.ticketObj.sumTaoban += item.sum
-              * ((item.lbSize ? (parseInt(item.lbSize.split('=')[1], 10)) : 0)
-                + (item.dbSize ? parseInt(item.dbSize.split('=')[1], 10) : 0));
+            this.ticketObj.sumTaoban +=
+              item.sum *
+              ((item.lbSize ? parseInt(item.lbSize.split('=')[1], 10) : 0) +
+                (item.dbSize ? parseInt(item.dbSize.split('=')[1], 10) : 0));
           } else {
-            this.ticketObj.sumWindow += item.sum
-              * ((item.lbSize ? parseInt(item.lbSize.split('=')[1], 10) : 0)
-                + (item.dbSize ? parseInt(item.dbSize.split('=')[1], 10) : 0));
+            this.ticketObj.sumWindow +=
+              item.sum *
+              ((item.lbSize ? parseInt(item.lbSize.split('=')[1], 10) : 0) +
+                (item.dbSize ? parseInt(item.dbSize.split('=')[1], 10) : 0));
           }
         }
       });
@@ -664,11 +748,17 @@ export class MyTicketEditComponent implements OnInit {
 
   // 计算线条数量
   countLine() {
-    this.ticketObj.lines = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
+    this.ticketObj.lines = [
+      { value: 0 },
+      { value: 0 },
+      { value: 0 },
+      { value: 0 },
+    ];
     this.productList.forEach(item => {
       item.lines.forEach((ob, index) => {
         if (ob.value) {
-          this.ticketObj.lines[index].value += (parseInt(ob.value, 10) * item.sum);
+          this.ticketObj.lines[index].value +=
+            parseInt(ob.value, 10) * item.sum;
         }
       });
     });
@@ -685,16 +775,18 @@ export class MyTicketEditComponent implements OnInit {
     } else {
       return false;
     }
-  }
+  };
 
   startTimeDisabled = (current: Date): boolean => {
     if (this.ticketObj.endTime) {
-      return current.getTime() > new Date(this.ticketObj.endTime).getTime() ||
-        current.getTime() < new Date(this.ticketObj.createTime).getTime();
+      return (
+        current.getTime() > new Date(this.ticketObj.endTime).getTime() ||
+        current.getTime() < new Date(this.ticketObj.createTime).getTime()
+      );
     } else {
       return false;
     }
-  }
+  };
 
   endTimeDisabled = (current: Date): boolean => {
     if (this.ticketObj.startTime) {
@@ -702,18 +794,20 @@ export class MyTicketEditComponent implements OnInit {
     } else {
       return false;
     }
-  }
+  };
 
   getUser() {
-    this.http.post(`./v1/user/list?pageNum=1&pageSize=10000`, {
-      roles: '101'
-    })
+    this.http
+      .post(`./v1/user/list?pageNum=1&pageSize=10000`, {
+        roles: '101',
+      })
       .subscribe((res: ResponsePageVo) => {
         this.marketList = res.response.data;
       });
-    this.http.post(`./v1/user/list?pageNum=1&pageSize=10000`, {
-      roles: '102'
-    })
+    this.http
+      .post(`./v1/user/list?pageNum=1&pageSize=10000`, {
+        roles: '102',
+      })
       .subscribe((res: ResponsePageVo) => {
         this.dealersList = res.response.data;
       });

@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, TemplateRef, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  TemplateRef,
+  Input,
+} from '@angular/core';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -49,19 +55,30 @@ export class DoorEditComponent implements OnInit {
     $type: {
       widget: 'select',
       asyncData: () => {
-        return this.http.post('./v1/public/code/list', {
-          groupId: '291996688304967680'
-        }, { pageNum: 1, pageSize: 1000 }).pipe(
-          map((item: ResponsePageVo) => {
-            if (!item.response.data.length) return [];
-            return item.response.data.map(obj => {
-              return {
-                label: obj.name,
-                value: obj.value,
-              };
-            });
-          }));
-      }
+        return this.http
+          .post(
+            './v1/public/code/list',
+            {
+              groupId: '291996688304967680',
+            },
+            { pageNum: 1, pageSize: 1000 },
+          )
+          .pipe(
+            map((item: ResponsePageVo) => {
+              if (!item.response.data.length) return [];
+              return item.response.data
+                .filter(obi => {
+                  return obi.name === '门套' || obi.name === '门';
+                })
+                .map(obj => {
+                  return {
+                    label: obj.name,
+                    value: obj.value,
+                  };
+                });
+            }),
+          );
+      },
     },
   };
   gxList = [];
@@ -84,13 +101,13 @@ export class DoorEditComponent implements OnInit {
     public http: _HttpClient,
     private contextMenuService: ContextMenuService,
     private modalService: NzModalService,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`./v1/door/getById?id=${this.id}`)
+      this.http
+        .get(`./v1/door/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
           this.cropperImg = this.i.img;
@@ -102,7 +119,8 @@ export class DoorEditComponent implements OnInit {
     }
   }
   save(value: any) {
-    let gxIds = '', gxValues = '';
+    let gxIds = '',
+      gxValues = '';
     this.myGxList.forEach(item => {
       if (item.price) {
         gxIds += item.id + ',';
@@ -111,22 +129,21 @@ export class DoorEditComponent implements OnInit {
     });
     gxIds = gxIds.substr(0, gxIds.length - 1);
     gxValues = gxValues.substr(0, gxValues.length - 1);
-    const data = Object.assign({}, value,
-      { img: this.cropperImg, gxIds, gxValues});
+    const data = Object.assign({}, value, {
+      img: this.cropperImg,
+      gxIds,
+      gxValues,
+    });
     if (this.id) {
-      this.http.post(`./v1/door/update`,
-        data)
-        .subscribe(res => {
-          this.msgSrv.success('修改成功');
-          this.back();
-        });
+      this.http.post(`./v1/door/update`, data).subscribe(res => {
+        this.msgSrv.success('修改成功');
+        this.back();
+      });
     } else {
-      this.http.post(`./v1/door/add`,
-        data)
-        .subscribe(res => {
-          this.msgSrv.success('添加成功');
-          this.back();
-        });
+      this.http.post(`./v1/door/add`, data).subscribe(res => {
+        this.msgSrv.success('添加成功');
+        this.back();
+      });
     }
   }
   back() {
@@ -141,10 +158,12 @@ export class DoorEditComponent implements OnInit {
     }
   }
   getGxList() {
-    this.http.post(`./v1/gx/list?pageNum=1&pageSize=1000`, {})
+    this.http
+      .post(`./v1/gx/list?pageNum=1&pageSize=1000`, {})
       .subscribe((res: ResponseVo) => {
         if (this.i.gxIds) {
-          const gxIds = this.i.gxIds.split(','), gxValues = this.i.gxValues.split(',');
+          const gxIds = this.i.gxIds.split(','),
+            gxValues = this.i.gxValues.split(',');
           res.response.data.forEach(item => {
             gxIds.forEach((obj, i) => {
               if (obj === item.id) {
@@ -159,10 +178,13 @@ export class DoorEditComponent implements OnInit {
           });
         }
         this.gxList = res.response.data;
-        const myGxList = Object.assign([], this.gxList.filter(item => {
-          return item.act;
-        }));
-        const hasKey = 12 - myGxList.length % 12;
+        const myGxList = Object.assign(
+          [],
+          this.gxList.filter(item => {
+            return item.act;
+          }),
+        );
+        const hasKey = 12 - (myGxList.length % 12);
         for (let i = 0; i < hasKey; i++) {
           myGxList.push({});
         }
@@ -212,7 +234,6 @@ export class DoorEditComponent implements OnInit {
         this.del(event);
         break;
       case 'show':
-
         break;
       default:
         break;
@@ -248,7 +269,7 @@ export class DoorEditComponent implements OnInit {
     // 打开后回调
     modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
     // 关闭回调
-    modal.afterClose.subscribe((result) => {
+    modal.afterClose.subscribe(result => {
       if (result) {
         if (this.contextMenuKey === 'add1') {
           this.myGxList.splice(this.activeItem.newIndex, 0, result.data);

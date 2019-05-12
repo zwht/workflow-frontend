@@ -10,7 +10,7 @@
   <nz-card>
     <nz-spin *ngIf="loading" class="modal-spin"></nz-spin>
     <div #printDiv>
-      <table class="ticketTable" cellspacing="0">
+      <table class="ticketTable" cellspacing="0" cellpadding="0">
         <tr class='baseBox'>
           <td class='baseTdItem' *ngFor="let item of baseTdList"></td>
         </tr>
@@ -23,9 +23,9 @@
             <b>{{ticketObj.sumDoor}}</b>
             <span>套</span>
           </td>
-          <td rowspan="4" colspan="4" style=" padding: 5px;">
+          <td rowspan="4" colspan="4">
             <ngx-qrcode [qrc-element-type]="'url'" [qrc-value]="'286212849657843712'" qrc-class="aclass"
-              qrc-errorCorrectionLevel="H">
+              qrc-errorCorrectionLevel="A">
             </ngx-qrcode>
           </td>
         </tr>
@@ -82,12 +82,12 @@
           <td rowspan="2" colspan="3">材质</td>
           <td rowspan="2" colspan="3">型号</td>
           <td rowspan="2" colspan="1">序号</td>
+          <td colspan="1" rowspan="2">数量</td>
           <td colspan="3">洞口尺寸</td>
           <td colspan="3">门扇尺寸</td>
           <td colspan="3">立板尺寸</td>
           <td colspan="3">顶板尺寸</td>
           <td colspan="4">线条信息</td>
-          <td colspan="1" rowspan="2">数量</td>
           <td colspan="3" rowspan="2">备注</td>
         </tr>
         <tr class='haderB'>
@@ -133,16 +133,16 @@
         </tr>
         <ng-template ngFor let-i="index" let-data [ngForOf]="productList">
           <tr class="productItem" [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
-            <td colspan="2" (contextmenu)="onContextMenu($event, data, 'rowspanColor')" *ngIf="data.rowspanColor"
-              [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)" class="cursor">
+            <td colspan="2" *ngIf="data.rowspanColor" [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)"
+              class="cursor">
               <div>{{data.colorObj.name}}</div>
             </td>
-            <td colspan="3" (contextmenu)="onContextMenu($event, data, 'rowspanMaterial')" *ngIf="data.rowspanMaterial"
-              [attr.rowspan]="data.rowspanMaterial" (dblclick)="showMaterial(data)" class="cursor">
+            <td colspan="3" *ngIf="data.rowspanMaterial" [attr.rowspan]="data.rowspanMaterial"
+              (dblclick)="showMaterial(data)" class="cursor">
               <div>{{data.materialObj.name}}</div>
             </td>
-            <td colspan="3" (contextmenu)="onContextMenu($event, data, 'rowspanDoor')" *ngIf="data.rowspanDoor"
-              [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)" class="cursor">
+            <td colspan="3" *ngIf="data.rowspanDoor" [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)"
+              class="cursor">
               <div>{{data.doorObj.name}}</div>
             </td>
             <td class="cursor" (click)="contextMenuClick({item:data},'show')">
@@ -150,11 +150,15 @@
                 {{data.indexKey+1}}
               </span>
             </td>
+            <td>
+              <input (blur)="onBlur($event,data,'sum')" [(ngModel)]="data.sum" class="inputHeight">
+            </td>
             <td colspan="3">
               <input (blur)="onBlur($event,data,'coverSize')" [(ngModel)]="data.coverSize" class="inputHeight">
             </td>
             <td colspan="3">
-              <input (blur)="onBlur($event,data,'doorSize')" [(ngModel)]="data.doorSize" class="inputHeight">
+              <input [disabled]='data.doorObj.type==1302' (blur)="onBlur($event,data,'doorSize')"
+                [(ngModel)]="data.doorSize" class="inputHeight">
             </td>
             <td colspan="3">
               <input (blur)="onBlur($event,data,'lbSize')" [(ngModel)]="data.lbSize" class="inputHeight">
@@ -165,9 +169,7 @@
             <td *ngFor="let item of data.lines; let i=index">
               <input (blur)="onBlur($event,data,'lines',i)" [(ngModel)]="item.value" class="inputHeight">
             </td>
-            <td>
-              <input (blur)="onBlur($event,data,'sum')" [(ngModel)]="data.sum" class="inputHeight">
-            </td>
+
             <td colspan="3">
               <textarea [(ngModel)]="data.remarks" style="width: 100%; border: none;"></textarea>
             </td>
@@ -192,7 +194,7 @@
         </ng-template>
         <tr>
           <td rowspan="2" colspan="2">总计:</td>
-          <td rowspan="2" colspan="17" class="statistics">
+          <td rowspan="2" colspan="18" class="statistics">
             门扇:
             <b style="margin-right:4px;">{{ticketObj.sumDoor}}</b>
             <span style="margin-right:20px;">个</span>
@@ -207,7 +209,7 @@
           <td *ngFor="let item of ticketObj.lines">
             <b>{{item.value}}</b>
           </td>
-          <td rowspan="2" colspan="4"></td>
+          <td rowspan="2" colspan="3"></td>
         </tr>
         <tr>
           <td colspan="2" colspan="2">线条合计</td>
@@ -238,9 +240,12 @@
         <div class="lBox"></div>
         <div nz-row class="gxBox">
           <div *ngFor="let item of gxList" nz-col nzSpan="2">
-            <div class="i1">{{item.name}}</div>
+            <div class="i1">{{item.name}}
+              <b *ngIf="item.priceAdd">{{item.priceAdd>0?'+'+item.priceAdd:item.priceAdd}}</b>
+            </div>
             <div class="i2">
-              <input *ngIf="item.name" [(ngModel)]="item.countPrice" type='number' nz-input>
+              <input (blur)="gxBlur($event,item)" *ngIf="item.name" [(ngModel)]="item.countPrice" type='number'
+                nz-input>
             </div>
             <div class="i3"></div>
           </div>
@@ -248,14 +253,14 @@
       </div>
     </div>
     <context-menu>
-      <ng-template *ngIf="contextMenuActive.index!=0" (execute)="contextMenuClick($event,'up')" contextMenuItem>
+      <ng-template [enabled]="contextMenuActive.indexKey!=0" (execute)="contextMenuClick($event,'up')" contextMenuItem>
         <span>
           上移
           <i nz-icon type="arrow-up" theme="outline"></i>
         </span>
       </ng-template>
-      <ng-template *ngIf="contextMenuActive.index!=productList.length-1" (execute)="contextMenuClick($event,'down')"
-        contextMenuItem>
+      <ng-template [enabled]="contextMenuActive.indexKey!=productList.length-1"
+        (execute)="contextMenuClick($event,'down')" contextMenuItem>
         <span>
           下移
           <i nz-icon type="arrow-down" theme="outline"></i>

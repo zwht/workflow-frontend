@@ -1,4 +1,3 @@
-
 export class ProductObj {
   indexKey = 0;
   id = null;
@@ -21,13 +20,13 @@ export class ProductObj {
     name: null,
   };
   /** 门洞 */
-  coverSize = '2345*123*42';
+  coverSize = '';
   /** 门扇 */
-  doorSize = '2523*123=1';
+  doorSize = '';
   /** 立板 */
-  lbSize = '2523*123=2';
+  lbSize = '';
   /** 顶板 */
-  dbSize = '2523*123=1';
+  dbSize = '';
   /** 数量 */
   sum = 1;
   /** 备注 */
@@ -45,16 +44,31 @@ export class ProductObj {
 
   rowspanDoor = 1;
   rowspanDoorParent = null;
+  ticketId = '';
 
-  constructor(public ticketId: string) {
-    this.id = this.getId();
+  constructor(p?: any) {
+    if (p) {
+      if (typeof p === 'string') {
+        this.ticketId = p;
+        this.id = this.getId();
+      } else {
+        const keysTo = Object.keys(this);
+        for (const key of keysTo) {
+          this[key] = p[key];
+        }
+      }
+    }
   }
 
   /**
    * 生成id
    */
   private getId() {
-    return new Date().getTime() + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10);
+    return (
+      new Date().getTime() +
+      Math.floor(Math.random() * 10) +
+      Math.floor(Math.random() * 10)
+    );
   }
   /**
    * copy
@@ -67,6 +81,8 @@ export class ProductObj {
     for (const key of keysTo) {
       if (key !== 'id') {
         copyTo[key] = copyFrom[key];
+      } else {
+        copyTo['id'] = this.getId();
       }
     }
     return copyTo;
