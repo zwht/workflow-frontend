@@ -43,7 +43,7 @@ export class DoorEditComponent implements OnInit {
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
-      width: 500,
+      width: 300,
       grid: { span: 24 },
     },
     $number: {

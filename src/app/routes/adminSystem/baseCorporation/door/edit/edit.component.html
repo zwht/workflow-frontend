@@ -19,6 +19,17 @@
               [nzLoading]="http.loading">保存</button>
           </footer-toolbar>
         </sf>
+        <div class="arithmetic">
+          <p>门洞变量：高=h，宽=w，厚=d</p>
+          <ul>
+            <li><b>门扇长</b><input nz-input placeholder="msH=h-50" [(ngModel)]="msH" /></li>
+            <li><b>门扇宽</b><input nz-input placeholder="msW=w-50" [(ngModel)]="msH" /></li>
+            <li><b>立板长</b><input nz-input placeholder="lbH=h-50" [(ngModel)]="msH" /></li>
+            <li><b>立板宽</b><input nz-input placeholder="lbW=d-50" [(ngModel)]="msH" /></li>
+            <li><b>顶板长</b><input nz-input placeholder="dbH=w-50" [(ngModel)]="msH" /></li>
+            <li><b>顶板宽</b><input nz-input placeholder="dbW=d-50" [(ngModel)]="msH" /></li>
+          </ul>
+        </div>
       </div>
       <div nz-col nzSpan="24">
         <div nz-row class="gxBox">

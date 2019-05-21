@@ -653,7 +653,7 @@ export class MyTicketEditComponent implements OnInit {
       }
     });
     gxList.forEach(tGx => {
-      tGx.price = tGx.price;
+      tGx.price = tGx.countPrice;
       if (tGx.priceAdd) {
         tGx.countPrice += tGx.priceAdd;
       }

@@ -3,7 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient, SettingsService } from '@delon/theme';
-import { SFSchema, SFUISchema, FormProperty, PropertyGroup, SFComponent } from '@delon/form';
+import {
+  SFSchema,
+  SFUISchema,
+  FormProperty,
+  PropertyGroup,
+  SFComponent,
+} from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { delay, map } from 'rxjs/operators';
 import { TokenService, DA_SERVICE_TOKEN } from '@delon/auth';
@@ -17,9 +23,7 @@ export class UserIndexEditComponent implements OnInit {
   cpName = '用户';
   id = this.route.snapshot.queryParams.id;
   i: any;
-  commonSchema: SFSchema['properties'] = {
-
-  };
+  commonSchema: SFSchema['properties'] = {};
   schema: SFSchema = {};
   ui: SFUISchema = {};
   constructor(
@@ -27,21 +31,23 @@ export class UserIndexEditComponent implements OnInit {
     public location: Location,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {
     const co: SFSchema['properties'] = {
       loginName: { type: 'string', title: '登录名', maxLength: 10 },
       name: { type: 'string', title: '真实名', maxLength: 10 },
       phone: { type: 'string', title: '手机号', maxLength: 11, minLength: 11 },
-      roles: { type: 'string', title: '用户角色', default: 107 }
+      roles: { type: 'string', title: '用户角色', default: 106 },
+      gxIds: {
+        type: 'string',
+        title: '生产工序',
+      },
     };
-    let roleK = 101;
     if (this.settingsService.user.roles.indexOf('888888') !== -1) {
       this.commonSchema = {
         corporationId: { type: 'string', title: '公司' },
-        ...co
+        ...co,
       };
-      roleK = 100;
     } else {
       this.commonSchema = co;
     }
@@ -66,21 +72,32 @@ export class UserIndexEditComponent implements OnInit {
       $password1: {
         widget: 'string',
         type: 'password',
-        validator: (value: any, formProperty: FormProperty, form: PropertyGroup) => {
+        validator: (
+          value: any,
+          formProperty: FormProperty,
+          form: PropertyGroup,
+        ) => {
           if (form.value && form.value.password != null && value != null) {
-            return form.value.password === value ? [] : [{ keyword: 'format', message: '两次密码不相同！' }];
+            return form.value.password === value
+              ? []
+              : [{ keyword: 'format', message: '两次密码不相同！' }];
           } else {
             return [];
           }
-        }
+        },
       },
       $roles: {
         widget: 'select',
-        mode: 'tags',
+        mode: 'multiple',
+        change: (e) => {
+        },
         asyncData: (name: string) => {
-          return this.http.post('./v1/public/code/list',
-            { valueStart: roleK, valueEnd: 999 },
-            { pageNum: 1, pageSize: 1000 })
+          return this.http
+            .post(
+              './v1/public/code/list',
+              { valueStart: 100, valueEnd: 200 },
+              { pageNum: 1, pageSize: 1000 },
+            )
             .pipe(
               // delay(1200),
               map((item: ResponseVo) => {
@@ -91,16 +108,16 @@ export class UserIndexEditComponent implements OnInit {
                     value: obj.value,
                   };
                 });
-              })
+              }),
             );
         },
       },
-      $corporationId: {
+      $gxIds: {
         widget: 'select',
+        mode: 'multiple',
         asyncData: (name: string) => {
-          return this.http.post('./v1/corporation/list',
-            { valueStart: 101, valueEnd: 999 },
-            { pageNum: 1, pageSize: 1000 })
+          return this.http
+            .post('./v1/gx/list', {}, { pageNum: 1, pageSize: 1000 })
             .pipe(
               // delay(1200),
               map((item: ResponseVo) => {
@@ -111,35 +128,71 @@ export class UserIndexEditComponent implements OnInit {
                     value: obj.id,
                   };
                 });
-              })
+              }),
             );
         },
-      }
+      },
+      $corporationId: {
+        widget: 'select',
+        asyncData: (name: string) => {
+          return this.http
+            .post(
+              './v1/corporation/list',
+              { valueStart: 101, valueEnd: 999 },
+              { pageNum: 1, pageSize: 1000 },
+            )
+            .pipe(
+              // delay(1200),
+              map((item: ResponseVo) => {
+                if (!item.response.data.length) return [];
+                return item.response.data.map(obj => {
+                  return {
+                    label: obj.name,
+                    value: obj.id,
+                  };
+                });
+              }),
+            );
+        },
+      },
     };
 
-    this.schema = !this.id ? {
-      properties: {
-        ...this.commonSchema,
-        password: { type: 'string', title: '密码', maximum: 30 },
-        password1: { type: 'string', title: '再次输入密码', maximum: 30 },
-      },
-      required: ['loginName', 'corporationId', 'name', 'password', 'password1', 'roles', 'phone'],
-    } : {
-        properties: {
-          ...this.commonSchema
-        },
-        required: ['loginName', 'corporationId', 'name', 'roles', 'phone'],
-      };
+    this.schema = !this.id
+      ? {
+          properties: {
+            ...this.commonSchema,
+            password: { type: 'string', title: '密码', maximum: 30 },
+            password1: { type: 'string', title: '再次输入密码', maximum: 30 },
+          },
+          required: [
+            'loginName',
+            'corporationId',
+            'name',
+            'password',
+            'password1',
+            'roles',
+            'phone',
+          ],
+        }
+      : {
+          properties: {
+            ...this.commonSchema,
+          },
+          required: ['loginName', 'corporationId', 'name', 'roles', 'phone'],
+        };
   }
 
   ngOnInit(): void {
     if (this.id) {
       this.title = '编辑';
-      this.http.get(`./v1/user/getById?id=${this.id}`)
+      this.http
+        .get(`./v1/user/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
-          res.response.roles = res.response.roles ? res.response.roles.split(',').map(item => {
-            return parseInt(item, 10);
-          }) : [];
+          res.response.roles = res.response.roles
+            ? res.response.roles.split(',').map(item => {
+                return parseInt(item, 10);
+              })
+            : [];
           this.i = res.response;
         });
     } else {
