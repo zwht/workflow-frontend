@@ -1,6 +1,14 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import { STColumn, STComponent, STRes, STReq, STPage, STData, STColumnButton } from '@delon/abc';
+import {
+  STColumn,
+  STComponent,
+  STRes,
+  STReq,
+  STPage,
+  STData,
+  STColumnButton,
+} from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseVo } from '@interface/utils/ResponseVo';
@@ -25,11 +33,11 @@ export class SelectDoorComponent implements OnInit {
     properties: {
       name: {
         type: 'string',
-        title: '名称'
+        title: '名称',
       },
       number: {
         type: 'string',
-        title: '编号'
+        title: '编号',
       },
       type: {
         type: 'string',
@@ -38,33 +46,42 @@ export class SelectDoorComponent implements OnInit {
           widget: 'select',
           nzAllowClear: true,
           asyncData: (name: string) => {
-            return this.http.post('./v1/public/code/list', {
-              groupId: '291996688304967680'
-            }, { pageNum: 1, pageSize: 1000 })
+            return this.http
+              .post(
+                './v1/public/code/list',
+                {
+                  groupId: '291996688304967680',
+                },
+                { pageNum: 1, pageSize: 1000 },
+              )
               .pipe(
                 delay(120),
                 map((item: ResponsePageVo) => {
                   if (!item.response.data.length) return [];
-                  return [{
-                    label: '--全部--',
-                    value: '1301,1302',
-                  }].concat(
-                    item.response.data.filter(obj => {
-                      return obj.value < 1350;
-                    }).map(obj => {
-                      return {
-                        label: obj.name,
-                        value: obj.value,
-                      };
-                    })
+                  return [
+                    {
+                      label: '--全部--',
+                      value: '1301,1302',
+                    },
+                  ].concat(
+                    item.response.data
+                      .filter(obj => {
+                        return obj.value < 1350;
+                      })
+                      .map(obj => {
+                        return {
+                          label: obj.name,
+                          value: obj.value,
+                        };
+                      }),
                   );
-                })
+                }),
               );
           },
-          width: 200
-        }
-      }
-    }
+          width: 200,
+        },
+      },
+    },
   };
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
@@ -72,32 +89,35 @@ export class SelectDoorComponent implements OnInit {
     { title: '名称', index: 'name' },
     { title: '编号', index: 'number' },
     {
-      title: '图片', index: 'img', type: 'img', width: '150px',
-      className: 'imgTd'
-    }
+      title: '图片',
+      index: 'img',
+      type: 'img',
+      width: '150px',
+      className: 'imgTd',
+    },
   ];
 
   constructor(
     private http: _HttpClient,
     private modal: NzModalRef,
     public activatedRoute: ActivatedRoute,
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
     this.getList();
   }
-  _onReuseInit() {
-  }
+  _onReuseInit() {}
 
   search(e) {
     this.getList(e);
   }
 
   getList(data?) {
-    this.http.post(`./v1/door/list?pageNum=${this.page}&pageSize=${this.pageSize}`,
-      data || { type: '1301,1302' })
+    this.http
+      .post(
+        `./v1/door/list?pageNum=${this.page}&pageSize=${this.pageSize}`,
+        data || { type: '1301,1302' },
+      )
       .subscribe((res: ResponseVo) => {
         if (res.response) {
           this.total = res.response.pageCount;
@@ -106,26 +126,27 @@ export class SelectDoorComponent implements OnInit {
       });
   }
 
-  pageChange = (e) => {
+  pageChange = e => {
     this.page = e;
     this.getList();
-  }
+  };
 
-  pageSizeChange = (e) => {
+  pageSizeChange = e => {
     this.page = 1;
     this.pageSize = e;
     this.getList();
-  }
+  };
 
   selectItem(door) {
-    const gxIds = door.gxIds.split(','), gxValues = door.gxValues.split(',');
+    const gxIds = door.gxIds.split(','),
+      gxValues = door.gxValues.split(',');
     const gxList = [];
     this.gxList.forEach(item => {
       gxIds.forEach((id, i) => {
         if (id === item.id) {
           gxList.push({
             name: item.name,
-            price: gxValues[i]
+            price: gxValues[i],
           });
         }
       });
@@ -135,8 +156,9 @@ export class SelectDoorComponent implements OnInit {
         type: door.type,
         id: door.id,
         name: door.name,
-        gxList
-      }
+        gxList,
+        arithmetic: door.arithmetic ? JSON.parse(door.arithmetic) : {},
+      },
     });
   }
 }

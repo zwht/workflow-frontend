@@ -31,11 +31,20 @@ export class DoorEditComponent implements OnInit {
   i: any = {
     type: 1301,
   };
+  type = 1301;
+  arithmetic: any = {
+    msH: 'h-50',
+    msW: 'w-50',
+    lbH: 'h-50',
+    lbW: 'd-50',
+    dbH: 'w-50',
+    dbW: 'd-50',
+  };
   schema: SFSchema = {
     properties: {
+      number: { type: 'string', title: '编号', maxLength: 20, minimum: 2 },
       type: { type: 'number', title: '类型', maxLength: 20, minimum: 2 },
       name: { type: 'string', title: '门名', maxLength: 30 },
-      number: { type: 'string', title: '编号', maxLength: 20, minimum: 2 },
     },
     required: ['name', 'number', 'type'],
   };
@@ -111,12 +120,18 @@ export class DoorEditComponent implements OnInit {
         .subscribe((res: ResponseVo) => {
           this.i = res.response;
           this.cropperImg = this.i.img;
+          if (this.i.arithmetic) {
+            this.arithmetic = JSON.parse(this.i.arithmetic);
+          }
           this.getGxList();
         });
     } else {
       this.i = {};
       this.getGxList();
     }
+  }
+  formChange(e: any) {
+    this.type = e.type;
   }
   save(value: any) {
     let gxIds = '',
@@ -133,6 +148,7 @@ export class DoorEditComponent implements OnInit {
       img: this.cropperImg,
       gxIds,
       gxValues,
+      arithmetic: JSON.stringify(this.arithmetic),
     });
     if (this.id) {
       this.http.post(`./v1/door/update`, data).subscribe(res => {

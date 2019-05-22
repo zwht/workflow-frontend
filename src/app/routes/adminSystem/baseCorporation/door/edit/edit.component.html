@@ -12,7 +12,8 @@
     <div *ngIf="i" nz-row>
       <div nz-col nzSpan="24">
         <app-cropper-img [(ngModel)]="cropperImg" [showBtn]=false [boxStyle]="{width:400,height:400, previewWidth:300,previewHeight:300}"></app-cropper-img>
-        <sf #sf mode="edit" [schema]="schema" [ui]="ui" [formData]="i" button="none">
+        <sf #sf mode="edit" (formChange)="formChange($event)"
+        [schema]="schema" [ui]="ui" [formData]="i" button="none">
           <footer-toolbar errorCollect>
             <button nz-button type="button" (click)="back()" [nzLoading]="http.loading">返回</button>
             <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid"
@@ -22,12 +23,12 @@
         <div class="arithmetic">
           <p>门洞变量：高=h，宽=w，厚=d</p>
           <ul>
-            <li><b>门扇长</b><input nz-input placeholder="msH=h-50" [(ngModel)]="msH" /></li>
-            <li><b>门扇宽</b><input nz-input placeholder="msW=w-50" [(ngModel)]="msH" /></li>
-            <li><b>立板长</b><input nz-input placeholder="lbH=h-50" [(ngModel)]="msH" /></li>
-            <li><b>立板宽</b><input nz-input placeholder="lbW=d-50" [(ngModel)]="msH" /></li>
-            <li><b>顶板长</b><input nz-input placeholder="dbH=w-50" [(ngModel)]="msH" /></li>
-            <li><b>顶板宽</b><input nz-input placeholder="dbW=d-50" [(ngModel)]="msH" /></li>
+            <li *ngIf="type==1301"><b>门扇长(msH)</b><input nz-input placeholder="h-50" [(ngModel)]="arithmetic.msH" /></li>
+            <li *ngIf="type==1301"><b>门扇宽(msW)</b><input nz-input placeholder="w-50" [(ngModel)]="arithmetic.msW" /></li>
+            <li><b>立板长(lbH)</b><input nz-input placeholder="h-50" [(ngModel)]="arithmetic.lbH" /></li>
+            <li><b>立板宽(lbW)</b><input nz-input placeholder="d-50" [(ngModel)]="arithmetic.lbW" /></li>
+            <li><b>顶板长(dbH)</b><input nz-input placeholder="w-50" [(ngModel)]="arithmetic.dbH" /></li>
+            <li><b>顶板宽(dbW)</b><input nz-input placeholder="d-50" [(ngModel)]="arithmetic.dbW" /></li>
           </ul>
         </div>
       </div>

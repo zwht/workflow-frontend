@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { NzMessageService, NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import { _HttpClient, SettingsService } from '@delon/theme';
 import { SFSchema, SFUISchema, SFComponent } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
@@ -101,7 +101,7 @@ export class MyTicketEditComponent implements OnInit {
     this.options = value ? [value, value + value, value + value + value] : [];
   }
   constructor(
-    private elRef: ElementRef,
+    private notification: NzNotificationService,
     private route: ActivatedRoute,
     private router: Router,
     private reuseTabService: ReuseTabService,
@@ -374,6 +374,14 @@ export class MyTicketEditComponent implements OnInit {
         if (result.data.type === 1302) {
           item.doorSize = '';
         }
+        // 自动计算门尺寸
+        const a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}$/.test(
+          item.coverSize,
+        );
+        if (a && item.doorObj.id) {
+          this.jsDoorSize(item);
+        }
+
         this.setProductList();
         this.setItemGxPrice(item);
         this.totalFn();
@@ -688,9 +696,14 @@ export class MyTicketEditComponent implements OnInit {
         );
         break;
       case 'coverSize':
+        // 洞口尺寸
         a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}$/.test(
           item[key],
         );
+        // 自动计算门尺寸
+        if (a && item.doorObj.id) {
+          this.jsDoorSize(item);
+        }
         break;
       case 'sum':
         a = /^[1-9][0-9]{0,1}$/.test(item[key]);
@@ -711,6 +724,40 @@ export class MyTicketEditComponent implements OnInit {
     }
     this.totalFn();
     this.countLine();
+  }
+
+  // 自动计算门尺寸
+  jsDoorSize(item) {
+    const hwd = item.coverSize.split('*');
+    const h = parseInt(hwd[0], 10),
+      w = parseInt(hwd[1], 10),
+      d = parseInt(hwd[2], 10);
+    let msH = 0,
+      msW = 0,
+      lbH = 0,
+      lbW = 0,
+      dbH = 0,
+      dbW = 0;
+
+    lbH = eval(item.doorObj.arithmetic.lbH);
+    lbW = eval(item.doorObj.arithmetic.lbW);
+    dbH = eval(item.doorObj.arithmetic.dbH);
+    dbW = eval(item.doorObj.arithmetic.dbW);
+
+    // 类型为门的时候计算门板
+    if (item.doorObj.type === 1301) {
+      msH = eval(item.doorObj.arithmetic.msH);
+      msW = eval(item.doorObj.arithmetic.msW);
+      item.doorSize = msH + '*' + msW + '=1';
+    }
+
+    item.lbSize = lbH + '*' + lbW + '=2';
+    item.dbSize = dbH + '*' + dbW + '=1';
+    this.notification.create(
+      'warning',
+      '请注意！',
+      '门扇，立板，顶板已自动计算，请注意是否需要修改！'
+    );
   }
 
   // 总计方法
