@@ -141,7 +141,10 @@ export class ColorEditComponent implements OnInit {
             }
           });
         }
-        this.gxList = res.response.data;
+        this.gxList = res.response.data.map(oo => {
+          oo.price = Number(oo.price);
+          return oo;
+        });
         const myGxList = Object.assign([], this.gxList.filter(item => {
           return item.act;
         }));

@@ -1,6 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import { STColumn, STComponent, STRes, STReq, STPage, STData, STColumnButton } from '@delon/abc';
+import {
+  STColumn,
+  STComponent,
+  STRes,
+  STReq,
+  STPage,
+  STData,
+  STColumnButton,
+} from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseVo } from '@interface/utils/ResponseVo';
@@ -30,7 +38,7 @@ export class MyTicketListComponent implements OnInit {
         item.img = './v1/public/file/getById?id=' + item.img;
       });
       return data;
-    }
+    },
   };
   page: STPage = {
     showSize: true,
@@ -39,9 +47,9 @@ export class MyTicketListComponent implements OnInit {
     properties: {
       name: {
         type: 'string',
-        title: '名称'
-      }
-    }
+        title: '名称',
+      },
+    },
   };
 
   @ViewChild('st') st: STComponent;
@@ -51,33 +59,48 @@ export class MyTicketListComponent implements OnInit {
     { title: '经销商', index: 'dealersName' },
     { title: '业务经理', index: 'marketName' },
     {
-      title: '状态', index: 'state', type: 'tag',
+      title: '状态',
+      index: 'state',
+      type: 'tag',
       tag: {
         1502: {
           text: this.codeDataService.getName(1502),
-          color: 'magenta'
+          color: 'magenta',
         },
         1501: {
           text: this.codeDataService.getName(1501),
-          color: 'green'
-        }
-      }
+          color: 'green',
+        },
+      },
+    },
+    {
+      title: '排产日期',
+      type: 'date',
+      index: 'startTime',
+      dateFormat: 'YYYY-MM-DD',
+    },
+    {
+      title: '交货日期',
+      type: 'date',
+      index: 'endTime',
+      dateFormat: 'YYYY-MM-DD',
     },
     {
       title: '操作',
       buttons: [
         {
-          text: '编辑', click: (item: any) => {
+          text: '编辑',
+          click: (item: any) => {
             this.add(item);
-          }
+          },
         },
-        {
-          text: '删除', type: 'del', click: (item: any) => {
-            this.del(item.id);
-          }
-        },
-      ]
-    }
+        // {
+        //   text: '删除', type: 'del', click: (item: any) => {
+        //     this.del(item.id);
+        //   }
+        // },
+      ],
+    },
   ];
   constructor(
     private http: _HttpClient,
@@ -85,32 +108,26 @@ export class MyTicketListComponent implements OnInit {
     private msgSrv: NzMessageService,
     public activatedRoute: ActivatedRoute,
     private codeDataService: CodeDataService,
-  ) {
-
-  }
-  ngOnInit() {
-  }
+  ) {}
+  ngOnInit() {}
   _onReuseInit() {
     this.st.reload();
   }
-
 
   search(e) {
     this.st.req.body = Object.assign({}, this.req.body, e);
     this.st.load(1);
   }
-  stChange(item) {
-
-  }
+  stChange(item) {}
   add(item?) {
-    this.router.navigate(['/admin/ticket/myTicket/edit'], { queryParams: { id: item ? item.id || '' : '' } });
+    this.router.navigate(['/admin/ticket/myTicket/edit'], {
+      queryParams: { id: item ? item.id || '' : '' },
+    });
   }
   del(id) {
-    this.http.get(`./v1/ticket/del?id=${id}`)
-      .subscribe((data: ResponseVo) => {
-        this.msgSrv.success('成功');
-        this.st.reload();
-      });
+    this.http.get(`./v1/ticket/del?id=${id}`).subscribe((data: ResponseVo) => {
+      this.msgSrv.success('成功');
+      this.st.reload();
+    });
   }
-  
 }

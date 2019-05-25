@@ -4,7 +4,7 @@ export interface ResponsePageVo {
   response: {
     pageNum: number;
     pageSize: number;
-    pageCount: number;
+    pageCount: string;
     data: Array<any>;
   };
   msgObj: Array<any>;

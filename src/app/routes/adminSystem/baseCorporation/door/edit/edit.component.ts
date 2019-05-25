@@ -34,11 +34,11 @@ export class DoorEditComponent implements OnInit {
   type = 1301;
   arithmetic: any = {
     msH: 'h-50',
-    msW: 'w-50',
-    lbH: 'h-50',
-    lbW: 'd-50',
-    dbH: 'w-50',
-    dbW: 'd-50',
+    msW: 'w-85',
+    lbH: 'h-38',
+    lbW: 'd',
+    dbH: 'w-20',
+    dbW: 'd',
   };
   schema: SFSchema = {
     properties: {
@@ -193,7 +193,10 @@ export class DoorEditComponent implements OnInit {
             item.act = true;
           });
         }
-        this.gxList = res.response.data;
+        this.gxList = res.response.data.map(oo => {
+          oo.price = Number(oo.price);
+          return oo;
+        });
         const myGxList = Object.assign(
           [],
           this.gxList.filter(item => {

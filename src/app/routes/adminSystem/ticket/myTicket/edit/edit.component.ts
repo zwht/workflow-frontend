@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NzMessageService, NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {
+  NzMessageService,
+  NzModalService,
+  NzNotificationService,
+} from 'ng-zorro-antd';
 import { _HttpClient, SettingsService } from '@delon/theme';
 import { SFSchema, SFUISchema, SFComponent } from '@delon/form';
 import { ResponseVo } from '@interface/utils/ResponseVo';
@@ -154,10 +158,13 @@ export class MyTicketEditComponent implements OnInit {
         res.response.data.forEach(item => {
           ar.forEach(obj => {
             if (obj.id === item.gxId) {
+              item.price = Number(item.price);
+              item.priceAdd = Number(item.priceAdd);
               obj.processId = obj.id;
               obj.countPrice = item.price + item.priceAdd;
               obj.priceAdd = item.priceAdd;
               obj.state = item.state;
+              obj.price = item.price;
             }
           });
         });
@@ -326,15 +333,35 @@ export class MyTicketEditComponent implements OnInit {
           for (let i = 0; i < hasKey; i++) {
             res.response.data.push({});
           }
-          this.gxList = res.response.data;
+          this.gxList = res.response.data.map(oo => {
+            oo.price = Number(oo.price);
+            return oo;
+          });
           if (this.id) {
             this.title = '编辑';
             this.getDetails();
           } else {
+            this.bianHao();
             this.productList = [new ProductObj(this.id)];
           }
         }
       });
+  }
+  // 计算一个订单编号
+  bianHao() {
+    this.http.post(`./v1/ticket/count`, {}).subscribe((res: ResponsePageVo) => {
+      if (res.status === 200) {
+        const n = new Date();
+        let year = n.getFullYear() + '';
+        let month: any = n.getMonth() + 1;
+        year = year.substring(year.length - 2);
+        if (month < 10) {
+          month = '0' + month;
+        }
+        this.ticketObj.number =
+          year + month + '-' + (parseInt(res.response.pageCount, 10) + 1);
+      }
+    });
   }
 
   showDoor(item) {
@@ -756,7 +783,7 @@ export class MyTicketEditComponent implements OnInit {
     this.notification.create(
       'warning',
       '请注意！',
-      '门扇，立板，顶板已自动计算，请注意是否需要修改！'
+      '门扇，立板，顶板已自动计算，请注意是否需要修改！',
     );
   }
 
