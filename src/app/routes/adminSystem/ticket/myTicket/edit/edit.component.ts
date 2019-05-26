@@ -160,7 +160,7 @@ export class MyTicketEditComponent implements OnInit {
             if (obj.id === item.gxId) {
               item.price = Number(item.price);
               item.priceAdd = Number(item.priceAdd);
-              obj.processId = obj.id;
+              obj.processId = item.id;
               obj.countPrice = item.price + item.priceAdd;
               obj.priceAdd = item.priceAdd;
               obj.state = item.state;
@@ -297,7 +297,7 @@ export class MyTicketEditComponent implements OnInit {
     this.gxList.forEach((item, i) => {
       if (item.id) {
         gxAr.push({
-          id: item.process,
+          id: item.processId,
           gxId: item.id,
           price: item.price,
           priceAdd: item.countPrice - item.price,
