@@ -159,27 +159,27 @@ export class UserIndexEditComponent implements OnInit {
 
     this.schema = !this.id
       ? {
-          properties: {
-            ...this.commonSchema,
-            password: { type: 'string', title: '密码', maximum: 30 },
-            password1: { type: 'string', title: '再次输入密码', maximum: 30 },
-          },
-          required: [
-            'loginName',
-            'corporationId',
-            'name',
-            'password',
-            'password1',
-            'roles',
-            'phone',
-          ],
-        }
+        properties: {
+          ...this.commonSchema,
+          password: { type: 'string', title: '密码', maximum: 30 },
+          password1: { type: 'string', title: '再次输入密码', maximum: 30 },
+        },
+        required: [
+          'loginName',
+          'corporationId',
+          'name',
+          'password',
+          'password1',
+          'roles',
+          'phone',
+        ],
+      }
       : {
-          properties: {
-            ...this.commonSchema,
-          },
-          required: ['loginName', 'corporationId', 'name', 'roles', 'phone'],
-        };
+        properties: {
+          ...this.commonSchema,
+        },
+        required: ['loginName', 'corporationId', 'name', 'roles', 'phone'],
+      };
   }
 
   ngOnInit(): void {
@@ -190,8 +190,8 @@ export class UserIndexEditComponent implements OnInit {
         .subscribe((res: ResponseVo) => {
           res.response.roles = res.response.roles
             ? res.response.roles.split(',').map(item => {
-                return parseInt(item, 10);
-              })
+              return parseInt(item, 10);
+            })
             : [];
           this.i = res.response;
         });
@@ -202,6 +202,9 @@ export class UserIndexEditComponent implements OnInit {
   save(value: any) {
     if (value.roles && typeof value.roles !== 'string' && value.roles.length) {
       value.roles = value.roles.join(',');
+    }
+    if (value.gxIds) {
+      value.gxIds = JSON.stringify(value.gxIds);
     }
     if (this.id) {
       this.http.post(`./v1/user/update`, value).subscribe(res => {
