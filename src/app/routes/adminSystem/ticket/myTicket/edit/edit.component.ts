@@ -165,6 +165,7 @@ export class MyTicketEditComponent implements OnInit {
               obj.priceAdd = item.priceAdd;
               obj.state = item.state;
               obj.price = item.price;
+              obj.userName = item.userName;
             }
           });
         });

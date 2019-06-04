@@ -1,9 +1,10 @@
-*{ box-sizing: border-box;}
+*{ box-sizing: border-box; font-size: 16px;}
 .printHide{ display: none !important;}
 .ant-calendar-picker-clear,.ant-calendar-picker-icon,
 .topTable .anticon,.ant-select-search{ display: none;}
 
 input {
+  font-size: 16px;
   border: none;
   padding: 0;
   width: 100%;
@@ -28,7 +29,7 @@ textarea,
 input,
 td,
 .gxTable {
-  font-size: 14px;
+  font-size: 16px;
 }
 el-select {
   width: 100%;
@@ -40,25 +41,23 @@ el-select {
   border-radius: none;
   border: none;
 }
-.rightB{ text-align: left;position: relative; padding-left: 76px;}
+.rightB{ text-align: left;position: relative; padding-left: 86px;}
 .rightB .ant-calendar-picker{ width: 100%;}
-.rightB b{ position: absolute; top:4px; left: 8px;}
+.rightB b{ position: absolute; top:0; left: 8px;}
 .rightB nz-select{ text-align: left;}
 .rightB nz-select span{ display: none;}
 .rightB input{ text-align: left !important;}
 
 .ant-input{ padding: 0;}
 .ticketTable {
- 
+  border: none;
   width: 100%;
-  border-left: none;
-  border-bottom: none;
   text-align: center;
 }
 .productItem td{position: relative;}
 .haderB{ font-weight: bold;}
 
-table,table tr th, table tr td { border:1px solid #ededed;
+table,table tr th, table tr td { border:1px solid #333;
   padding:0, }
 table { width: 100%; text-align: center; border-collapse: collapse;} 
   
@@ -91,7 +90,7 @@ table { width: 100%; text-align: center; border-collapse: collapse;}
   top: 0;
   left: 0;
   width: 100px;
-  border: 1px solid #ededed;
+  border: 1px solid #333;
   border-top: none;
 }
 .gxBox:after {
@@ -103,33 +102,37 @@ table { width: 100%; text-align: center; border-collapse: collapse;}
   clear: both;
 }
 .gxBox > div {
-  border-bottom: 1px solid #ededed;
-  border-right: 1px solid #ededed;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
   text-align: center;
   float: left;
   width: 8.333%;
 }
 .gxBox > div .i1 {
-  height: 26px;
-  line-height: 26px;
+  height: 20px;
+  line-height: 18px;
 }
 .gxBox > div .i2 {
-  border-top: 1px solid #ededed;
-  border-bottom: 1px solid #ededed;
-  height: 26px;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  height: 20px;
+  line-height: 18px;
 }
 .gxBox > div .i3 {
-  height: 26px;
+  height: 20px;
+  line-height: 18px;
 }
 .trGxBox {
   margin: 0 -2px -2px 0;
-  font-size: 12px;
+  font-size: 16px;
+  line-height: 18px;
 }
 .trGxBox input {
-  font-size: 12px;
+  font-size: 16px;
+  line-height: 18px;
 }
 .printHide {
   display: none !important;
 }
 .baseTdItem{width: 3.57%; height: 0; border: none !important;}
-.baseBox{ border-left: 1px solid #ededed;}
+.baseBox{ border-left: 1px solid #333;}
