@@ -2,7 +2,9 @@
   <page-header [breadcrumb]="breadcrumb">
     <ng-template #breadcrumb>
       <nz-breadcrumb>
-        <nz-breadcrumb-item><a href="/#/admin/ticket/myTicket">{{cpName}}列表</a></nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+          <a href="/#/admin/ticket/myTicket">{{cpName}}列表</a>
+        </nz-breadcrumb-item>
         <nz-breadcrumb-item>{{title+cpName}}</nz-breadcrumb-item>
       </nz-breadcrumb>
     </ng-template>
@@ -24,8 +26,8 @@
             <span>套</span>
           </td>
           <td rowspan="4" colspan="4">
-            <ngx-qrcode [qrc-element-type]="'url'" [qrc-value]="'http://101.204.247.165:11112/#/pages/client/index/index?id='+id" qrc-class="aclass"
-              qrc-errorCorrectionLevel="A">
+            <ngx-qrcode [qrc-element-type]="'url'" [qrc-value]="'http://101.204.247.165:11112/#/pages/a?i='+id" qrc-class="aclass"
+              qrc-errorCorrectionLevel="L">
             </ngx-qrcode>
           </td>
         </tr>
@@ -133,16 +135,13 @@
         </tr>
         <ng-template ngFor let-i="index" let-data [ngForOf]="productList">
           <tr class="productItem" [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
-            <td colspan="2" *ngIf="data.rowspanColor" [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)"
-              class="cursor">
+            <td colspan="2" *ngIf="data.rowspanColor" [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)" class="cursor">
               <div>{{data.colorObj.name}}</div>
             </td>
-            <td colspan="3" *ngIf="data.rowspanMaterial" [attr.rowspan]="data.rowspanMaterial"
-              (dblclick)="showMaterial(data)" class="cursor">
+            <td colspan="3" *ngIf="data.rowspanMaterial" [attr.rowspan]="data.rowspanMaterial" (dblclick)="showMaterial(data)" class="cursor">
               <div>{{data.materialObj.name}}</div>
             </td>
-            <td colspan="3" *ngIf="data.rowspanDoor" [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)"
-              class="cursor">
+            <td colspan="3" *ngIf="data.rowspanDoor" [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)" class="cursor">
               <div>{{data.doorObj.name}}</div>
             </td>
             <td class="cursor" (click)="contextMenuClick({item:data},'show')">
@@ -157,8 +156,7 @@
               <input (blur)="onBlur($event,data,'coverSize')" [(ngModel)]="data.coverSize" class="inputHeight">
             </td>
             <td colspan="3">
-              <input [disabled]='data.doorObj.type==1302' (blur)="onBlur($event,data,'doorSize')"
-                [(ngModel)]="data.doorSize" class="inputHeight">
+              <input [disabled]='data.doorObj.type==1302' (blur)="onBlur($event,data,'doorSize')" [(ngModel)]="data.doorSize" class="inputHeight">
             </td>
             <td colspan="3">
               <input (blur)="onBlur($event,data,'lbSize')" [(ngModel)]="data.lbSize" class="inputHeight">
@@ -174,11 +172,9 @@
               <textarea [(ngModel)]="data.remarks" style="width: 100%; border: none;"></textarea>
             </td>
           </tr>
-          <tr class="printHide" [ngClass]="{'productShow2': data.show}" (contextmenu)="onContextMenu($event, data)"
-            *ngIf="data.show">
+          <tr class="printHide" [ngClass]="{'productShow2': data.show}" (contextmenu)="onContextMenu($event, data)" *ngIf="data.show">
             <td>
-              <i class="iconBtn" (click)="contextMenuClick({item:data},'show')" nz-icon type="up-circle"
-                theme="outline"></i>
+              <i class="iconBtn" (click)="contextMenuClick({item:data},'show')" nz-icon type="up-circle" theme="outline"></i>
             </td>
             <td colspan="20">
               <div nz-row class="gxBox trGxBox">
@@ -244,8 +240,7 @@
               <b *ngIf="item.priceAdd">{{item.priceAdd>0?'+'+item.priceAdd:item.priceAdd}}</b>
             </div>
             <div class="i2">
-              <input (blur)="gxBlur($event,item)" *ngIf="item.name" [(ngModel)]="item.countPrice" type='number'
-                nz-input>
+              <input (blur)="gxBlur($event,item)" *ngIf="item.name" [(ngModel)]="item.countPrice" type='number' nz-input>
             </div>
             <div class="i3">{{item.userName}}</div>
           </div>
@@ -259,8 +254,7 @@
           <i nz-icon type="arrow-up" theme="outline"></i>
         </span>
       </ng-template>
-      <ng-template [enabled]="contextMenuActive.indexKey!=productList.length-1"
-        (execute)="contextMenuClick($event,'down')" contextMenuItem>
+      <ng-template [enabled]="contextMenuActive.indexKey!=productList.length-1" (execute)="contextMenuClick($event,'down')" contextMenuItem>
         <span>
           下移
           <i nz-icon type="arrow-down" theme="outline"></i>
@@ -285,13 +279,12 @@
       </ng-template>
     </context-menu>
     <footer-toolbar>
-      <e-ngx-print #printComponent [mode]="'popup'" [popTitle]="'表格打印'" [showBtn]="false" [printHTML]="printDiv"
-        [printStyle]="printStyle" [printCSS]="printCSS" (printComplete)="printComplete()">
+      <e-ngx-print #printComponent [mode]="'popup'" [popTitle]="'表格打印'" [showBtn]="false" [printHTML]="printDiv" [printStyle]="printStyle"
+        [printCSS]="printCSS" (printComplete)="printComplete()">
       </e-ngx-print>
       <button nz-button type="button" (click)="print()">打印</button>
       <button nz-button type="button" (click)="back()">返回</button>
-      <button nz-button type="submit" nzType="primary" (click)="save()" [disabled]="valid"
-        [nzLoading]="loading">保存</button>
+      <button nz-button type="submit" nzType="primary" (click)="save()" [disabled]="valid" [nzLoading]="loading">保存</button>
     </footer-toolbar>
   </nz-card>
 </div>

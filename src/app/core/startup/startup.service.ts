@@ -111,7 +111,6 @@ export class StartupService {
         if (!key) {
           item.hide = true;
         }
-        debugger
       }
       if (key && item.children && item.children.length) {
         this.setMenuHide(item.children);
