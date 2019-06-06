@@ -88,6 +88,7 @@ export class StartupService {
   private setMenuHide(menu) {
     menu.forEach(item => {
       let key = true;
+      
       if (item.permission &&
         ((item.permission.roles && item.permission.roles.length) || (item.permission.ability && item.permission.ability.length))) {
         key = false;
@@ -110,6 +111,7 @@ export class StartupService {
         if (!key) {
           item.hide = true;
         }
+        debugger
       }
       if (key && item.children && item.children.length) {
         this.setMenuHide(item.children);

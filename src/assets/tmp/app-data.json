@@ -3,176 +3,160 @@
     "name": "通用基础系统",
     "description": "通用基础系统"
   },
-  "menu": [
-    {
-      "text": "系统01",
-      "group": false,
-      "hideInBreadcrumb": true,
-      "children": [
-        {
-          "text": "仪表盘",
-          "link": "/admin/dashboard",
-          "hideInBreadcrumb": true,
-          "icon": "anticon anticon-appstore"
+  "menu": [{
+    "text": "系统01",
+    "group": false,
+    "hideInBreadcrumb": true,
+    "children": [{
+        "text": "仪表盘",
+        "link": "/admin/dashboard",
+        "hideInBreadcrumb": true,
+        "icon": "anticon anticon-appstore"
+      },
+      {
+        "text": "工单管理",
+        "icon": "anticon anticon-solution",
+        "permission": {
+          "roles": [
+            "888888",
+            "100"
+          ],
+          "ability": []
         },
-        {
-          "text": "工单管理",
-          "icon": "anticon anticon-solution",
+        "children": [{
+          "text": "我的工单",
+          "link": "/admin/ticket/myTicket",
           "permission": {
             "roles": [
               "100"
             ],
             "ability": []
-          },
-          "children": [
-            {
-              "text": "我的工单",
-              "link": "/admin/ticket/myTicket",
-              "permission": {
-                "roles": [
-                  "100"
-                ],
-                "ability": []
-              }
-            }
-          ]
+          }
+        }]
+      },
+      {
+        "text": "基础数据",
+        "icon": "anticon anticon-build",
+        "permission": {
+          "roles": [
+            "888888",
+            "100"
+          ],
+          "ability": []
         },
-        {
-          "text": "基础数据",
-          "icon": "anticon anticon-build",
-          "permission": {
-            "roles": [
-              "100"
-            ],
-            "ability": []
-          },
-          "children": [
-            {
-              "text": "型号列表",
-              "link": "/admin/baseCorporation/door",
-              "permission": {
-                "roles": [
-                  "100"
-                ],
-                "ability": []
-              }
-            },
-            {
-              "text": "颜色列表",
-              "link": "/admin/baseCorporation/color",
-              "permission": {
-                "roles": [
-                  "100"
-                ],
-                "ability": []
-              }
-            },
-            {
-              "text": "材质列表",
-              "link": "/admin/baseCorporation/material",
-              "permission": {
-                "roles": [
-                  "100"
-                ],
-                "ability": []
-              }
-            },
-            {
-              "text": "工序列表",
-              "link": "/admin/baseCorporation/gx",
-              "permission": {
-                "roles": [
-                  "100"
-                ],
-                "ability": []
-              }
+        "children": [{
+            "text": "型号列表",
+            "link": "/admin/baseCorporation/door",
+            "permission": {
+              "roles": [
+                "100"
+              ],
+              "ability": []
             }
-          ]
+          },
+          {
+            "text": "颜色列表",
+            "link": "/admin/baseCorporation/color",
+            "permission": {
+              "roles": [
+                "100"
+              ],
+              "ability": []
+            }
+          },
+          {
+            "text": "材质列表",
+            "link": "/admin/baseCorporation/material",
+            "permission": {
+              "roles": [
+                "100"
+              ],
+              "ability": []
+            }
+          },
+          {
+            "text": "工序列表",
+            "link": "/admin/baseCorporation/gx",
+            "permission": {
+              "roles": [
+                "100"
+              ],
+              "ability": []
+            }
+          }
+        ]
+      },
+      {
+        "text": "用户管理",
+        "icon": "anticon anticon-team",
+        "permission": {
+          "roles": [
+            "888888",
+            "100"
+          ],
+          "ability": []
         },
-        {
-          "text": "用户管理",
-          "icon": "anticon anticon-team",
-          "permission": {
-            "roles": [
-              "888888",
-              100
-            ],
-            "ability": []
-          },
-          "children": [
-            {
-              "text": "用户列表",
-              "link": "/admin/user/index"
-            }
-          ]
+        "children": [{
+          "text": "用户列表",
+          "link": "/admin/user/index"
+        }]
+      },
+      {
+        "text": "基础数据模块",
+        "icon": "anticon anticon-build",
+        "permission": {
+          "roles": [
+            "888888"
+          ],
+          "ability": []
         },
-        {
-          "text": "基础数据模块",
-          "icon": "anticon anticon-build",
-          "permission": {
-            "roles": [
-              "888888",
-              "100"
-            ],
-            "ability": []
-          },
-          "children": [
-            {
-              "text": "文件列表",
-              "link": "/admin/base/file",
-              "permission": {
-                "roles": [
-                  "888888"
-                ],
-                "ability": []
-              }
-            },
-            {
-              "text": "公司列表",
-              "link": "/admin/base/corporation",
-              "permission": {
-                "roles": [
-                  "888888"
-                ],
-                "ability": []
-              }
-            },
-            {
-              "text": "码表列表",
-              "link": "/admin/base/code",
-              "permission": {
-                "roles": [
-                  "888888",
-                  "100"
-                ],
-                "ability": []
-              }
-            },
-            {
-              "text": "码表组列表",
-              "link": "/admin/base/codeGroup",
-              "permission": {
-                "roles": [
-                  "888888",
-                  "100"
-                ],
-                "ability": []
-              }
-            },
-            {
-              "text": "icon图标",
-              "link": "/admin/base/icon",
-              "permission": {
-                "roles": [
-                  "888888",
-                  "100"
-                ],
-                "ability": []
-              }
+        "children": [{
+            "text": "文件列表",
+            "link": "/admin/base/file",
+            "permission": {
+              "roles": [],
+              "ability": []
             }
-          ]
-        }
-      ]
-    }
-  ]
+          },
+          {
+            "text": "公司列表",
+            "link": "/admin/base/corporation",
+            "permission": {
+              "roles": [],
+              "ability": []
+            }
+          },
+          {
+            "text": "码表列表",
+            "link": "/admin/base/code",
+            "permission": {
+              "roles": [
+
+              ],
+              "ability": []
+            }
+          },
+          {
+            "text": "码表组列表",
+            "link": "/admin/base/codeGroup",
+            "permission": {
+              "roles": [
+
+              ],
+              "ability": []
+            }
+          },
+          {
+            "text": "icon图标",
+            "link": "/admin/base/icon",
+            "permission": {
+              "roles": [
+              ],
+              "ability": []
+            }
+          }
+        ]
+      }
+    ]
+  }]
 }

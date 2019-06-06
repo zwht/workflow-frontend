@@ -17,7 +17,6 @@ import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 import { ACLGuard } from '@delon/acl';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -30,26 +29,57 @@ const routes: Routes = [
         path: 'admin',
         data: { title: 'admin系统', reuse: true, shortcutRoot: true },
         children: [
-          { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard', reuse: true } },
           {
-            path: 'ticket', loadChildren: './adminSystem/ticket/ticket.module#TicketModule',
-            data: { title: '工单管理', reuse: true, shortcutRoot: true }
+            path: 'dashboard',
+            component: DashboardComponent,
+            data: { title: '仪表盘', titleI18n: 'dashboard', reuse: true },
           },
           {
-            path: 'baseCorporation', loadChildren: './adminSystem/baseCorporation/base-corporation.module#BaseCorporationModule',
-            data: { title: '基础数据', reuse: true, shortcutRoot: true }
+            path: 'ticket',
+            loadChildren: './adminSystem/ticket/ticket.module#TicketModule',
+            data: {
+              guard: ['888888', '100'],
+              title: '工单管理',
+              reuse: true,
+              shortcutRoot: true,
+            },
           },
           {
-            path: 'user', loadChildren: './adminSystem/user/user.module#UserModule',
-            canActivate: [ ACLGuard ], data: { guard: ['888888', '100'], title: '用户管理', reuse: true, shortcutRoot: true }
+            path: 'baseCorporation',
+            loadChildren:
+              './adminSystem/baseCorporation/base-corporation.module#BaseCorporationModule',
+            data: {
+              guard: ['888888', '100'],
+              title: '基础数据',
+              reuse: true,
+              shortcutRoot: true,
+            },
           },
           {
-            path: 'base', loadChildren: './adminSystem/base/base.module#BaseModule',
-            data: { title: '基础数据模块', reuse: true, shortcutRoot: true }
-          }
-        ]
+            path: 'user',
+            loadChildren: './adminSystem/user/user.module#UserModule',
+            canActivate: [ACLGuard],
+            data: {
+              guard: ['888888', '100'],
+              title: '用户管理',
+              reuse: true,
+              shortcutRoot: true,
+            },
+          },
+          {
+            path: 'base',
+            loadChildren: './adminSystem/base/base.module#BaseModule',
+            canActivate: [ACLGuard],
+            data: {
+              guard: ['888888'],
+              title: '基础数据模块',
+              reuse: true,
+              shortcutRoot: true,
+            },
+          },
+        ],
       },
-    ]
+    ],
   },
   // 全屏布局
   // {
@@ -64,10 +94,18 @@ const routes: Routes = [
     component: LayoutPassportComponent,
     children: [
       { path: 'login', component: UserLoginComponent, data: { title: '登录' } },
-      { path: 'register', component: UserRegisterComponent, data: { title: '注册' } },
-      { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果' } },
+      {
+        path: 'register',
+        component: UserRegisterComponent,
+        data: { title: '注册' },
+      },
+      {
+        path: 'register-result',
+        component: UserRegisterResultComponent,
+        data: { title: '注册结果' },
+      },
       { path: 'lock', component: UserLockComponent, data: { title: '锁屏' } },
-    ]
+    ],
   },
   // 单页不包裹Layout
   { path: 'callback/:type', component: CallbackComponent },
@@ -76,14 +114,13 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(
-      routes, {
-        useHash: environment.useHash,
-        // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
-        // Pls refer to https://ng-alain.com/components/reuse-tab
-        scrollPositionRestoration: 'top',
-      }
-    )],
+    RouterModule.forRoot(routes, {
+      useHash: environment.useHash,
+      // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
+      // Pls refer to https://ng-alain.com/components/reuse-tab
+      scrollPositionRestoration: 'top',
+    }),
+  ],
   exports: [RouterModule],
 })
-export class RouteRoutingModule { }
+export class RouteRoutingModule {}
