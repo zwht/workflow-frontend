@@ -1,0 +1,20 @@
+<div nz-row class="select_door_cpt">
+  <ul>
+    <li *ngFor="let item of list">
+      <div (click)="selectItem(item)">
+        <span class="spjd">{{item.name}}：</span>
+        <input  style="width:200px" *ngIf="item.type==3" [(ngModel)]="item.value"
+        type='number' nz-input placeholder="请输入工序单价">
+        <nz-radio-group *ngIf="item.type==2" [(ngModel)]="item.value">
+          <label  *ngFor="let obj of item.params" nz-radio [nzValue]="obj.value">{{obj.name}}
+            <b style="color:#099">({{obj.value}})</b>
+          </label>
+        </nz-radio-group>
+      </div>
+    </li>
+  </ul>
+  <div class="spjd">
+    <button (click)="save()" nz-button nzType="primary">确定</button>
+    <button (click)="close()" nz-button nzType="default">取消</button>
+  </div>
+</div>

@@ -12,10 +12,12 @@ import {
 import { SFSchema } from '@delon/form';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseVo } from '@interface/utils/ResponseVo';
-import { NzMessageService, NzModalRef } from 'ng-zorro-antd';
+import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { CodeDataService } from '@shared/services/code-data.service';
 import { delay, map } from 'rxjs/operators';
 import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
+
+import { PopParamsComponent } from '../popParams/popParams.component';
 @Component({
   selector: 'app-door-list',
   templateUrl: './selectDoor.component.html',
@@ -53,7 +55,7 @@ export class SelectDoorComponent implements OnInit {
                   groupId: '291996688304967680',
                 },
                 { pageNum: 1, pageSize: 1000 },
-              )
+            )
               .pipe(
                 delay(120),
                 map((item: ResponsePageVo) => {
@@ -76,7 +78,7 @@ export class SelectDoorComponent implements OnInit {
                       }),
                   );
                 }),
-              );
+            );
           },
           width: 200,
         },
@@ -101,12 +103,13 @@ export class SelectDoorComponent implements OnInit {
     private http: _HttpClient,
     private modal: NzModalRef,
     public activatedRoute: ActivatedRoute,
-  ) {}
+    private modalService: NzModalService,
+  ) { }
 
   ngOnInit() {
     this.getList();
   }
-  _onReuseInit() {}
+  _onReuseInit() { }
 
   search(e) {
     this.getList(e);
@@ -117,7 +120,7 @@ export class SelectDoorComponent implements OnInit {
       .post(
         `./v1/door/list?pageNum=${this.page}&pageSize=${this.pageSize}`,
         data || { type: '1301,1302' },
-      )
+    )
       .subscribe((res: ResponseVo) => {
         if (res.response) {
           this.total = res.response.pageCount;
@@ -136,8 +139,7 @@ export class SelectDoorComponent implements OnInit {
     this.pageSize = e;
     this.getList();
   };
-
-  selectItem(door) {
+  goItem(door) {
     const gxIds = door.gxIds.split(','),
       gxValues = door.gxValues.split(',');
     const gxList = [];
@@ -160,5 +162,29 @@ export class SelectDoorComponent implements OnInit {
         arithmetic: door.arithmetic ? JSON.parse(door.arithmetic) : {},
       },
     });
+  }
+  selectItem(door) {
+    if (door.gxParams && JSON.parse(door.gxParams).length) {
+      const modal = this.modalService.create({
+        nzTitle: '填写参数',
+        nzWidth: 600,
+        nzMaskClosable:false,
+        nzContent: PopParamsComponent,
+        nzComponentParams: {
+          gxList: door,
+        },
+        nzFooter: null,
+      });
+      // 打开后回调
+      modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
+      // 关闭回调
+      modal.afterClose.subscribe(result => {
+        if(result){
+          this.goItem(result.data)
+        }
+      })
+    } else {
+      this.goItem(door)
+    }
   }
 }

@@ -6,13 +6,14 @@ import { MyTicketEditComponent } from './myTicket/edit/edit.component';
 import { MyTicketListComponent } from './myTicket/list.component';
 import { SelectDoorComponent } from './myTicket/selectDoor/selectDoor.component';
 import { SelectColorComponent } from './myTicket/selectColor/selectColor.component';
+import { PopParamsComponent } from './myTicket/popParams/popParams.component';
 import { SelectMaterialComponent } from './myTicket/selectMaterial/selectMaterial.component';
 
 
 const COMPONENTS = [
   MyTicketListComponent, MyTicketEditComponent,
 ];
-const COMPONENTS_NOROUNT = [SelectDoorComponent, SelectColorComponent, SelectMaterialComponent];
+const COMPONENTS_NOROUNT = [PopParamsComponent,SelectDoorComponent, SelectColorComponent, SelectMaterialComponent];
 
 @NgModule({
   imports: [

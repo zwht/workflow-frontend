@@ -34,15 +34,18 @@
       </div>
       <div nz-col nzSpan="24">
         <div nz-row class="gxBox">
-          <div *ngFor="let item of myGxList" nz-col nzSpan="2">
+          <div *ngFor="let item of myGxList" nz-col nzSpan="12">
             <div class="i1" (contextmenu)="onContextMenu($event, item)">
-              {{item.name}}
-            </div>
-            <div class="i2">
-              <input *ngIf="item.name" [(ngModel)]="item.price"
+             <span class="spb">{{item.name}}</span>
+              <nz-select [(ngModel)]="item.type">
+                <nz-option *ngFor="let item of paramTypeList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+              </nz-select>
+              <input *ngIf="item.type==='1'||item.type==='3'" [(ngModel)]="item.price"
               type='number' nz-input placeholder="请输入工序单价">
+              <nz-select *ngIf="item.type==='2'" nzMode="tags" style="width: 100%; margin-top:10px;" nzPlaceHolder="输入可选参数,如：豪华贴膜#88" [(ngModel)]="item.params"  (ngModelChange)="typeParamsChange(item)">
+                <!-- <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"> </nz-option> -->
+              </nz-select>
             </div>
-            <div class="i3"></div>
           </div>
         </div>
       </div>

@@ -370,6 +370,7 @@ export class MyTicketEditComponent implements OnInit {
       nzTitle: '选择型号',
       nzWidth: 1200,
       nzContent: SelectDoorComponent,
+      nzMaskClosable:false,
       nzComponentParams: {
         gxList: this.gxList,
       },
