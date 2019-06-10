@@ -137,7 +137,7 @@ export class MyTicketEditComponent implements OnInit {
           item['doorObj'] = JSON.parse(item.door);
           item['colorObj'] = JSON.parse(item.color);
           item['materialObj'] = JSON.parse(item.material);
-          item['lines'] = JSON.parse(item.line);
+          item["lines"] = JSON.parse(item.line);
           this.setItemGxPrice(item);
         });
         this.productList = res.response.data.map(item => {
