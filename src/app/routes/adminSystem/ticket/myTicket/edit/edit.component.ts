@@ -169,7 +169,6 @@ export class MyTicketEditComponent implements OnInit {
             }
           });
         });
-        debugger
         this.gxList = ar;
         this.loading = false;
       });
