@@ -71,7 +71,7 @@ export class DoorEditComponent implements OnInit {
               groupId: '291996688304967680',
             },
             { pageNum: 1, pageSize: 1000 },
-        )
+          )
           .pipe(
             map((item: ResponsePageVo) => {
               if (!item.response.data.length) return [];
@@ -86,7 +86,7 @@ export class DoorEditComponent implements OnInit {
                   };
                 });
             }),
-        );
+          );
       },
     },
   };
@@ -100,8 +100,8 @@ export class DoorEditComponent implements OnInit {
   paramTypeList = [
     { name: '默认', id: '1' },
     { name: '单选', id: '2' },
-    { name: '输入', id: '3' }
-  ]
+    { name: '输入', id: '3' },
+  ];
 
   cropperImg;
   @ViewChild('cropper', undefined)
@@ -116,7 +116,7 @@ export class DoorEditComponent implements OnInit {
     public http: _HttpClient,
     private contextMenuService: ContextMenuService,
     private modalService: NzModalService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     if (this.id) {
@@ -124,7 +124,6 @@ export class DoorEditComponent implements OnInit {
       this.http
         .get(`./v1/door/getById?id=${this.id}`)
         .subscribe((res: ResponseVo) => {
-
           this.i = res.response;
           this.cropperImg = this.i.img;
           if (this.i.arithmetic) {
@@ -143,13 +142,13 @@ export class DoorEditComponent implements OnInit {
   typeParamsChange(item) {
     if (item.params.length) {
       for (let i = 0; i < item.params.length; i++) {
-        let aa = item.params[i].split('#')
-        if (aa.length != 2) {
-          item.params.splice(i, 1)
+        const aa = item.params[i].split('#');
+        if (aa.length !== 2) {
+          item.params.splice(i, 1);
           this.msgSrv.error('可选参数格式错误1');
         } else {
-          if (parseInt(aa[1]) != aa[1]) {
-            item.params.splice(i, 1)
+          if (parseInt(aa[1], 10) !== aa[1]) {
+            item.params.splice(i, 1);
             this.msgSrv.error('可选参数格式错误2');
           }
         }
@@ -158,29 +157,28 @@ export class DoorEditComponent implements OnInit {
   }
   save(value: any) {
     let gxIds = '',
-      gxValues = '',
-      gxParams = [];
+      gxValues = '';
+    const gxParams = [];
     this.myGxList.forEach(item => {
       if (item.price) {
         gxIds += item.id + ',';
         gxValues += item.price + ',';
       }
       if (item.type === '2') {
-
         gxParams.push({
           gxId: item.id,
           type: '2',
           params: item.params,
-          name: item.name
-        })
+          name: item.name,
+        });
       }
       if (item.type === '3') {
         gxParams.push({
           gxId: item.id,
           type: '3',
           params: item.price,
-          name: item.name
-        })
+          name: item.name,
+        });
       }
     });
     gxIds = gxIds.substr(0, gxIds.length - 1);
@@ -232,10 +230,10 @@ export class DoorEditComponent implements OnInit {
             });
             gxParams.forEach(obj => {
               if (obj.gxId === item.id) {
-                item.type = obj.type
-                item.params = obj.params
+                item.type = obj.type;
+                item.params = obj.params;
               }
-            })
+            });
           });
         } else {
           res.response.data.forEach(item => {
@@ -243,9 +241,9 @@ export class DoorEditComponent implements OnInit {
           });
         }
         this.gxList = res.response.data.map(oo => {
-          oo.price = Number(oo.price);
-          oo.type = oo.type ? oo.type : '1'
-          oo.params = oo.params ? oo.params : []
+          oo.price = parseFloat(oo.price);
+          oo.type = oo.type ? oo.type : '1';
+          oo.params = oo.params ? oo.params : [];
           return oo;
         });
         const myGxList = Object.assign(

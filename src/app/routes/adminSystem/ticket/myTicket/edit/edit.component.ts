@@ -137,7 +137,7 @@ export class MyTicketEditComponent implements OnInit {
           item['doorObj'] = JSON.parse(item.door);
           item['colorObj'] = JSON.parse(item.color);
           item['materialObj'] = JSON.parse(item.material);
-          item["lines"] = JSON.parse(item.line);
+          item['lines'] = JSON.parse(item.line);
           this.setItemGxPrice(item);
         });
         this.productList = res.response.data.map(item => {
@@ -158,8 +158,8 @@ export class MyTicketEditComponent implements OnInit {
         res.response.data.forEach(item => {
           ar.forEach(obj => {
             if (obj.id === item.gxId) {
-              item.price = Number(item.price);
-              item.priceAdd = Number(item.priceAdd);
+              item.price = parseFloat(item.price);
+              item.priceAdd = parseFloat(item.priceAdd);
               obj.processId = item.id;
               obj.countPrice = item.price + item.priceAdd;
               obj.priceAdd = item.priceAdd;
@@ -169,6 +169,7 @@ export class MyTicketEditComponent implements OnInit {
             }
           });
         });
+        debugger
         this.gxList = ar;
         this.loading = false;
       });
@@ -335,7 +336,7 @@ export class MyTicketEditComponent implements OnInit {
             res.response.data.push({});
           }
           this.gxList = res.response.data.map(oo => {
-            oo.price = Number(oo.price);
+            oo.price = parseFloat(oo.price);
             return oo;
           });
           if (this.id) {
@@ -370,7 +371,7 @@ export class MyTicketEditComponent implements OnInit {
       nzTitle: '选择型号',
       nzWidth: 1200,
       nzContent: SelectDoorComponent,
-      nzMaskClosable:false,
+      nzMaskClosable: false,
       nzComponentParams: {
         gxList: this.gxList,
       },
