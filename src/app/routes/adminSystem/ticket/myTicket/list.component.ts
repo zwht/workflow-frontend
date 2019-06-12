@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { _HttpClient } from '@delon/theme';
+import { _HttpClient, SettingsService } from '@delon/theme';
 import {
   STColumn,
   STComponent,
@@ -14,6 +14,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseVo } from '@interface/utils/ResponseVo';
 import { NzMessageService } from 'ng-zorro-antd';
 import { CodeDataService } from '@shared/services/code-data.service';
+import { delay, map } from 'rxjs/operators';
+import { ResponsePageVo } from '@interface/utils/ResponsePageVo';
 
 @Component({
   selector: 'app-my-ticket-list',
@@ -27,7 +29,13 @@ export class MyTicketListComponent implements OnInit {
   req: STReq = {
     params: {},
     method: 'post',
-    body: {},
+    body: {
+      state: [],
+      editId:
+        this.settingsService.user.roles.indexOf('100') === -1
+          ? this.settingsService.user.id
+          : null,
+    },
     reName: { pi: 'pageNum', ps: 'pageSize' },
   };
   res: STRes = {
@@ -45,9 +53,118 @@ export class MyTicketListComponent implements OnInit {
   };
   searchSchema: SFSchema = {
     properties: {
-      name: {
+      number: {
         type: 'string',
-        title: '名称',
+        title: '编号',
+      },
+      dealersId: {
+        title: '经销商',
+        type: 'string',
+        default: '',
+        ui: {
+          widget: 'select',
+          asyncData: (name: string) => {
+            return this.http
+              .post(
+                './v1/user/list',
+                { roles: '102' },
+                { pageNum: 1, pageSize: 1000 },
+              )
+              .pipe(
+                delay(1200),
+                map((item: ResponsePageVo) => {
+                  if (!item.response.data.length) return [];
+                  return [
+                    {
+                      label: '--全部--',
+                      value: '',
+                    },
+                  ].concat(
+                    item.response.data.map(obj => {
+                      return {
+                        label: obj.name,
+                        value: obj.id,
+                      };
+                    }),
+                  );
+                }),
+              );
+          },
+          width: 200,
+        },
+      },
+      marketId: {
+        title: '销售',
+        type: 'string',
+        default: '',
+        ui: {
+          widget: 'select',
+          asyncData: (name: string) => {
+            return this.http
+              .post(
+                './v1/user/list',
+                { roles: '101' },
+                { pageNum: 1, pageSize: 1000 },
+              )
+              .pipe(
+                delay(1200),
+                map((item: ResponsePageVo) => {
+                  if (!item.response.data.length) return [];
+                  return [
+                    {
+                      label: '--全部--',
+                      value: '',
+                    },
+                  ].concat(
+                    item.response.data.map(obj => {
+                      return {
+                        label: obj.name,
+                        value: obj.id,
+                      };
+                    }),
+                  );
+                }),
+              );
+          },
+          width: 200,
+        },
+      },
+      editId: {
+        title: '制单人',
+        type: 'string',
+        default: '',
+        ui: {
+          widget: 'select',
+          asyncData: (name: string) => {
+            return this.http
+              .post(
+                './v1/user/list',
+                { roles: '107' },
+                { pageNum: 1, pageSize: 1000 },
+              )
+              .pipe(
+                delay(1200),
+                map((item: ResponsePageVo) => {
+                  if (!item.response.data.length) return [];
+                  return [
+                    {
+                      label: '--全部--',
+                      value: '',
+                    },
+                  ].concat(
+                    item.response.data.map(obj => {
+                      return {
+                        label: obj.name,
+                        value: obj.id,
+                      };
+                    }),
+                  );
+                }),
+              );
+          },
+          width: 200,
+          hidden: this.settingsService.user.roles.indexOf('100') === -1
+        },
       },
     },
   };
@@ -89,7 +206,8 @@ export class MyTicketListComponent implements OnInit {
       title: '操作',
       buttons: [
         {
-          text: '编辑',
+          text:
+            this.router.url.indexOf('ticket/myTicket') !== -1 ? '编辑' : '查看',
           click: (item: any) => {
             this.add(item);
           },
@@ -108,8 +226,25 @@ export class MyTicketListComponent implements OnInit {
     private msgSrv: NzMessageService,
     public activatedRoute: ActivatedRoute,
     private codeDataService: CodeDataService,
+    private settingsService: SettingsService,
   ) {}
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.router.url.indexOf('ticket/myTicket') !== -1) {
+      this.req.body.state = [1501];
+    }
+    if (this.router.url.indexOf('ticket/scTicket') !== -1) {
+      this.req.body.state = [1502, 1503];
+    }
+    if (this.router.url.indexOf('ticket/scwcTicket') !== -1) {
+      this.req.body.state = [1504];
+    }
+    if (this.router.url.indexOf('ticket/fhTicket') !== -1) {
+      this.req.body.state = [1505];
+    }
+    if (this.router.url.indexOf('ticket/overTicket') !== -1) {
+      this.req.body.state = [1508];
+    }
+  }
   _onReuseInit() {
     this.st.reload();
   }

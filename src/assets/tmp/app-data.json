@@ -19,20 +19,67 @@
         "permission": {
           "roles": [
             "888888",
-            "100"
+            "100",
+            "107"
           ],
           "ability": []
         },
         "children": [{
-          "text": "我的工单",
-          "link": "/admin/ticket/myTicket",
-          "permission": {
-            "roles": [
-              "100"
-            ],
-            "ability": []
+            "text": "待生产工单",
+            "link": "/admin/ticket/myTicket",
+            "permission": {
+              "roles": [
+                "100",
+                "107"
+              ],
+              "ability": []
+            }
+          },
+          {
+            "text": "生产中工单",
+            "link": "/admin/ticket/scTicket",
+            "permission": {
+              "roles": [
+                "100",
+                "107"
+              ],
+              "ability": []
+            }
+          },
+          {
+            "text": "生产完成工单",
+            "link": "/admin/ticket/scwcTicket",
+            "permission": {
+              "roles": [
+                "100",
+                "107"
+              ],
+              "ability": []
+            }
+          },
+          {
+            "text": "已发货工单",
+            "link": "/admin/ticket/fhTicket",
+            "permission": {
+              "roles": [
+                "100",
+                "107"
+              ],
+              "ability": []
+            }
+          },
+          {
+            "text": "已完成工单",
+            "link": "/admin/ticket/overTicket",
+            "permission": {
+              "roles": [
+                "100",
+                "107"
+              ],
+              "ability": []
+            }
           }
-        }]
+        ]
       },
       {
         "text": "基础数据",
@@ -48,7 +95,7 @@
             "text": "型号列表",
             "link": "/admin/baseCorporation/door",
             "permission": {
-             
+
               "ability": []
             }
           },
@@ -56,7 +103,7 @@
             "text": "颜色列表",
             "link": "/admin/baseCorporation/color",
             "permission": {
-             
+
               "ability": []
             }
           },
@@ -64,7 +111,7 @@
             "text": "材质列表",
             "link": "/admin/baseCorporation/material",
             "permission": {
-             
+
               "ability": []
             }
           },
@@ -72,7 +119,7 @@
             "text": "工序列表",
             "link": "/admin/baseCorporation/gx",
             "permission": {
-              
+
               "ability": []
             }
           }
@@ -142,8 +189,7 @@
             "text": "icon图标",
             "link": "/admin/base/icon",
             "permission": {
-              "roles": [
-              ],
+              "roles": [],
               "ability": []
             }
           }

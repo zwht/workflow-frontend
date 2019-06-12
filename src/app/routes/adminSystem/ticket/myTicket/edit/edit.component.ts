@@ -70,6 +70,7 @@ export class MyTicketEditComponent implements OnInit {
     sumLine30: 0,
     remarks: '',
     summary: '',
+    state: null,
     lines: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
   };
   dealersList = [];
@@ -114,6 +115,7 @@ export class MyTicketEditComponent implements OnInit {
     private contextMenuService: ContextMenuService,
     private modalService: NzModalService,
     public settings: SettingsService,
+    private settingsService: SettingsService,
   ) {}
   ngOnInit(): void {
     this.getGxList();
@@ -127,6 +129,12 @@ export class MyTicketEditComponent implements OnInit {
       .get(`./v1/ticket/getById?id=${this.id}`)
       .subscribe((res: ResponseVo) => {
         this.ticketObj = Object.assign(this.ticketObj, res.response);
+        if (
+          this.settingsService.user.roles.indexOf('100') === -1 &&
+          this.ticketObj.state !== 1501
+        ) {
+          this.valid = true;
+        }
       });
     this.http
       .post(`./v1/product/list?pageNum=1&pageSize=100`, {

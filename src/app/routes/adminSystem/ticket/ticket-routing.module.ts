@@ -10,6 +10,22 @@ const routes: Routes = [
     canActivate: [ACLGuard], data: { guard: ['100'], title: '产品列表', reuse: true }
   },
   {
+    path: 'overTicket', component: MyTicketListComponent,
+    canActivate: [ACLGuard], data: { guard: ['100'], title: '产品列表', reuse: true }
+  },
+  {
+    path: 'scTicket', component: MyTicketListComponent,
+    canActivate: [ACLGuard], data: { guard: ['100'], title: '产品列表', reuse: true }
+  },
+  {
+    path: 'scwcTicket', component: MyTicketListComponent,
+    canActivate: [ACLGuard], data: { guard: ['100'], title: '产品列表', reuse: true }
+  },
+  {
+    path: 'fhTicket', component: MyTicketListComponent,
+    canActivate: [ACLGuard], data: { guard: ['100'], title: '产品列表', reuse: true }
+  },
+  {
     path: 'myTicket/edit', component: MyTicketEditComponent,
     canActivate: [ACLGuard], data: { guard: ['100'], title: '产品', reuse: true }
   }

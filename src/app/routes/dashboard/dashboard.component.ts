@@ -150,8 +150,7 @@ export class DashboardComponent implements OnInit {
         startTime: moment().startOf('year'),
         endTime: moment()
           .endOf('year')
-          .endOf('year'),
-        type: 2,
+          .endOf('year')
       })
       .subscribe((res: ResponseVo) => {
         const data = res.response.data.map(item => {
