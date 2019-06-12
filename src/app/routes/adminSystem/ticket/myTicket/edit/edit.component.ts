@@ -394,6 +394,8 @@ export class MyTicketEditComponent implements OnInit {
               active = i;
             } else if (it.rowspanDoorParent === active) {
               it.doorObj = result.data;
+              this.jsDoorSize(it);
+              this.setItemGxPrice(it);
             } else {
               active = -1;
             }
@@ -403,15 +405,8 @@ export class MyTicketEditComponent implements OnInit {
         if (result.data.type === 1302) {
           item.doorSize = '';
         }
-        // 自动计算门尺寸
-        const a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}$/.test(
-          item.coverSize,
-        );
-        if (a && item.doorObj.id) {
-          this.jsDoorSize(item);
-        }
-
         this.setProductList();
+        this.jsDoorSize(item);
         this.setItemGxPrice(item);
         this.totalFn();
       }
@@ -450,6 +445,7 @@ export class MyTicketEditComponent implements OnInit {
               active = i;
             } else if (it.rowspanColorParent === active) {
               it.colorObj = result.data;
+              this.setItemGxPrice(it);
             } else {
               active = -1;
             }
@@ -494,6 +490,7 @@ export class MyTicketEditComponent implements OnInit {
               active = i;
             } else if (it.rowspanMaterialParent === active) {
               it.materialObj = result.data;
+              this.setItemGxPrice(it);
             } else {
               active = -1;
             }
@@ -605,13 +602,17 @@ export class MyTicketEditComponent implements OnInit {
   // 计算单个产品价格
   setItemGxPrice(item) {
     let sum = 0;
-    // 门扇1/2
-    if (item.doorSize) {
-      const doorSum = parseInt(item.doorSize.split('=')[1], 10);
-      if (doorSum) {
-        sum += doorSum / 2;
+    if (!item.doorObj.id) return;
+    if (item.doorObj.type === 1301) {
+      // 门扇1/2
+      if (item.doorSize) {
+        const doorSum = parseInt(item.doorSize.split('=')[1], 10);
+        if (doorSum) {
+          sum += doorSum / 2;
+        }
       }
     }
+
     // 门套3块1/2,5块为1，4块为1/2
     let dblbSum = 0;
     if (item.lbSize) {
@@ -623,6 +624,9 @@ export class MyTicketEditComponent implements OnInit {
     if (dblbSum) {
       sum +=
         0.5 * (parseInt(dblbSum / 3 + '', 10) + (dblbSum % 3 === 2 ? 1 : 0));
+    }
+    if (item.doorObj.type === 1302) {
+      sum = sum * 2;
     }
     // 根据型号计算价格
     const gxList = JSON.parse(JSON.stringify(item.doorObj.gxList)) || [];
@@ -729,10 +733,7 @@ export class MyTicketEditComponent implements OnInit {
         a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}$/.test(
           item[key],
         );
-        // 自动计算门尺寸
-        if (a && item.doorObj.id) {
-          this.jsDoorSize(item);
-        }
+        this.jsDoorSize(item);
         break;
       case 'sum':
         a = /^[1-9][0-9]{0,1}$/.test(item[key]);
@@ -741,6 +742,9 @@ export class MyTicketEditComponent implements OnInit {
         if (item[key][i].value !== '') {
           a = /^[1-9][0-9]{0,1}$/.test(item[key][i].value);
         }
+        setTimeout(() => {
+          this.summaryFn();
+        }, 100);
         break;
       default:
         break;
@@ -757,6 +761,14 @@ export class MyTicketEditComponent implements OnInit {
 
   // 自动计算门尺寸
   jsDoorSize(item) {
+    // 判断是否有型号，计算根据型号配置来的
+    if (!item.doorObj.id) return;
+    // 判断洞口尺寸是否标准
+    const a = /^[1-9][0-9]{2,3}\*[1-9][0-9]{1,3}\*[1-9][0-9]{1,2}$/.test(
+      item.coverSize,
+    );
+    if (!a) return;
+
     const hwd = item.coverSize.split('*');
     const h = parseInt(hwd[0], 10),
       w = parseInt(hwd[1], 10),
