@@ -750,9 +750,9 @@ export class MyTicketEditComponent implements OnInit {
         if (item[key][i].value !== '') {
           a = /^[1-9][0-9]{0,1}$/.test(item[key][i].value);
         }
-        setTimeout(() => {
-          this.summaryFn();
-        }, 100);
+        // setTimeout(() => {
+        //   this.summaryFn();
+        // }, 100);
         break;
       default:
         break;

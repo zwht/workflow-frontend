@@ -193,6 +193,9 @@ export class UserIndexEditComponent implements OnInit {
               return parseInt(item, 10);
             })
             : [];
+            res.response.gxIds = res.response.gxIds
+            ? JSON.parse(res.response.gxIds)
+            : [];
           this.i = res.response;
         });
     } else {

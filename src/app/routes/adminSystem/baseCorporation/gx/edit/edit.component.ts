@@ -20,6 +20,7 @@ export class GxEditComponent implements OnInit {
       name: { type: 'string', title: '工序名', maxLength: 30 },
       price: { type: 'number', title: '默认价格', maximum: 1000, minimum: 0 },
       indexKey: { type: 'number', title: '流程排序', maximum: 1000, minimum: 0 },
+      // relyOn: { type: 'number', title: '依赖关系', maximum: 1000, minimum: 0 },
     },
     required: ['name', 'price', 'indexKey'],
   };
