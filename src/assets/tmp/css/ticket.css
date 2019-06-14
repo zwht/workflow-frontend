@@ -2,7 +2,9 @@
 .printHide{ display: none !important;}
 .ant-calendar-picker-clear,.ant-calendar-picker-icon,
 .topTable .anticon,.ant-select-search{ display: none;}
-
+ngx-qrcode{ display: block; width: 100%; height: 120px; position: relative; overflow: hidden;
+}
+ngx-qrcode img{ height: 119px;}
 input {
   font-size: 16px;
   border: none;
@@ -43,7 +45,7 @@ el-select {
 }
 .rightB{ text-align: left;position: relative; padding-left: 86px;}
 .rightB .ant-calendar-picker{ width: 100%;}
-.rightB b{ position: absolute; top:0; left: 8px;}
+.rightB b{ position: absolute; top:3px; left: 8px;}
 .rightB nz-select{ text-align: left;}
 .rightB nz-select span{ display: none;}
 .rightB input{ text-align: left !important;}

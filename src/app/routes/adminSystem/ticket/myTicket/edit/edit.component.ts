@@ -131,7 +131,7 @@ export class MyTicketEditComponent implements OnInit {
         this.ticketObj = Object.assign(this.ticketObj, res.response);
         if (
           this.settingsService.user.roles.indexOf('100') === -1 &&
-          this.ticketObj.state !== 1501
+          this.ticketObj.state >= 1510
         ) {
           this.valid = true;
         }
@@ -280,7 +280,7 @@ export class MyTicketEditComponent implements OnInit {
         .post(`./v1/ticket/add`, this.ticketObj)
         .subscribe((res: ResponseVo) => {
           this.id = res.response;
-          this.router.navigate(['/admin/ticket/myTicket/edit'], {
+          this.router.navigate([this.router.url.split('/edit')[0] + '/edit'], {
             queryParams: { id: this.id },
           });
           this.saveProduct();
@@ -323,13 +323,13 @@ export class MyTicketEditComponent implements OnInit {
   }
 
   back() {
-    const parentUrl = '/admin/ticket/myTicket';
+    const parentUrl = this.router.url.split('/edit')[0];
     if (this.reuseTabService.exists(parentUrl)) {
       this.reuseTabService.replace(parentUrl);
     } else {
       this.router.navigateByUrl(parentUrl);
       setTimeout(() => {
-        this.reuseTabService.close('/admin/ticket/myTicket/edit');
+        this.reuseTabService.close(this.router.url);
       }, 100);
     }
   }
@@ -911,12 +911,12 @@ export class MyTicketEditComponent implements OnInit {
 
   printComplete() {
     console.log('打印完成！');
-    this.showHead = true;
-    this.hideTable1 = false;
+    // this.showHead = true;
+    // this.hideTable1 = false;
   }
   print() {
-    this.showHead = false;
-    this.hideTable1 = true;
+    // this.showHead = false;
+    // this.hideTable1 = true;
     this.printComponent.print();
   }
 }

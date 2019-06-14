@@ -163,7 +163,7 @@ export class MyTicketListComponent implements OnInit {
               );
           },
           width: 200,
-          hidden: this.settingsService.user.roles.indexOf('100') === -1
+          hidden: this.settingsService.user.roles.indexOf('100') === -1,
         },
       },
     },
@@ -180,12 +180,48 @@ export class MyTicketListComponent implements OnInit {
       index: 'state',
       type: 'tag',
       tag: {
-        1502: {
-          text: this.codeDataService.getName(1502),
+        1500: {
+          text: this.codeDataService.getName(1500),
+          color: 'green',
+        },
+        1503: {
+          text: this.codeDataService.getName(1503),
+          color: 'green',
+        },
+        1505: {
+          text: this.codeDataService.getName(1503),
           color: 'magenta',
         },
-        1501: {
-          text: this.codeDataService.getName(1501),
+        1507: {
+          text: this.codeDataService.getName(1503),
+          color: 'green',
+        },
+        1510: {
+          text: this.codeDataService.getName(1503),
+          color: 'green',
+        },
+        1513: {
+          text: this.codeDataService.getName(1503),
+          color: 'green',
+        },
+        1516: {
+          text: this.codeDataService.getName(1503),
+          color: 'green',
+        },
+        1519: {
+          text: this.codeDataService.getName(1503),
+          color: 'green',
+        },
+        1522: {
+          text: this.codeDataService.getName(1503),
+          color: 'green',
+        },
+        1525: {
+          text: this.codeDataService.getName(1503),
+          color: 'green',
+        },
+        1529: {
+          text: this.codeDataService.getName(1503),
           color: 'green',
         },
       },
@@ -230,19 +266,25 @@ export class MyTicketListComponent implements OnInit {
   ) {}
   ngOnInit() {
     if (this.router.url.indexOf('ticket/myTicket') !== -1) {
-      this.req.body.state = [1501];
+      this.req.body.state = [1500, 1505];
+    }
+    if (this.router.url.indexOf('ticket/shTicket') !== -1) {
+      this.req.body.state = [1503];
+    }
+    if (this.router.url.indexOf('ticket/dscTicket') !== -1) {
+      this.req.body.state = [1507];
     }
     if (this.router.url.indexOf('ticket/scTicket') !== -1) {
-      this.req.body.state = [1502, 1503];
+      this.req.body.state = [1510, 1513];
     }
     if (this.router.url.indexOf('ticket/scwcTicket') !== -1) {
-      this.req.body.state = [1504];
+      this.req.body.state = [1516];
     }
     if (this.router.url.indexOf('ticket/fhTicket') !== -1) {
-      this.req.body.state = [1505];
+      this.req.body.state = [1519];
     }
     if (this.router.url.indexOf('ticket/overTicket') !== -1) {
-      this.req.body.state = [1508];
+      this.req.body.state = [1529];
     }
   }
   _onReuseInit() {
@@ -255,7 +297,7 @@ export class MyTicketListComponent implements OnInit {
   }
   stChange(item) {}
   add(item?) {
-    this.router.navigate(['/admin/ticket/myTicket/edit'], {
+    this.router.navigate([this.router.url + '/edit'], {
       queryParams: { id: item ? item.id || '' : '' },
     });
   }

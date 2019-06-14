@@ -84,12 +84,12 @@
           <td rowspan="2" colspan="3">材质</td>
           <td rowspan="2" colspan="3">型号</td>
           <td rowspan="2" colspan="1">序号</td>
-          <td colspan="1" rowspan="2">数量</td>
           <td colspan="3">洞口尺寸</td>
           <td colspan="3">门扇尺寸</td>
           <td colspan="3">立板尺寸</td>
           <td colspan="3">顶板尺寸</td>
           <td colspan="4">线条信息</td>
+          <td colspan="1" rowspan="2">数量</td>
           <td colspan="3" rowspan="2">备注</td>
         </tr>
         <tr class='haderB'>
@@ -149,9 +149,7 @@
                 {{data.indexKey+1}}
               </span>
             </td>
-            <td>
-              <input (blur)="onBlur($event,data,'sum')" [(ngModel)]="data.sum" class="inputHeight">
-            </td>
+            
             <td colspan="3">
               <input (blur)="onBlur($event,data,'coverSize')" [(ngModel)]="data.coverSize" class="inputHeight">
             </td>
@@ -167,7 +165,9 @@
             <td *ngFor="let item of data.lines; let i=index">
               <input (blur)="onBlur($event,data,'lines',i)" [(ngModel)]="item.value" class="inputHeight">
             </td>
-
+            <td>
+              <input (blur)="onBlur($event,data,'sum')" [(ngModel)]="data.sum" class="inputHeight">
+            </td>
             <td colspan="3">
               <textarea [(ngModel)]="data.remarks" style="width: 100%; border: none;"></textarea>
             </td>
@@ -190,7 +190,7 @@
         </ng-template>
         <tr>
           <td rowspan="2" colspan="2">总计:</td>
-          <td rowspan="2" colspan="18" class="statistics">
+          <td rowspan="2" colspan="17" class="statistics">
             门扇:
             <b style="margin-right:4px;">{{ticketObj.sumDoor}}</b>
             <span style="margin-right:20px;">个</span>
@@ -205,7 +205,7 @@
           <td *ngFor="let item of ticketObj.lines">
             <b>{{item.value}}</b>
           </td>
-          <td rowspan="2" colspan="3"></td>
+          <td rowspan="2" colspan="4"></td>
         </tr>
         <tr>
           <td colspan="2" colspan="2">线条合计</td>

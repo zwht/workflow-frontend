@@ -2,7 +2,7 @@
   <page-header [title]="" [breadcrumb]="breadcrumb" [action]="action">
     <ng-template #breadcrumb></ng-template>
     <ng-template #action>
-      <div class="action">
+      <div *ngIf="router.url.indexOf('ticket/myTicket') !== -1" class="action">
           <button (click)="add()" nz-button nzType="primary">新建</button>
       </div>
     </ng-template>

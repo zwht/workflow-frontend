@@ -24,9 +24,32 @@
           ],
           "ability": []
         },
-        "children": [{
-            "text": "待生产工单",
+        "children": [
+          {
+            "text": "新工单",
             "link": "/admin/ticket/myTicket",
+            "permission": {
+              "roles": [
+                "100",
+                "107"
+              ],
+              "ability": []
+            }
+          },
+          {
+            "text": "待审核工单",
+            "link": "/admin/ticket/shTicket",
+            "permission": {
+              "roles": [
+                "100",
+                "107"
+              ],
+              "ability": []
+            }
+          },
+          {
+            "text": "待生产工单",
+            "link": "/admin/ticket/dscTicket",
             "permission": {
               "roles": [
                 "100",
