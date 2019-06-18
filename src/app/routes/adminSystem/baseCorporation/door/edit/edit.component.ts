@@ -44,9 +44,21 @@ export class DoorEditComponent implements OnInit {
     properties: {
       number: { type: 'string', title: '编号', maxLength: 20, minimum: 2 },
       type: { type: 'number', title: '类型', maxLength: 20, minimum: 2 },
-      name: { type: 'string', title: '门名', maxLength: 30 },
+      // name: { type: 'string', title: '门名', maxLength: 30 },
+      unit: {
+        type: 'string',
+        title: '单位',
+        maxLength: 30,
+        enum: [
+          { label: '套', value: '套' },
+          { label: '条', value: '条' },
+          { label: '个', value: '个' },
+        ],
+        default: '套',
+      },
+      unitPrice: { type: 'number', title: '单价', maxLength: 30 },
     },
-    required: ['name', 'number', 'type'],
+    required: ['unit', 'unitPrice', 'number', 'type'],
   };
   doorGroupList = [];
   ui: SFUISchema = {
@@ -58,8 +70,11 @@ export class DoorEditComponent implements OnInit {
     $number: {
       widget: 'string',
     },
-    $name: {
-      widget: 'string',
+    $unitPrice: {
+      widget: 'number',
+    },
+    $unit: {
+      widget: 'select',
     },
     $type: {
       widget: 'select',

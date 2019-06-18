@@ -82,19 +82,24 @@ table { width: 100%; text-align: center; border-collapse: collapse;}
   background: #f9f9f9;
   color: #c00;
 }
-.gxTable {
-  position: relative;
-  padding-left: 100px;
+.jinebo{ padding: 4px 10px; color: #c00; font-weight: bold; text-align: left;}
+.jinebo input{ color: #c00; font-weight: bold; display: inline-block; width: 60px;}
+.jinebo span{ display: inline-block; margin-right: 50px;}
+  
+.msdBox{ margin-left: -1px; width: 100%; height: 100%; display: table;}
+.msditem{ width: 25%; display:table-cell; border-left: 1px solid #333;}
+.msditem h3{ min-height: 20px; border-bottom: 1px solid #333;}
+.msditem .imbo{ min-height: 20px; }
+.bg,.flex-middle{ display: none;}
+textarea{overflow:hidden; resize:none;}
+
+.msjos>div{ float: left; text-align: left; padding: 10px;
+  line-height: 26px;
 }
-.gxTable .lBox {
-  position: absolute;
-  height: 100%;
-  top: 0;
-  left: 0;
-  width: 100px;
-  border: 1px solid #333;
-  border-top: none;
-}
+.it87{ width: 50%;}
+.it84{ width: 25%;}
+
+.gxBox{ margin: 0 0 -1px -1px;}
 .gxBox:after {
   content: " ";
   height: 0;
@@ -105,7 +110,7 @@ table { width: 100%; text-align: center; border-collapse: collapse;}
 }
 .gxBox > div {
   border-bottom: 1px solid #333;
-  border-right: 1px solid #333;
+  border-left: 1px solid #333;
   text-align: center;
   float: left;
   width: 8.333%;

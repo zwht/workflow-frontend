@@ -25,6 +25,49 @@ import { SelectMaterialComponent } from '../selectMaterial/selectMaterial.compon
 })
 export class MyTicketEditComponent implements OnInit {
   @ViewChild('sf') sf: SFComponent;
+  printObj1 = {
+    key: 1,
+    title: '川峰木门工单',
+    tr: 29 + 3,
+    codeCol: 4 + 3,
+    zjCol: 27 + 3,
+    tdWdith: '3.125%',
+  };
+  printObj2 = {
+    key: 2,
+    title: '川峰木门生产流程单',
+    tr: 29,
+    codeCol: 4,
+    zjCol: 27,
+    tdWdith: '3.448%',
+  };
+  printObj3 = {
+    key: 3,
+    title: '川峰木门销售回传单',
+    tr: 29,
+    codeCol: 4,
+    zjCol: 27,
+    tdWdith: '3.448%',
+  };
+  backDescribe = [
+    {
+      n: '',
+      url: '',
+    },
+    {
+      n: '',
+      url: '',
+    },
+    {
+      n: '',
+      url: '',
+    },
+    {
+      n: '',
+      url: '',
+    },
+  ];
+  printObj = this.printObj1;
   title = '添加';
   cpName = '工单';
   id = this.route.snapshot.queryParams.id;
@@ -49,6 +92,10 @@ export class MyTicketEditComponent implements OnInit {
     },
   ];
   ticketObj = {
+    pay: null,
+    earnest: '',
+    payment: 0,
+    backDescribe: '',
     name: '',
     createTime: new Date(),
     startTime: null,
@@ -120,15 +167,23 @@ export class MyTicketEditComponent implements OnInit {
   ngOnInit(): void {
     this.getGxList();
     this.getUser();
-    for (let i = 1; i <= 29; i++) {
-      this.baseTdList.push(i);
+    this.setTrSum();
+  }
+  setTrSum() {
+    const ar = [];
+    for (let i = 1; i <= this.printObj.tr; i++) {
+      ar.push(i);
     }
+    this.baseTdList = ar;
   }
   getDetails() {
     this.http
       .get(`./v1/ticket/getById?id=${this.id}`)
       .subscribe((res: ResponseVo) => {
         this.ticketObj = Object.assign(this.ticketObj, res.response);
+        if (this.ticketObj.backDescribe) {
+          this.backDescribe = JSON.parse(this.ticketObj.backDescribe);
+        }
         if (
           this.settingsService.user.roles.indexOf('100') === -1 &&
           this.ticketObj.state >= 1510
@@ -270,6 +325,7 @@ export class MyTicketEditComponent implements OnInit {
   save() {
     this.loading = true;
     this.ticketObj.name = this.ticketObj.number;
+    this.ticketObj.backDescribe = JSON.stringify(this.backDescribe);
     if (this.id) {
       this.http.post(`./v1/ticket/update`, this.ticketObj).subscribe(res => {
         this.msgSrv.success('修改成功');
@@ -410,6 +466,8 @@ export class MyTicketEditComponent implements OnInit {
           });
         }
         item.doorObj = result.data;
+        item.unitPrice = result.data.unitPrice;
+        item.unit = result.data.unit;
         if (result.data.type === 1302) {
           item.doorSize = '';
         }
@@ -417,6 +475,7 @@ export class MyTicketEditComponent implements OnInit {
         this.jsDoorSize(item);
         this.setItemGxPrice(item);
         this.totalFn();
+        this.jsMoney(item);
       }
     });
     // 推迟到模态实例创建
@@ -744,7 +803,8 @@ export class MyTicketEditComponent implements OnInit {
         this.jsDoorSize(item);
         break;
       case 'sum':
-        a = /^[1-9][0-9]{0,1}$/.test(item[key]);
+        a = /^[1-9][0-9]*([.][0-9]+)?$/.test(item[key]);
+        if (a) this.jsMoney(item);
         break;
       case 'lines':
         if (item[key][i].value !== '') {
@@ -753,6 +813,11 @@ export class MyTicketEditComponent implements OnInit {
         // setTimeout(() => {
         //   this.summaryFn();
         // }, 100);
+        break;
+      case 'unitPrice':
+        // 单价
+        a = /^[1-9][0-9]*([.][0-9]+)?$/.test(item[key]);
+        if (a) this.jsMoney(item);
         break;
       default:
         break;
@@ -765,6 +830,20 @@ export class MyTicketEditComponent implements OnInit {
     }
     this.totalFn();
     this.countLine();
+  }
+
+  // 自动计算价格
+  jsMoney(item) {
+    if (item.sum && item.unitPrice) {
+      item.money = parseFloat(item.sum) * parseFloat(item.unitPrice);
+      let pay = 0;
+      this.productList.forEach(obj => {
+        pay += parseFloat(obj.money);
+      });
+      this.ticketObj.pay = parseFloat(pay.toFixed(2));
+    } else {
+      item.money = null;
+    }
   }
 
   // 自动计算门尺寸
@@ -911,12 +990,18 @@ export class MyTicketEditComponent implements OnInit {
 
   printComplete() {
     console.log('打印完成！');
+    this.printObj = this.printObj1;
+    this.setTrSum();
     // this.showHead = true;
     // this.hideTable1 = false;
   }
-  print() {
+  print(k) {
     // this.showHead = false;
     // this.hideTable1 = true;
-    this.printComponent.print();
+    this.printObj = this[k];
+    this.setTrSum();
+    setTimeout(() => {
+      this.printComponent.print();
+    }, 100);
   }
 }

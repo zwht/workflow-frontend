@@ -169,6 +169,15 @@ export class MyTicketListComponent implements OnInit {
     },
   };
 
+  butLis: STColumnButton[] = [
+    {
+      text: this.router.url.indexOf('ticket/myTicket') !== -1 ? '编辑' : '查看',
+      click: (item: any) => {
+        this.add(item);
+      },
+    },
+  ];
+
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
     { title: '编号', index: 'number' },
@@ -189,39 +198,39 @@ export class MyTicketListComponent implements OnInit {
           color: 'green',
         },
         1505: {
-          text: this.codeDataService.getName(1503),
+          text: this.codeDataService.getName(1505),
           color: 'magenta',
         },
         1507: {
-          text: this.codeDataService.getName(1503),
+          text: this.codeDataService.getName(1507),
           color: 'green',
         },
         1510: {
-          text: this.codeDataService.getName(1503),
+          text: this.codeDataService.getName(1510),
           color: 'green',
         },
         1513: {
-          text: this.codeDataService.getName(1503),
+          text: this.codeDataService.getName(1513),
           color: 'green',
         },
         1516: {
-          text: this.codeDataService.getName(1503),
+          text: this.codeDataService.getName(1516),
           color: 'green',
         },
         1519: {
-          text: this.codeDataService.getName(1503),
+          text: this.codeDataService.getName(1519),
           color: 'green',
         },
         1522: {
-          text: this.codeDataService.getName(1503),
+          text: this.codeDataService.getName(1522),
           color: 'green',
         },
         1525: {
-          text: this.codeDataService.getName(1503),
+          text: this.codeDataService.getName(1525),
           color: 'green',
         },
         1529: {
-          text: this.codeDataService.getName(1503),
+          text: this.codeDataService.getName(1529),
           color: 'green',
         },
       },
@@ -240,20 +249,7 @@ export class MyTicketListComponent implements OnInit {
     },
     {
       title: '操作',
-      buttons: [
-        {
-          text:
-            this.router.url.indexOf('ticket/myTicket') !== -1 ? '编辑' : '查看',
-          click: (item: any) => {
-            this.add(item);
-          },
-        },
-        // {
-        //   text: '删除', type: 'del', click: (item: any) => {
-        //     this.del(item.id);
-        //   }
-        // },
-      ],
+      buttons: this.butLis,
     },
   ];
   constructor(
@@ -267,9 +263,33 @@ export class MyTicketListComponent implements OnInit {
   ngOnInit() {
     if (this.router.url.indexOf('ticket/myTicket') !== -1) {
       this.req.body.state = [1500, 1505];
+      this.butLis.push({
+        text: '提交审核',
+        pop: true,
+        popTitle: '确认提交审核？',
+        click: (item: any) => {
+          this.upState(item, 1503);
+        },
+      });
     }
     if (this.router.url.indexOf('ticket/shTicket') !== -1) {
       this.req.body.state = [1503];
+      this.butLis.push({
+        text: '通过',
+        pop: true,
+        popTitle: '确认通过？',
+        click: (item: any) => {
+          this.upState(item, 1507);
+        },
+      });
+      this.butLis.push({
+        text: '驳回',
+        pop: true,
+        popTitle: '确认驳回？',
+        click: (item: any) => {
+          this.upState(item, 1505);
+        },
+      });
     }
     if (this.router.url.indexOf('ticket/dscTicket') !== -1) {
       this.req.body.state = [1507];
@@ -279,9 +299,25 @@ export class MyTicketListComponent implements OnInit {
     }
     if (this.router.url.indexOf('ticket/scwcTicket') !== -1) {
       this.req.body.state = [1516];
+      this.butLis.push({
+        text: '已经发货',
+        pop: true,
+        popTitle: '确认已经发货？',
+        click: (item: any) => {
+          this.upState(item, 1519);
+        },
+      });
     }
     if (this.router.url.indexOf('ticket/fhTicket') !== -1) {
       this.req.body.state = [1519];
+      this.butLis.push({
+        text: '收款完成',
+        pop: true,
+        popTitle: '确认收款完成？',
+        click: (item: any) => {
+          this.upState(item, 1529);
+        },
+      });
     }
     if (this.router.url.indexOf('ticket/overTicket') !== -1) {
       this.req.body.state = [1529];
@@ -296,6 +332,14 @@ export class MyTicketListComponent implements OnInit {
     this.st.load(1);
   }
   stChange(item) {}
+  upState(item, k) {
+    this.http
+      .get(`./v1/ticket/updateState?id=${item.id}&state=${k}`)
+      .subscribe((data: ResponseVo) => {
+        this.msgSrv.success('成功');
+        this.st.reload();
+      });
+  }
   add(item?) {
     this.router.navigate([this.router.url + '/edit'], {
       queryParams: { id: item ? item.id || '' : '' },

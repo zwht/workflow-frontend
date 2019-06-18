@@ -4,14 +4,16 @@
   .showImg{ display: inline-block; position: relative;
     min-width: 100px;
     .flex-middle{ left: 0; top:0; height: 100%; width: 100%; 
-      color: #fff; cursor: pointer; background: rgba(0,0,0,0.3);
-      position: absolute; z-index: 10; display: none;
+      cursor: pointer; 
+      border: 1px solid #ededed;
+      position: absolute; display: none;
     }
     .ff{ display: flex;}
-    .bg{background: rgba(0,0,0,0.2);}
+    .bg{border: 1px solid #ededed;}
     img{ width: 100%; height: 100%; position: absolute;
        top:0; left: 0;}
     &:hover{
+      background:rgba(0,0,0,0.1);
       .flex-middle{ display: flex;}
     }
   }

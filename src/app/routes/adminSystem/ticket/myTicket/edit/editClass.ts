@@ -46,6 +46,10 @@ export class ProductObj {
   rowspanDoorParent = null;
   ticketId = '';
 
+  unitPrice = null;
+  unit = null;
+  money = null;
+
   constructor(p?: any) {
     if (p) {
       if (typeof p === 'string') {

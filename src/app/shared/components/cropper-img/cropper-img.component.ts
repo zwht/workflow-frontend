@@ -1,4 +1,11 @@
-import { Component, Input, ViewChild, ElementRef, forwardRef, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  ElementRef,
+  forwardRef,
+  OnInit,
+} from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd';
 import { CropperImgModalComponent } from '../cropper-img-modal/cropper-img-modal.component';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -9,14 +16,15 @@ import { ResponseVo } from '@interface/utils/ResponseVo';
   selector: 'app-cropper-img',
   templateUrl: './cropper-img.component.html',
   styleUrls: ['./cropper-img.component.less'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => CropperImgComponent),
-    multi: true
-  }]
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CropperImgComponent),
+      multi: true,
+    },
+  ],
 })
 export class CropperImgComponent implements ControlValueAccessor, OnInit {
-
   loading = false;
   dialog = false;
   contentDialogStyle = {};
@@ -30,27 +38,43 @@ export class CropperImgComponent implements ControlValueAccessor, OnInit {
   inputImage: ElementRef;
   @Input()
   showBtn;
+  @Input()
+  imgtype;
 
   constructor(
     public http: _HttpClient,
-    private nzModalService: NzModalService
-  ) { }
+    private nzModalService: NzModalService,
+  ) {}
 
   ngOnInit() {
-    this.newBoxStyle = { width: 200, height: 200, previewWidth: 200, previewHeight: 200, bigBoxWidth: 800 };
+    this.newBoxStyle = {
+      width: 200,
+      height: 200,
+      previewWidth: 200,
+      previewHeight: 200,
+      bigBoxWidth: 800,
+    };
     if (this.boxStyle) {
       this.newBoxStyle.width = this.boxStyle.width ? this.boxStyle.width : 200;
-      this.newBoxStyle.height = this.boxStyle.height ? this.boxStyle.height : 200;
-      this.newBoxStyle.previewWidth = this.boxStyle.previewWidth ? this.boxStyle.previewWidth : this.newBoxStyle.width;
-      this.newBoxStyle.previewHeight = this.boxStyle.previewHeight ? this.boxStyle.previewHeight : this.newBoxStyle.height;
+      this.newBoxStyle.height = this.boxStyle.height
+        ? this.boxStyle.height
+        : 200;
+      this.newBoxStyle.previewWidth = this.boxStyle.previewWidth
+        ? this.boxStyle.previewWidth
+        : this.newBoxStyle.width;
+      this.newBoxStyle.previewHeight = this.boxStyle.previewHeight
+        ? this.boxStyle.previewHeight
+        : this.newBoxStyle.height;
     }
-    this.contentDialogStyle = { width: this.newBoxStyle.width + 'px', height: this.newBoxStyle.height + 'px' };
+    this.contentDialogStyle = {
+      width: this.newBoxStyle.width + 'px',
+      height: this.newBoxStyle.height + 'px',
+    };
     this.cropperInit();
   }
 
-  public onModelChange: Function = () => {
-  }
-  public onModelTouched: Function = () => { };
+  public onModelChange: Function = () => {};
+  public onModelTouched: Function = () => {};
   writeValue(value: any) {
     this.model = value;
   }
@@ -65,7 +89,7 @@ export class CropperImgComponent implements ControlValueAccessor, OnInit {
     const URL = window.URL;
     if (URL) {
       const that = this;
-      this.inputImage.nativeElement.onchange = function () {
+      this.inputImage.nativeElement.onchange = function() {
         const files = that.inputImage.nativeElement.files;
         let file;
         if (files && files.length) {
@@ -98,9 +122,8 @@ export class CropperImgComponent implements ControlValueAccessor, OnInit {
     const blob = new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
     const formData = new FormData();
     formData.append('multipartFile', blob, this.fileName);
-    this.http.post(`./v1/file/add?id=123456&type=fuck`,
-      formData
-    )
+    this.http
+      .post(`./v1/file/add?id=123456&type=${this.imgtype || 'fuck'}`, formData)
       .subscribe((res: ResponseVo) => {
         if (res.status === 200) {
           this.model = res.response.id;
@@ -116,8 +139,7 @@ export class CropperImgComponent implements ControlValueAccessor, OnInit {
     const subscription = this.nzModalService.create({
       nzTitle: '裁剪图片',
       nzContent: CropperImgModalComponent,
-      nzOnOk() {
-      },
+      nzOnOk() {},
       nzOnCancel() {
         console.log('Click cancel');
       },
@@ -125,8 +147,8 @@ export class CropperImgComponent implements ControlValueAccessor, OnInit {
       nzFooter: null,
       nzComponentParams: {
         blobURL: blobURL,
-        boxStyle: this.newBoxStyle
-      }
+        boxStyle: this.newBoxStyle,
+      },
     });
     subscription.afterClose.subscribe(result => {
       if (result !== 'onCancel' && result.image) {

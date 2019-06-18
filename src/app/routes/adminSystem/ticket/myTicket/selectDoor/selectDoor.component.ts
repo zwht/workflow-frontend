@@ -55,7 +55,7 @@ export class SelectDoorComponent implements OnInit {
                   groupId: '291996688304967680',
                 },
                 { pageNum: 1, pageSize: 1000 },
-            )
+              )
               .pipe(
                 delay(120),
                 map((item: ResponsePageVo) => {
@@ -78,7 +78,7 @@ export class SelectDoorComponent implements OnInit {
                       }),
                   );
                 }),
-            );
+              );
           },
           width: 200,
         },
@@ -104,12 +104,12 @@ export class SelectDoorComponent implements OnInit {
     private modal: NzModalRef,
     public activatedRoute: ActivatedRoute,
     private modalService: NzModalService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getList();
   }
-  _onReuseInit() { }
+  _onReuseInit() {}
 
   search(e) {
     this.getList(e);
@@ -120,7 +120,7 @@ export class SelectDoorComponent implements OnInit {
       .post(
         `./v1/door/list?pageNum=${this.page}&pageSize=${this.pageSize}`,
         data || { type: '1301,1302' },
-    )
+      )
       .subscribe((res: ResponseVo) => {
         if (res.response) {
           this.total = res.response.pageCount;
@@ -158,6 +158,8 @@ export class SelectDoorComponent implements OnInit {
         type: door.type,
         id: door.id,
         name: door.name,
+        unitPrice: door.unitPrice,
+        unit: door.unit,
         gxList,
         arithmetic: door.arithmetic ? JSON.parse(door.arithmetic) : {},
       },
@@ -168,7 +170,7 @@ export class SelectDoorComponent implements OnInit {
       const modal = this.modalService.create({
         nzTitle: '填写参数',
         nzWidth: 600,
-        nzMaskClosable:false,
+        nzMaskClosable: false,
         nzContent: PopParamsComponent,
         nzComponentParams: {
           gxList: door,
@@ -179,12 +181,12 @@ export class SelectDoorComponent implements OnInit {
       modal.afterOpen.subscribe(() => console.log('[afterOpen] emitted!'));
       // 关闭回调
       modal.afterClose.subscribe(result => {
-        if(result){
-          this.goItem(result.data)
+        if (result) {
+          this.goItem(result.data);
         }
-      })
+      });
     } else {
-      this.goItem(door)
+      this.goItem(door);
     }
   }
 }

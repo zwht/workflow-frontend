@@ -14,20 +14,20 @@
     <div #printDiv>
       <table class="ticketTable" cellspacing="0" cellpadding="0">
         <tr class='baseBox'>
-          <td class='baseTdItem' *ngFor="let item of baseTdList"></td>
+          <td [ngStyle]="{'width': printObj.tdWdith}" class='baseTdItem' *ngFor="let item of baseTdList"></td>
         </tr>
         <tr>
           <td colspan="22">
-            <span style="font-size:20px;">川峰木门生成流程单</span>
+            <span style="font-size:20px; font-weight: bold;">{{printObj.title}}</span>
           </td>
           <td colspan="3">
             <span>合计：</span>
             <b>{{ticketObj.sumDoor}}</b>
             <span>套</span>
           </td>
-          <td rowspan="4" colspan="4">
-            <ngx-qrcode [qrc-element-type]="'url'" [qrc-value]="'http://101.204.247.165:11112/#/pages/a?i='+id" qrc-class="aclass"
-              qrc-errorCorrectionLevel="L">
+          <td rowspan="4" [attr.colspan]="printObj.codeCol">
+            <ngx-qrcode [qrc-element-type]="'url'" [qrc-value]="'http://101.204.247.165:11112/#/pages/a?i='+id"
+              qrc-class="aclass" qrc-errorCorrectionLevel="L">
             </ngx-qrcode>
           </td>
         </tr>
@@ -90,7 +90,10 @@
           <td colspan="3">顶板尺寸</td>
           <td colspan="4">线条信息</td>
           <td colspan="1" rowspan="2">数量</td>
-          <td colspan="3" rowspan="2">备注</td>
+          <td *ngIf="printObj.key!=2" colspan="1" rowspan="2">单位</td>
+          <td *ngIf="printObj.key!=2" colspan="1" rowspan="2">单价</td>
+          <td *ngIf="printObj.key!=2" colspan="1" rowspan="2">金额</td>
+          <td *ngIf="printObj.key!=3" colspan="3" rowspan="2">备注</td>
         </tr>
         <tr class='haderB'>
           <td>
@@ -135,13 +138,16 @@
         </tr>
         <ng-template ngFor let-i="index" let-data [ngForOf]="productList">
           <tr class="productItem" [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
-            <td colspan="2" *ngIf="data.rowspanColor" [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)" class="cursor">
+            <td colspan="2" *ngIf="data.rowspanColor" [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)"
+              class="cursor">
               <div>{{data.colorObj.name}}</div>
             </td>
-            <td colspan="3" *ngIf="data.rowspanMaterial" [attr.rowspan]="data.rowspanMaterial" (dblclick)="showMaterial(data)" class="cursor">
+            <td colspan="3" *ngIf="data.rowspanMaterial" [attr.rowspan]="data.rowspanMaterial"
+              (dblclick)="showMaterial(data)" class="cursor">
               <div>{{data.materialObj.name}}</div>
             </td>
-            <td colspan="3" *ngIf="data.rowspanDoor" [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)" class="cursor">
+            <td colspan="3" *ngIf="data.rowspanDoor" [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)"
+              class="cursor">
               <div>{{data.doorObj.name}}</div>
             </td>
             <td class="cursor" (click)="contextMenuClick({item:data},'show')">
@@ -149,12 +155,13 @@
                 {{data.indexKey+1}}
               </span>
             </td>
-            
+
             <td colspan="3">
               <input (blur)="onBlur($event,data,'coverSize')" [(ngModel)]="data.coverSize" class="inputHeight">
             </td>
             <td colspan="3">
-              <input [disabled]='data.doorObj.type==1302' (blur)="onBlur($event,data,'doorSize')" [(ngModel)]="data.doorSize" class="inputHeight">
+              <input [disabled]='data.doorObj.type==1302' (blur)="onBlur($event,data,'doorSize')"
+                [(ngModel)]="data.doorSize" class="inputHeight">
             </td>
             <td colspan="3">
               <input (blur)="onBlur($event,data,'lbSize')" [(ngModel)]="data.lbSize" class="inputHeight">
@@ -168,13 +175,24 @@
             <td>
               <input (blur)="onBlur($event,data,'sum')" [(ngModel)]="data.sum" class="inputHeight">
             </td>
-            <td colspan="3">
+            <td *ngIf="printObj.key!=2">
+              <input (blur)="onBlur($event,data,'unit')" [(ngModel)]="data.unit" class="inputHeight">
+            </td>
+            <td *ngIf="printObj.key!=2">
+              <input (blur)="onBlur($event,data,'unitPrice')" [(ngModel)]="data.unitPrice" class="inputHeight">
+            </td>
+            <td *ngIf="printObj.key!=2">
+              <input (blur)="onBlur($event,data,'money')" [(ngModel)]="data.money" class="inputHeight">
+            </td>
+            <td *ngIf="printObj.key!=3" colspan="3">
               <textarea [(ngModel)]="data.remarks" style="width: 100%; border: none;"></textarea>
             </td>
           </tr>
-          <tr class="printHide" [ngClass]="{'productShow2': data.show}" (contextmenu)="onContextMenu($event, data)" *ngIf="data.show">
+          <tr class="printHide" [ngClass]="{'productShow2': data.show}" (contextmenu)="onContextMenu($event, data)"
+            *ngIf="data.show">
             <td>
-              <i class="iconBtn" (click)="contextMenuClick({item:data},'show')" nz-icon type="up-circle" theme="outline"></i>
+              <i class="iconBtn" (click)="contextMenuClick({item:data},'show')" nz-icon type="up-circle"
+                theme="outline"></i>
             </td>
             <td colspan="20">
               <div nz-row class="gxBox trGxBox">
@@ -205,7 +223,12 @@
           <td *ngFor="let item of ticketObj.lines">
             <b>{{item.value}}</b>
           </td>
-          <td rowspan="2" colspan="4"></td>
+          <td rowspan="2" [attr.colspan]="printObj.codeCol">
+            <div class="jinebo" *ngIf="printObj.key!=2">
+              <b>总金额：</b>
+              <input style="text-align: left;width: 50px;" [(ngModel)]="ticketObj.pay" nz-input>
+            </div>
+          </td>
         </tr>
         <tr>
           <td colspan="2" colspan="2">线条合计</td>
@@ -217,7 +240,7 @@
           <td colspan="2">
             <span (click)="summaryFn()">总结：</span>
           </td>
-          <td colspan="27">
+          <td [attr.colspan]="printObj.zjCol">
             <textarea [(ngModel)]="ticketObj.summary" style="width: 100%; border: none;
             text-align: center; font-weight: bold;"></textarea>
           </td>
@@ -226,24 +249,117 @@
           <td colspan="2">
             <span>备注：</span>
           </td>
-          <td colspan="27">
+          <td [attr.colspan]="printObj.zjCol">
             <textarea [(ngModel)]="ticketObj.remarks" style="width: 100%; border: none; text-align: left;
              padding-left: 10px;"></textarea>
+          </td>
+        </tr>
+        <tr *ngIf="printObj.key!=2">
+          <td [attr.colspan]="printObj.tr">
+            <div class="jinebo">
+              <b>订单金额:</b>
+              <input [(ngModel)]="ticketObj.pay" nz-input>
+              <span>元</span>
+              <b>定金:</b>
+              <input [(ngModel)]="ticketObj.earnest" nz-input>
+              <span></span>
+              <b>尾款:</b>
+              <input [(ngModel)]="ticketObj.payment" nz-input>
+              <span>元</span>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="printObj.key!=2">
+          <td [attr.colspan]="printObj.tr">
+            <div class="msdBox">
+              <div class="msditem" *ngFor="let item of backDescribe">
+                <h3>
+                  <textarea [(ngModel)]="item.n" style="width: 100%; border: none; text-align: left;
+                      padding-left: 10px;"></textarea>
+                </h3>
+                <div class="imbo">
+                  <app-cropper-img [(ngModel)]="item.url" [showBtn]=false [boxStyle]="{width:240,height:200, 
+                        previewWidth:140,previewHeight:100}">
+                  </app-cropper-img>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="printObj.key!=3">
+          <td colspan="3">
+            <span></span>
+          </td>
+          <td [attr.colspan]="printObj.zjCol-1">
+            <div class="gxBox">
+              <div *ngFor="let item of gxList" nz-col nzSpan="2">
+                <div class="i1">{{item.name}}
+                  <b *ngIf="item.priceAdd">{{item.priceAdd>0?'+'+item.priceAdd:item.priceAdd}}</b>
+                </div>
+                <div class="i2">
+                  <input (blur)="gxBlur($event,item)" *ngIf="item.name" [(ngModel)]="item.countPrice" type='number'
+                    nz-input>
+                </div>
+                <div class="i3">{{item.userName}}</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="printObj.key==1||(productList.length<=3&&printObj.key==3)">
+          <td [attr.colspan]="printObj.tr">
+            <div class="msjos">
+              <div class="it87">
+                1.请仔细阅读，如有错漏之处和改动请及时在回传单上修改。
+                <br />
+                2.如你的客户需要变更，请在当天下午5点前通知，24小时后不能修改。
+                <br />
+                3.请签名后回传此单，我厂将此单作为生产依据。
+                <br />
+                4.确认后打定金，并回传订货对账单。
+                <br />
+                5.无签名确认，无定金，不下单，造成的一切后果自行负责。
+                <br />
+                <b>客户签字回传：</b>
+                <br />
+                <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日</b>
+              </div>
+              <div class="it84">
+                传真：023-65496061
+                <br />
+                查货：023-65810801
+                <br />
+                建行：6229 6637 6821 0186
+                <br />
+                农行：6228 4804 7095 2825 318
+                <br />
+                信合：6228 6711 4222 8262
+                <br />
+                邮政：6065 3036 7232 0360 37
+                <br />
+                工行：6222 0831 0000 2740 647
+              </div>
+              <div class="it84">
+                接单座机：023-65496756
+                <br />
+                投诉电话：15823868787
+                <br />
+                白市驿支行&nbsp;户名：赵静
+                <br />
+                天星桥支行&nbsp;户名：赵静
+                <br />
+                新桥支行&nbsp;户名：赵静
+                <br />
+                新桥支行&nbsp;户名：赵静
+                <br />
+                上桥支行&nbsp;户名：赵静
+              </div>
+            </div>
           </td>
         </tr>
       </table>
       <div class="gxTable">
         <div class="lBox"></div>
         <div nz-row class="gxBox">
-          <div *ngFor="let item of gxList" nz-col nzSpan="2">
-            <div class="i1">{{item.name}}
-              <b *ngIf="item.priceAdd">{{item.priceAdd>0?'+'+item.priceAdd:item.priceAdd}}</b>
-            </div>
-            <div class="i2">
-              <input (blur)="gxBlur($event,item)" *ngIf="item.name" [(ngModel)]="item.countPrice" type='number' nz-input>
-            </div>
-            <div class="i3">{{item.userName}}</div>
-          </div>
         </div>
       </div>
     </div>
@@ -254,7 +370,8 @@
           <i nz-icon type="arrow-up" theme="outline"></i>
         </span>
       </ng-template>
-      <ng-template [enabled]="contextMenuActive.indexKey!=productList.length-1" (execute)="contextMenuClick($event,'down')" contextMenuItem>
+      <ng-template [enabled]="contextMenuActive.indexKey!=productList.length-1"
+        (execute)="contextMenuClick($event,'down')" contextMenuItem>
         <span>
           下移
           <i nz-icon type="arrow-down" theme="outline"></i>
@@ -279,12 +396,14 @@
       </ng-template>
     </context-menu>
     <footer-toolbar>
-      <e-ngx-print #printComponent [mode]="'popup'" [popTitle]="'表格打印'" [showBtn]="false" [printHTML]="printDiv" [printStyle]="printStyle"
-        [printCSS]="printCSS" (printComplete)="printComplete()">
+      <e-ngx-print #printComponent [mode]="'popup'" [popTitle]="'表格打印'" [showBtn]="false" [printHTML]="printDiv"
+        [printStyle]="printStyle" [printCSS]="printCSS" (printComplete)="printComplete()">
       </e-ngx-print>
-      <button nz-button type="button" (click)="print()">打印</button>
+      <button nz-button type="button" (click)="print('printObj3')">打印回传单</button>
+      <button nz-button type="button" (click)="print('printObj2')">打印工单</button>
       <button nz-button type="button" (click)="back()">返回</button>
-      <button nz-button type="submit" nzType="primary" (click)="save()" [disabled]="valid" [nzLoading]="loading">保存</button>
+      <button nz-button type="submit" nzType="primary" (click)="save()" [disabled]="valid"
+        [nzLoading]="loading">保存</button>
     </footer-toolbar>
   </nz-card>
 </div>

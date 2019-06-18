@@ -53,14 +53,23 @@
       .addEdit{ display: block;}
     }
   }
-
-  .gxTable{ position: relative; padding-left: 100px;
-    .lBox{ position: absolute; height: 100%; top:0; left: 0;
-    width: 100px; border: 1px solid #ededed; border-top: none;}
+  .jinebo{ padding: 4px 10px; color: #c00; font-weight: bold; text-align: left;}
+  .jinebo input{ color: #c00; font-weight: bold; display: inline-block; width: 60px;}
+  .jinebo span{ display: inline-block; margin-right: 50px;}
+  .msdBox{ margin-left: -1px; width: 100%; height: 100%; display: table;}
+  .msditem{ width: 25%; display:table-cell; border-left: 1px solid #ededed;}
+  .msditem h3{ min-height: 20px; border-bottom: 1px solid #ededed;}
+  .msditem .imbo{ min-height: 20px; }
+  
+  .msjos>div{ float: left; text-align: left; padding: 10px;
+    line-height: 30px;
   }
-  .gxBox{
+  .it87{ width: 46%;}
+  .it84{ width: 27%;}
+  
+  .gxBox{ margin: 0 0 -1px -1px;
     &:after{ content: " "; height: 0; width: 0; visibility: hidden;display: block; clear: both }
-    >div{ border-bottom: 1px solid #ededed; border-right: 1px solid #ededed;
+    >div{ border-bottom: 1px solid #ededed; border-left: 1px solid #ededed;
       text-align: center; float: left;  width: 8.333%;
       .i1{ height: 26px; line-height: 28px;
         b{ margin-left: 5px; color: rgb(72, 87, 247);}
@@ -77,7 +86,7 @@
     >div{ border-bottom: none;}
   }
 
-  .baseTdItem{width: 3.57%; height: 0; border: none !important;}
+  .baseTdItem{width: 3.125%; height: 0; border: none !important;}
   .baseBox{ border-left: 1px solid #ededed;}
   
 }
