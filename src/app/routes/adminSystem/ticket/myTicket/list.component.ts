@@ -274,22 +274,24 @@ export class MyTicketListComponent implements OnInit {
     }
     if (this.router.url.indexOf('ticket/shTicket') !== -1) {
       this.req.body.state = [1503];
-      this.butLis.push({
-        text: '通过',
-        pop: true,
-        popTitle: '确认通过？',
-        click: (item: any) => {
-          this.upState(item, 1507);
-        },
-      });
-      this.butLis.push({
-        text: '驳回',
-        pop: true,
-        popTitle: '确认驳回？',
-        click: (item: any) => {
-          this.upState(item, 1505);
-        },
-      });
+      if (this.settingsService.user.roles.indexOf('100') !== -1) {
+        this.butLis.push({
+          text: '通过',
+          pop: true,
+          popTitle: '确认通过？',
+          click: (item: any) => {
+            this.upState(item, 1507);
+          },
+        });
+        this.butLis.push({
+          text: '驳回',
+          pop: true,
+          popTitle: '确认驳回？',
+          click: (item: any) => {
+            this.upState(item, 1505);
+          },
+        });
+      }
     }
     if (this.router.url.indexOf('ticket/dscTicket') !== -1) {
       this.req.body.state = [1507];

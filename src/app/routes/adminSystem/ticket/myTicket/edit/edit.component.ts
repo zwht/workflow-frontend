@@ -186,7 +186,7 @@ export class MyTicketEditComponent implements OnInit {
         }
         if (
           this.settingsService.user.roles.indexOf('100') === -1 &&
-          this.ticketObj.state >= 1510
+          (this.ticketObj.state === 1503 || this.ticketObj.state > 1505)
         ) {
           this.valid = true;
         }
@@ -399,7 +399,7 @@ export class MyTicketEditComponent implements OnInit {
             res.response.data.push({});
           }
           this.gxList = res.response.data.map(oo => {
-            oo.price = parseFloat(oo.price);
+            oo.price = 0;
             return oo;
           });
           if (this.id) {
