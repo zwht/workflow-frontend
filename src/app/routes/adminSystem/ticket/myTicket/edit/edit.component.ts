@@ -896,7 +896,11 @@ export class MyTicketEditComponent implements OnInit {
       this.ticketObj.sumWindow = 0;
       this.productList.forEach(item => {
         if (item.doorObj.id) {
-          this.ticketObj.sumDoor += item.sum;
+          if (item.doorObj.type === 1302) {
+            this.ticketObj.sumDoor += item.sum / 2;
+          } else {
+            this.ticketObj.sumDoor += item.sum;
+          }
           if (item.doorObj['type'] === 1301) {
             this.ticketObj.sumTaoban +=
               item.sum *
