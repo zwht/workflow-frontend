@@ -358,6 +358,18 @@ export class MyTicketEditComponent implements OnInit {
       this.saveProcess();
     });
   }
+  userProcessChange(e, item) {
+    this.http
+      .post(`./v1/process/update`, {
+        id: item.processId,
+        state: 1602,
+        userId: e,
+        updateTime: new Date(),
+      })
+      .subscribe(res => {
+        this.msgSrv.success('修改成功');
+      });
+  }
   saveProcess() {
     const gxAr = [];
     this.gxList.forEach((item, i) => {
@@ -368,9 +380,9 @@ export class MyTicketEditComponent implements OnInit {
           price: item.price,
           priceAdd: item.countPrice - item.price,
           indexKey: i,
-          userId: item.userId ? item.userId : '8',
           ticketId: this.id,
-          state: item.userId && item.userId !== '8' ? 1602 : 1601,
+          // userId: item.userId ? item.userId : '8',
+          // state: item.userId && item.userId !== '8' ? 1602 : 1601,
         });
       }
     });

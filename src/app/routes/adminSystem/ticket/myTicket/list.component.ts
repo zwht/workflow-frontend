@@ -295,6 +295,14 @@ export class MyTicketListComponent implements OnInit {
     }
     if (this.router.url.indexOf('ticket/dscTicket') !== -1) {
       this.req.body.state = [1507];
+      this.butLis.push({
+        text: '生产中',
+        pop: true,
+        popTitle: '确认生产中？',
+        click: (item: any) => {
+          this.upState(item, 1510);
+        },
+      });
     }
     if (this.router.url.indexOf('ticket/scTicket') !== -1) {
       this.req.body.state = [1510, 1513];

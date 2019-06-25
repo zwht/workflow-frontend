@@ -301,8 +301,8 @@
                     nz-input>
                 </div>
                 <div class="i3">
-                  <nz-select style="text-align: center;" nzShowSearch nzAllowClear [(ngModel)]="item.userId">
-                    <nz-option *ngFor="let item of item.userLis" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+                  <nz-select  (ngModelChange)="userProcessChange($event,item)" style="text-align: center;" nzShowSearch nzAllowClear [(ngModel)]="item.userId">
+                    <nz-option *ngFor="let obj of item.userLis" [nzLabel]="obj.name" [nzValue]="obj.id"></nz-option>
                   </nz-select>
                 </div>
               </div>
