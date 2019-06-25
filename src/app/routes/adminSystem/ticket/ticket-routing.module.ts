@@ -48,6 +48,12 @@ const routes: Routes = [
     data: { guard: ['100'], title: '产品列表', reuse: true },
   },
   {
+    path: 'allTicket',
+    component: MyTicketListComponent,
+    canActivate: [ACLGuard],
+    data: { guard: ['100'], title: '全部工单', reuse: true },
+  },
+  {
     path: 'myTicket/edit',
     component: MyTicketEditComponent,
     canActivate: [ACLGuard],
@@ -85,6 +91,12 @@ const routes: Routes = [
   },
   {
     path: 'fhTicket/edit',
+    component: MyTicketEditComponent,
+    canActivate: [ACLGuard],
+    data: { guard: ['100'], title: '产品', reuse: true },
+  },
+  {
+    path: 'allTicket/edit',
     component: MyTicketEditComponent,
     canActivate: [ACLGuard],
     data: { guard: ['100'], title: '产品', reuse: true },

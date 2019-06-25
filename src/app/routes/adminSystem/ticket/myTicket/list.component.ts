@@ -324,6 +324,9 @@ export class MyTicketListComponent implements OnInit {
     if (this.router.url.indexOf('ticket/overTicket') !== -1) {
       this.req.body.state = [1529];
     }
+    if (this.router.url.indexOf('ticket/allTicket') !== -1) {
+      this.req.body.state = [];
+    }
   }
   _onReuseInit() {
     this.st.reload();

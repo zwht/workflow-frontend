@@ -229,6 +229,7 @@ export class MyTicketEditComponent implements OnInit {
               obj.state = item.state;
               obj.price = item.price;
               obj.userName = item.userName;
+              obj.userId = item.userId;
             }
           });
         });
@@ -367,8 +368,9 @@ export class MyTicketEditComponent implements OnInit {
           price: item.price,
           priceAdd: item.countPrice - item.price,
           indexKey: i,
+          userId: item.userId ? item.userId : '8',
           ticketId: this.id,
-          state: item.state,
+          state: item.userId && item.userId !== '8' ? 1602 : 1601,
         });
       }
     });
@@ -398,17 +400,37 @@ export class MyTicketEditComponent implements OnInit {
           for (let i = 0; i < hasKey; i++) {
             res.response.data.push({});
           }
-          this.gxList = res.response.data.map(oo => {
+          res.response.data = res.response.data.map(oo => {
             oo.price = 0;
+            if (!oo.userLis) {
+              oo.userLis = [];
+            }
             return oo;
           });
-          if (this.id) {
-            this.title = '编辑';
-            this.getDetails();
-          } else {
-            this.bianHao();
-            this.productList = [new ProductObj(this.id)];
-          }
+          this.http
+            .post(`./v1/user/list?pageNum=1&pageSize=10000`, {
+              roles: '106',
+            })
+            .subscribe((res1: ResponsePageVo) => {
+              res1.response.data.forEach(obj => {
+                if (obj.gxIds) {
+                  obj.gxIds = JSON.parse(obj.gxIds);
+                  res.response.data.forEach(item => {
+                    if (obj.gxIds.indexOf(item.id) !== -1) {
+                      item.userLis.push(obj);
+                    }
+                  });
+                }
+              });
+              this.gxList = res.response.data;
+              if (this.id) {
+                this.title = '编辑';
+                this.getDetails();
+              } else {
+                this.bianHao();
+                this.productList = [new ProductObj(this.id)];
+              }
+            });
         }
       });
   }

@@ -101,6 +101,17 @@
               ],
               "ability": []
             }
+          },
+          {
+            "text": "全部工单",
+            "link": "/admin/ticket/allTicket",
+            "permission": {
+              "roles": [
+                "100",
+                "107"
+              ],
+              "ability": []
+            }
           }
         ]
       },

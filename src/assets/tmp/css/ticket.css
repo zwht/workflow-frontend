@@ -46,8 +46,8 @@ el-select {
 .rightB{ text-align: left;position: relative; padding-left: 86px;}
 .rightB .ant-calendar-picker{ width: 100%;}
 .rightB b{ position: absolute; top:3px; left: 8px;}
-.rightB nz-select{ text-align: left;}
-.rightB nz-select span{ display: none;}
+nz-select{ text-align: left;}
+nz-select span{ display: none;}
 .rightB input{ text-align: left !important;}
 
 .ant-input{ padding: 0;}
@@ -125,9 +125,14 @@ textarea{overflow:hidden; resize:none;}
   height: 20px;
   line-height: 18px;
 }
+.gxBox > div .i2 input{color: red;}
 .gxBox > div .i3 {
+  padding-top: 2px;
   height: 20px;
   line-height: 18px;
+}
+.gxBox > div .i3 .ant-select-selection-selected-value{
+  width: 100%; text-align: center;
 }
 .trGxBox {
   margin: 0 -2px -2px 0;

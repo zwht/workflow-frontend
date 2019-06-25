@@ -300,7 +300,11 @@
                   <input (blur)="gxBlur($event,item)" *ngIf="item.name" [(ngModel)]="item.countPrice" type='number'
                     nz-input>
                 </div>
-                <div class="i3">{{item.userName}}</div>
+                <div class="i3">
+                  <nz-select style="text-align: center;" nzShowSearch nzAllowClear [(ngModel)]="item.userId">
+                    <nz-option *ngFor="let item of item.userLis" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+                  </nz-select>
+                </div>
               </div>
             </div>
           </td>

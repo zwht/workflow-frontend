@@ -75,9 +75,14 @@
         b{ margin-left: 5px; color: rgb(72, 87, 247);}
       }
       .i2{ border-top: 1px solid #ededed; border-bottom: 1px solid #ededed;
-        height: 26px;
+        height: 26px; 
+        input{color: red;}
       }
-      .i3{ height: 26px;}
+      .i3{ height: 26px; padding-top: 2px;
+      /deep/.ant-select-selection-selected-value{
+        width: 100%; text-align: center;
+      }
+      }
     }
   }
   .trGxBox{ margin: 0 -2px -2px 0; font-size: 12px;
