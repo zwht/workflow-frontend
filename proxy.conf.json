@@ -1,9 +1,9 @@
 {
-  "/v13": {
+  "/v1": {
     "target": "http://localhost:8888",
     "secure": false
   },
-  "/v1": {
+  "/v12": {
     "target": "http://192.168.31.22:8080/workflow",
     "secure": false
   }

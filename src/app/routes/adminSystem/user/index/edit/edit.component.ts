@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: zhaowei
+ * @Date: 2019-04-24 15:35:22
+ * @LastEditors: zhaowei
+ * @LastEditTime: 2019-09-28 22:46:46
+ */
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -26,6 +34,7 @@ export class UserIndexEditComponent implements OnInit {
   commonSchema: SFSchema['properties'] = {};
   schema: SFSchema = {};
   ui: SFUISchema = {};
+  hiddenGx = true;
   constructor(
     private route: ActivatedRoute,
     public location: Location,
@@ -37,10 +46,11 @@ export class UserIndexEditComponent implements OnInit {
       loginName: { type: 'string', title: '登录名', maxLength: 10 },
       name: { type: 'string', title: '真实名', maxLength: 10 },
       phone: { type: 'string', title: '手机号', maxLength: 11, minLength: 11 },
-      roles: { type: 'string', title: '用户角色', default: 106 },
+      roles: { type: 'string', title: '用户角色', default: [106] },
       gxIds: {
         type: 'string',
         title: '生产工序',
+        default: [],
       },
     };
     if (this.settingsService.user.roles.indexOf('888888') !== -1) {
@@ -89,7 +99,8 @@ export class UserIndexEditComponent implements OnInit {
       $roles: {
         widget: 'select',
         mode: 'multiple',
-        change: (e) => {
+        change: e => {
+          this.hiddenGx = true;
         },
         asyncData: (name: string) => {
           return this.http
@@ -115,6 +126,14 @@ export class UserIndexEditComponent implements OnInit {
       $gxIds: {
         widget: 'select',
         mode: 'multiple',
+        visibleIf: {
+          roles: (value: any) => {
+            if (value && value.indexOf(106) !== -1) {
+              return true;
+            }
+            return false;
+          },
+        },
         asyncData: (name: string) => {
           return this.http
             .post('./v1/gx/list', {}, { pageNum: 1, pageSize: 1000 })
@@ -159,27 +178,27 @@ export class UserIndexEditComponent implements OnInit {
 
     this.schema = !this.id
       ? {
-        properties: {
-          ...this.commonSchema,
-          password: { type: 'string', title: '密码', maximum: 30 },
-          password1: { type: 'string', title: '再次输入密码', maximum: 30 },
-        },
-        required: [
-          'loginName',
-          'corporationId',
-          'name',
-          'password',
-          'password1',
-          'roles',
-          'phone',
-        ],
-      }
+          properties: {
+            ...this.commonSchema,
+            password: { type: 'string', title: '密码', maximum: 30 },
+            password1: { type: 'string', title: '再次输入密码', maximum: 30 },
+          },
+          required: [
+            'loginName',
+            'corporationId',
+            'name',
+            'password',
+            'password1',
+            'roles',
+            'phone',
+          ],
+        }
       : {
-        properties: {
-          ...this.commonSchema,
-        },
-        required: ['loginName', 'corporationId', 'name', 'roles', 'phone'],
-      };
+          properties: {
+            ...this.commonSchema,
+          },
+          required: ['loginName', 'corporationId', 'name', 'roles', 'phone'],
+        };
   }
 
   ngOnInit(): void {
@@ -190,10 +209,10 @@ export class UserIndexEditComponent implements OnInit {
         .subscribe((res: ResponseVo) => {
           res.response.roles = res.response.roles
             ? res.response.roles.split(',').map(item => {
-              return parseInt(item, 10);
-            })
+                return parseInt(item, 10);
+              })
             : [];
-            res.response.gxIds = res.response.gxIds
+          res.response.gxIds = res.response.gxIds
             ? JSON.parse(res.response.gxIds)
             : [];
           this.i = res.response;

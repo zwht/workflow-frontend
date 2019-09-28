@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: zhaowei
+ * @Date: 2019-06-10 17:00:16
+ * @LastEditors: zhaowei
+ * @LastEditTime: 2019-09-28 19:46:03
+ */
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -360,16 +368,19 @@ export class MyTicketEditComponent implements OnInit {
     });
   }
   userProcessChange(e, item) {
-    this.http
-      .post(`./v1/process/update`, {
-        id: item.processId,
-        state: 1602,
-        userId: e,
-        updateTime: new Date(),
-      })
-      .subscribe(res => {
-        this.msgSrv.success('修改成功');
-      });
+    item.userId = e;
+    if (item.processId) {
+      this.http
+        .post(`./v1/process/update`, {
+          id: item.processId,
+          state: 1602,
+          userId: e,
+          updateTime: new Date(),
+        })
+        .subscribe(res => {
+          this.msgSrv.success('修改成功');
+        });
+    }
   }
   saveProcess() {
     const gxAr = [];
@@ -382,8 +393,7 @@ export class MyTicketEditComponent implements OnInit {
           priceAdd: item.countPrice - item.price,
           indexKey: i,
           ticketId: this.id,
-          // userId: item.userId ? item.userId : '8',
-          // state: item.userId && item.userId !== '8' ? 1602 : 1601,
+          userId: item.userId ? item.userId : '',
         });
       }
     });
@@ -435,11 +445,18 @@ export class MyTicketEditComponent implements OnInit {
                   });
                 }
               });
-              this.gxList = res.response.data;
+
               if (this.id) {
+                this.gxList = res.response.data;
                 this.title = '编辑';
                 this.getDetails();
               } else {
+                this.gxList = res.response.data.map(it => {
+                  if (it.userLis && it.userLis.length) {
+                    it.userId = it.userLis[0].id;
+                  }
+                  return it;
+                });
                 this.bianHao();
                 this.productList = [new ProductObj(this.id)];
               }
