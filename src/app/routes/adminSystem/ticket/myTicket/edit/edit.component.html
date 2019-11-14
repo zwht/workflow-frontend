@@ -34,7 +34,7 @@
         <tr>
           <td colspan="9" class="rightB">
             <b>经&nbsp;销&nbsp;商&nbsp;：</b>
-            <nz-select nzShowSearch nzAllowClear [(ngModel)]="ticketObj.dealersId">
+            <nz-select (ngModelChange)='dealersChange($event)' nzShowSearch nzAllowClear [(ngModel)]="ticketObj.dealersId">
               <nz-option *ngFor="let item of dealersList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
             </nz-select>
           </td>
@@ -66,7 +66,7 @@
         <tr>
           <td colspan="9" class="rightB">
             <b>业务经理：</b>
-            <nz-select nzShowSearch nzAllowClear [(ngModel)]="ticketObj.marketId">
+            <nz-select disabled nzShowSearch nzAllowClear [(ngModel)]="ticketObj.marketId">
               <nz-option *ngFor="let item of marketList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
             </nz-select>
           </td>

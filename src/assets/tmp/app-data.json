@@ -156,6 +156,14 @@
 
               "ability": []
             }
+          },
+          {
+            "text": "品牌列表",
+            "link": "/admin/baseCorporation/brand",
+            "permission": {
+
+              "ability": []
+            }
           }
         ]
       },

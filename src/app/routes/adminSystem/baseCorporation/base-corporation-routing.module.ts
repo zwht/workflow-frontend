@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: zhaowei
+ * @Date: 2019-04-24 15:35:22
+ * @LastEditors: zhaowei
+ * @LastEditTime: 2019-11-14 16:22:54
+ */
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ACLGuard } from '@delon/acl';
@@ -9,6 +17,9 @@ import { ColorListComponent } from './color/list.component';
 import { ColorEditComponent } from './color/edit/edit.component';
 import { MaterialListComponent } from './material/list.component';
 import { MaterialEditComponent } from './material/edit/edit.component';
+
+import { BrandListComponent } from './brand/list.component';
+import { BrandEditComponent } from './brand/edit/edit.component';
 
 const routes: Routes = [
   {
@@ -42,6 +53,14 @@ const routes: Routes = [
   {
     path: 'material/edit', component: MaterialEditComponent,
     canActivate: [ACLGuard], data: { guard: ['100'], title: '创建/编辑材质', reuse: true }
+  },
+  {
+    path: 'brand', component: BrandListComponent,
+    canActivate: [ACLGuard], data: { guard: ['100'], title: '品牌列表', reuse: true }
+  },
+  {
+    path: 'brand/edit', component: BrandEditComponent,
+    canActivate: [ACLGuard], data: { guard: ['100'], title: '创建/编辑品牌', reuse: true }
   }
 ];
 

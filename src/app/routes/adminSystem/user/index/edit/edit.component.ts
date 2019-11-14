@@ -4,7 +4,7 @@
  * @Author: zhaowei
  * @Date: 2019-04-24 15:35:22
  * @LastEditors: zhaowei
- * @LastEditTime: 2019-09-28 22:46:46
+ * @LastEditTime: 2019-11-14 17:51:35
  */
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -51,6 +51,21 @@ export class UserIndexEditComponent implements OnInit {
         type: 'string',
         title: '生产工序',
         default: [],
+      },
+      inviteId: {
+        type: 'string',
+        title: '销售',
+        default: '',
+      },
+      address: {
+        type: 'string',
+        title: '默认收货地址',
+        default: '',
+      },
+      brandId: {
+        type: 'string',
+        title: '默认品牌',
+        default: '',
       },
     };
     if (this.settingsService.user.roles.indexOf('888888') !== -1) {
@@ -137,6 +152,82 @@ export class UserIndexEditComponent implements OnInit {
         asyncData: (name: string) => {
           return this.http
             .post('./v1/gx/list', {}, { pageNum: 1, pageSize: 1000 })
+            .pipe(
+              // delay(1200),
+              map((item: ResponseVo) => {
+                if (!item.response.data.length) return [];
+                return item.response.data.map(obj => {
+                  return {
+                    label: obj.name,
+                    value: obj.id,
+                  };
+                });
+              }),
+            );
+        },
+      },
+      $inviteId: {
+        widget: 'select',
+        visibleIf: {
+          roles: (value: any) => {
+            if (value && value.indexOf(102) !== -1) {
+              return true;
+            }
+            return false;
+          },
+        },
+        asyncData: (name: string) => {
+          return this.http
+            .post(
+              './v1/user/list',
+              {
+                roles: '101'
+              },
+              { pageNum: 1, pageSize: 1000 },
+            )
+            .pipe(
+              // delay(1200),
+              map((item: ResponseVo) => {
+                if (!item.response.data.length) return [];
+                return item.response.data.map(obj => {
+                  return {
+                    label: obj.name,
+                    value: obj.id,
+                  };
+                });
+              }),
+            );
+        },
+      },
+      $address: {
+        widget: 'input',
+        visibleIf: {
+          roles: (value: any) => {
+            if (value && value.indexOf(102) !== -1) {
+              return true;
+            }
+            return false;
+          },
+        },
+      },
+      $brandId: {
+        widget: 'select',
+        visibleIf: {
+          roles: (value: any) => {
+            if (value && value.indexOf(102) !== -1) {
+              return true;
+            }
+            return false;
+          },
+        },
+        asyncData: (name: string) => {
+          return this.http
+            .post(
+              './v1/brand/list',
+              {
+              },
+              { pageNum: 1, pageSize: 10 },
+            )
             .pipe(
               // delay(1200),
               map((item: ResponseVo) => {
