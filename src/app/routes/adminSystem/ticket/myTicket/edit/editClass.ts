@@ -1,65 +1,71 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: zhaowei
+ * @Date: 2019-04-24 15:35:22
+ * @LastEditors: zhaowei
+ * @LastEditTime: 2019-11-15 10:09:18
+ */
 export class ProductObj {
-  indexKey = 0;
-  id = null;
-  gxList = [];
+  indexKey = 0
+  id = null
+  gxList = []
   doorObj = {
     id: null,
     gxList: [],
     name: null,
-  };
+  }
   /** 颜色 */
   colorObj = {
     id: null,
     gxList: [],
     name: null,
-  };
+  }
   /** 材质 */
   materialObj = {
     id: null,
     gxList: [],
     name: null,
-  };
+  }
   /** 门洞 */
-  coverSize = '';
+  coverSize = ''
   /** 门扇 */
-  doorSize = '';
+  doorSize = ''
   /** 立板 */
-  lbSize = '';
+  lbSize = ''
   /** 顶板 */
-  dbSize = '';
+  dbSize = ''
   /** 数量 */
-  sum = 1;
+  sum = 1
   /** 备注 */
-  remarks = null;
+  remarks = null
   /** 是否显示详情 */
-  show = false;
+  show = false
 
-  lines = [{ value: '' }, { value: '' }, { value: '' }, { value: '' }];
+  lines = [{ value: '' }, { value: '' }, { value: '' }, { value: '' }]
 
-  rowspanColor = 1;
-  rowspanColorParent = null;
+  rowspanColor = 1
+  rowspanColorParent = null
 
-  rowspanMaterial = 1;
-  rowspanMaterialParent = null;
+  rowspanMaterial = 1
+  rowspanMaterialParent = null
 
-  rowspanDoor = 1;
-  rowspanDoorParent = null;
-  ticketId = '';
+  rowspanDoor = 1
+  rowspanDoorParent = null
+  ticketId = ''
 
-  unitPrice = null;
-  unit = null;
-  money = null;
+  unitPrice = null
+  unit = null
+  money = null
 
   constructor(p?: any) {
-    if (p) {
-      if (typeof p === 'string') {
-        this.ticketId = p;
-        this.id = this.getId();
-      } else {
-        const keysTo = Object.keys(this);
-        for (const key of keysTo) {
-          this[key] = p[key];
-        }
+    if (typeof p === 'string') {
+      this.ticketId = p
+      this.id = this.getId()
+    } else if (p) {
+      const keysTo = Object.keys(this)
+      for (const key of keysTo) {
+        this[key] = p[key]
       }
     }
   }
@@ -72,23 +78,23 @@ export class ProductObj {
       new Date().getTime() +
       Math.floor(Math.random() * 10) +
       Math.floor(Math.random() * 10)
-    );
+    )
   }
   /**
    * copy
    */
   public copy() {
-    return this.copyObjWhenKeyEqual(this, new ProductObj(null));
+    return this.copyObjWhenKeyEqual(this, new ProductObj(null))
   }
   private copyObjWhenKeyEqual(copyFrom: Object, copyTo: Object): Object {
-    const keysTo = Object.keys(copyTo);
+    const keysTo = Object.keys(copyTo)
     for (const key of keysTo) {
       if (key !== 'id') {
-        copyTo[key] = copyFrom[key];
+        copyTo[key] = copyFrom[key]
       } else {
-        copyTo['id'] = this.getId();
+        copyTo['id'] = this.getId()
       }
     }
-    return copyTo;
+    return copyTo
   }
 }

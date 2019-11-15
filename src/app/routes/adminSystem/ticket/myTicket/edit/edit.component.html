@@ -34,7 +34,8 @@
         <tr>
           <td colspan="9" class="rightB">
             <b>经&nbsp;销&nbsp;商&nbsp;：</b>
-            <nz-select (ngModelChange)='dealersChange($event)' nzShowSearch nzAllowClear [(ngModel)]="ticketObj.dealersId">
+            <nz-select (ngModelChange)='dealersChange($event)' nzShowSearch nzAllowClear
+              [(ngModel)]="ticketObj.dealersId">
               <nz-option *ngFor="let item of dealersList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
             </nz-select>
           </td>
@@ -238,7 +239,7 @@
         </tr>
         <tr>
           <td colspan="2">
-            <span (click)="summaryFn()">总结：</span>
+            <span (click)="summaryFn()">线条统计：</span>
           </td>
           <td [attr.colspan]="printObj.zjCol">
             <textarea [(ngModel)]="ticketObj.summary" style="width: 100%; border: none;
@@ -269,7 +270,7 @@
             </div>
           </td>
         </tr>
-        <tr *ngIf="printObj.key!=2">
+        <tr *ngIf='showBackDescribe'>
           <td [attr.colspan]="printObj.tr">
             <div class="msdBox">
               <div class="msditem" *ngFor="let item of backDescribe">
@@ -301,7 +302,8 @@
                     nz-input>
                 </div>
                 <div class="i3">
-                  <nz-select  (ngModelChange)="userProcessChange($event,item)" style="text-align: center;" nzShowSearch nzAllowClear [(ngModel)]="item.userId">
+                  <nz-select (ngModelChange)="userProcessChange($event,item)" style="text-align: center;" nzShowSearch
+                    nzAllowClear [(ngModel)]="item.userId">
                     <nz-option *ngFor="let obj of item.userLis" [nzLabel]="obj.name" [nzValue]="obj.id"></nz-option>
                   </nz-select>
                 </div>
@@ -309,7 +311,8 @@
             </div>
           </td>
         </tr>
-        <tr *ngIf="printObj.key==1||(productList.length<=3&&printObj.key==3)">
+        <tr
+          *ngIf="((showBackDescribe&&productList.length<=3)||(!showBackDescribe&&productList.length<=7))&&printObj.key==3">
           <td [attr.colspan]="printObj.tr">
             <div class="msjos">
               <div class="it87">

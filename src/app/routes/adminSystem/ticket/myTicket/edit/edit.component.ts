@@ -4,7 +4,7 @@
  * @Author: zhaowei
  * @Date: 2019-06-10 17:00:16
  * @LastEditors: zhaowei
- * @LastEditTime: 2019-11-14 17:36:35
+ * @LastEditTime: 2019-11-15 11:13:30
  */
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -76,6 +76,7 @@ export class MyTicketEditComponent implements OnInit {
     },
   ]
   printObj = this.printObj1
+  showBackDescribe = true
   title = '添加'
   cpName = '工单'
   id = this.route.snapshot.queryParams.id
@@ -276,6 +277,8 @@ export class MyTicketEditComponent implements OnInit {
         this.countLine()
         this.setTotalPrice()
         this.setProductList()
+        this.jsMoney()
+        this.summaryFn()
         break
       case 'copy':
         this.productList.forEach((item, i) => {
@@ -287,6 +290,8 @@ export class MyTicketEditComponent implements OnInit {
         this.countLine()
         this.setTotalPrice()
         this.setProductList()
+        this.jsMoney()
+        this.summaryFn()
         break
       case 'del':
         this.productList = this.productList.filter(item => {
@@ -300,6 +305,8 @@ export class MyTicketEditComponent implements OnInit {
         this.countLine()
         this.setTotalPrice()
         this.setProductList()
+        this.jsMoney()
+        this.summaryFn()
         break
       case 'show':
         event.item.show = !event.item.show
@@ -803,7 +810,7 @@ export class MyTicketEditComponent implements OnInit {
       tGx.countPrice = 0
     })
     this.productList.forEach(item => {
-      if (item.gxList.length) {
+      if (item.gxList && item.gxList.length) {
         item.gxList.forEach(itemGx => {
           gxList.forEach(tGx => {
             if (tGx.name === itemGx.name) {
@@ -863,9 +870,9 @@ export class MyTicketEditComponent implements OnInit {
         if (item[key][i].value !== '') {
           a = /^[1-9][0-9]{0,1}$/.test(item[key][i].value)
         }
-        // setTimeout(() => {
-        //   this.summaryFn();
-        // }, 100);
+        setTimeout(() => {
+          this.summaryFn()
+        }, 100)
         break
       case 'unitPrice':
         // 单价
@@ -886,7 +893,17 @@ export class MyTicketEditComponent implements OnInit {
   }
 
   // 自动计算价格
-  jsMoney(item) {
+  jsMoney(item?) {
+    if (!item) {
+      let pay = 0
+      this.productList.forEach(obj => {
+        if (obj.money) {
+          pay += parseFloat(obj.money)
+        }
+      })
+      this.ticketObj.pay = parseFloat(pay.toFixed(2))
+      return
+    }
     if (item.sum && item.unitPrice) {
       item.money = parseFloat(item.sum) * parseFloat(item.unitPrice)
       let pay = 0
@@ -974,7 +991,9 @@ export class MyTicketEditComponent implements OnInit {
   summaryFn() {
     this.ticketObj.summary = ''
     this.ticketObj.lines.forEach((item, i) => {
-      this.ticketObj.summary += this.lines[i].name + '=' + item.value + '支  '
+      if (item.value) {
+        this.ticketObj.summary += this.lines[i].name + '=' + item.value + '支  '
+      }
     })
   }
 
@@ -1052,6 +1071,7 @@ export class MyTicketEditComponent implements OnInit {
   printComplete() {
     console.log('打印完成！')
     this.printObj = this.printObj1
+    this.showBackDescribe = true
     this.setTrSum()
     // this.showHead = true;
     // this.hideTable1 = false;
@@ -1059,6 +1079,16 @@ export class MyTicketEditComponent implements OnInit {
   print(k) {
     // this.showHead = false;
     // this.hideTable1 = true;
+    if (!this.id) {
+      this.notification.create('warning', '错误', '请先保存，在打印！')
+      return
+    }
+    this.showBackDescribe = false
+    this.backDescribe.forEach(item => {
+      if (item.n || item.url) {
+        this.showBackDescribe = true
+      }
+    })
     this.printObj = this[k]
     this.setTrSum()
     setTimeout(() => {
