@@ -34,7 +34,7 @@
     "zone.js": "~0.8.26",
     "ng-zorro-antd": "^1.8.0",
     "screenfull": "^3.3.1",
-    "ajv": "^6.4.0",
+    "ajv": "^6.12.3",
     "@delon/abc": "^2.0.1",
     "@delon/acl": "^2.0.1",
     "@delon/auth": "^2.0.1",
