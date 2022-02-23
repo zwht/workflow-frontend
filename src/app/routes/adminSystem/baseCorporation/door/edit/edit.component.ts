@@ -162,7 +162,7 @@ export class DoorEditComponent implements OnInit {
           item.params.splice(i, 1);
           this.msgSrv.error('可选参数格式错误1');
         } else {
-          if (parseInt(aa[1], 10) !== aa[1]) {
+          if (parseInt(aa[1], 10) != aa[1]) {
             item.params.splice(i, 1);
             this.msgSrv.error('可选参数格式错误2');
           }
