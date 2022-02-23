@@ -31,6 +31,10 @@ export class UserIndexComponent implements OnInit {
         item.roles = item.roles.split(',').map(o => {
           return this.codeDataService.getName(o);
         }).join('，');
+        item.gxIds = item.gxIds ? JSON.parse(item.gxIds).map(o => {
+          return this.gxObj[o] || '';
+        }).join('，') : '';
+
       });
       return data;
     }
@@ -55,6 +59,7 @@ export class UserIndexComponent implements OnInit {
     { title: '登录名', index: 'loginName' },
     { title: '名字', index: 'name' },
     { title: '角色', index: 'roles' },
+    { title: '参与工序', index: 'gxIds' },
     { title: 'phone', index: 'phone' },
     {
       title: '操作',
@@ -82,6 +87,8 @@ export class UserIndexComponent implements OnInit {
     }
   ];
 
+  gxObj: {}
+
   constructor(
     private http: _HttpClient,
     private modal: ModalHelper,
@@ -92,8 +99,18 @@ export class UserIndexComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.http.post('./v1/gx/list', {}, {
+      pageNum: 1, pageSize: 1000
+    })
+      .subscribe((data: ResponseVo) => {
+        this.gxObj = data.response.data.reduce((o, n) => {
+          o[n.id] = n.name
+          return o
+        }, {})
+      });
   }
   _onReuseInit() {
+    debugger
     this.st.reload();
   }
   search(e) {

@@ -1,6 +1,6 @@
 {
   "/v1": {
-    "target": "http://localhost:8888",
+    "target": "http://106.13.47.223:8080/workflow",
     "secure": false
   },
   "/v12": {

@@ -16,7 +16,6 @@ export class CodeDataService {
 
   constructor(private http: _HttpClient,
     private sessionService: SessionService) {
-
     this.getDataLocalStorage();
   }
   getDataLocalStorage() {
