@@ -131,7 +131,7 @@ export class DoorEditComponent implements OnInit {
     public http: _HttpClient,
     private contextMenuService: ContextMenuService,
     private modalService: NzModalService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.id) {
@@ -205,6 +205,7 @@ export class DoorEditComponent implements OnInit {
       arithmetic: JSON.stringify(this.arithmetic),
       gxParams: JSON.stringify(gxParams),
     });
+    if (!data.name) data.name = data.number
     if (this.id) {
       this.http.post(`./v1/door/update`, data).subscribe(res => {
         this.msgSrv.success('修改成功');
