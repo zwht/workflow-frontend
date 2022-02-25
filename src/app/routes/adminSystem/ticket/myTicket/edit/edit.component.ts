@@ -163,7 +163,7 @@ export class MyTicketEditComponent implements OnInit {
     private modalService: NzModalService,
     public settings: SettingsService,
     private settingsService: SettingsService,
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.getGxList()
     this.getUser()
@@ -321,9 +321,9 @@ export class MyTicketEditComponent implements OnInit {
           this.productList[this.contextMenuActive.indexKey],
           this.productList[this.contextMenuActive.indexKey - 1],
         ] = [
-          this.productList[this.contextMenuActive.indexKey - 1],
-          this.productList[this.contextMenuActive.indexKey],
-        ]
+            this.productList[this.contextMenuActive.indexKey - 1],
+            this.productList[this.contextMenuActive.indexKey],
+          ]
         this.setProductList()
         break
       case 'down':
@@ -331,9 +331,9 @@ export class MyTicketEditComponent implements OnInit {
           this.productList[this.contextMenuActive.indexKey],
           this.productList[this.contextMenuActive.indexKey + 1],
         ] = [
-          this.productList[this.contextMenuActive.indexKey + 1],
-          this.productList[this.contextMenuActive.indexKey],
-        ]
+            this.productList[this.contextMenuActive.indexKey + 1],
+            this.productList[this.contextMenuActive.indexKey],
+          ]
         this.setProductList()
         break
       default:
@@ -956,6 +956,41 @@ export class MyTicketEditComponent implements OnInit {
       '请注意！',
       '门扇，立板，顶板已自动计算，请注意是否需要修改！',
     )
+    this.jsLineSum(item)
+  }
+  // 自动计算线条数量
+  jsLineSum(item) {
+    const hwd = item.coverSize.split('*')
+    const h = parseInt(hwd[0], 10),
+      w = parseInt(hwd[1], 10)
+
+    let i = 0
+    let sum = 0
+    for (let index = 0; index < this.lines.length; index++) {
+      const name = Number(this.lines[index].name)
+      if (name > h) {
+        i = index
+        sum = 4
+        break
+      }
+    }
+    if (h / w >= 2) {
+      sum++
+    } else {
+      sum += 2
+    }
+    let lines = [
+      { value: null },
+      { value: null },
+      { value: null },
+      { value: null }
+    ]
+    if(sum){
+      lines[i].value = sum
+      item.lines = lines
+    }
+    
+    this.countLine()
   }
 
   // 总计方法
@@ -1017,6 +1052,7 @@ export class MyTicketEditComponent implements OnInit {
       sumLine += item.value
     })
     this.ticketObj.sumLine = sumLine
+    this.summaryFn()
   }
 
   createTimeDisabled = (current: Date): boolean => {
