@@ -81,9 +81,9 @@
           </td>
         </tr>
         <tr class='haderB'>
-          <td rowspan="2" colspan="2">颜色</td>
-          <td rowspan="2" colspan="3">材质</td>
           <td rowspan="2" colspan="3">型号</td>
+          <td rowspan="2" colspan="3">材质</td>
+          <td rowspan="2" colspan="2">颜色</td>
           <td rowspan="2" colspan="1">序号</td>
           <td colspan="3">洞口尺寸</td>
           <td colspan="3">门扇尺寸</td>
@@ -139,17 +139,17 @@
         </tr>
         <ng-template ngFor let-i="index" let-data [ngForOf]="productList">
           <tr class="productItem" [ngClass]="{'productShow1': data.show}" (contextmenu)="onContextMenu($event, data)">
-            <td colspan="2" *ngIf="data.rowspanColor" [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)"
+            <td colspan="3" *ngIf="data.rowspanDoor" [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)"
               class="cursor">
-              <div>{{data.colorObj.name}}</div>
+              <div>{{data.doorObj.name}}</div>
             </td>
             <td colspan="3" *ngIf="data.rowspanMaterial" [attr.rowspan]="data.rowspanMaterial"
               (dblclick)="showMaterial(data)" class="cursor">
               <div>{{data.materialObj.name}}</div>
             </td>
-            <td colspan="3" *ngIf="data.rowspanDoor" [attr.rowspan]="data.rowspanDoor" (dblclick)="showDoor(data)"
+            <td colspan="2" *ngIf="data.rowspanColor" [attr.rowspan]="data.rowspanColor" (dblclick)="showColor(data)"
               class="cursor">
-              <div>{{data.doorObj.name}}</div>
+              <div>{{data.colorObj.name}}</div>
             </td>
             <td class="cursor" (click)="contextMenuClick({item:data},'show')">
               <span>

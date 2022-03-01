@@ -46,10 +46,10 @@ export class MaterialListComponent implements OnInit {
         type: 'string',
         title: '名称'
       },
-      number: {
-        type: 'string',
-        title: '编号'
-      }
+      // number: {
+      //   type: 'string',
+      //   title: '编号'
+      // }
     }
   };
 
@@ -57,7 +57,7 @@ export class MaterialListComponent implements OnInit {
   columns: STColumn[] = [
     { title: '序号', index: 'no' },
     { title: '名称', index: 'name' },
-    { title: '编号', index: 'number' },
+    // { title: '编号', index: 'number' },
     {
       title: '图片', index: 'img', type: 'img', width: '150px',
       className: 'imgTd'

@@ -26,7 +26,7 @@ export class MaterialEditComponent implements OnInit {
   schema: SFSchema = {
     properties: {
       name: { type: 'string', title: '名称', maxLength: 30 },
-      number: { type: 'string', title: '编号', maxLength: 20, minimum: 2 },
+      // number: { type: 'string', title: '编号', maxLength: 20, minimum: 2 },
     },
     required: ['name', 'number'],
   };
