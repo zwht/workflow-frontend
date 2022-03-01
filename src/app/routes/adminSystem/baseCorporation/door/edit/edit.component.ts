@@ -92,7 +92,7 @@ export class DoorEditComponent implements OnInit {
               if (!item.response.data.length) return [];
               return item.response.data
                 .filter(obi => {
-                  return obi.name === '门套' || obi.name === '门';
+                  return obi.name !== '颜色' || obi.name !== '材质';
                 })
                 .map(obj => {
                   return {
